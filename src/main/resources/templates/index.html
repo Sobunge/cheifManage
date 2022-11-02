@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="https://www.thymeleaf.org"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      th:href="@{webjars/bootstrap/5.2.2/css/bootstrap.min.css}"
+      rel="stylesheet"
+    />
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    
+    <div class="container">
+        <h1>Hello World</h1>
+
+        <p>Click <a th:href="@{/homepage}">here</a> to see a greeting.</p>
+    </div>
+    
+    <script th:src="@{webjars/jquery/3.6.1/jquery.min.js}"></script>
+    <script th:src="@{webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>
+  </body>
+</html>
