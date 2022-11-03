@@ -34,13 +34,13 @@ public class WebSecurityConfig{
         @Bean
         protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 http.authorizeRequests()
-                                .antMatchers("/", "/error", "/index", "/changePassword")
+                                .antMatchers("/", "/error", "/changePassword")
                                 .permitAll()
-                                .anyRequest().authenticated().and().formLogin().loginPage("/login")
+                                .anyRequest().authenticated().and().formLogin().loginPage("/")
                                 .usernameParameter("username")
                                 .passwordParameter("password").permitAll().successHandler(customSuccessHandler).and()
                                 .logout()
-                                .logoutUrl("/logout").logoutSuccessUrl("/login?logout").permitAll().and()
+                                .logoutUrl("/logout").logoutSuccessUrl("/?logout").permitAll().and()
                                 .exceptionHandling()
                                 .accessDeniedPage("/403").and().csrf().disable();
 
