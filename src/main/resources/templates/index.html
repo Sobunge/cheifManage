@@ -28,8 +28,8 @@
           <h4> Log in </h4>
           <p class="lead"> Welcome Back. Please enter your credentials below to start using the app </p>
           <hr />
-          <div th:if="${param.error}">Invalid username and password.</div>
-          <div th:if="${param.logout}">You have been logged out.</div>
+          <div th:if="${param.error}" class="alert alert-danger">Invalid username and password.</div>
+          <div th:if="${param.logout}" class="alert alert-success">You have been logged out successfully.</div>
           <form class="shadow p-3 mb-5 bg-body rounded" th:action="@{/}" method="post">
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
