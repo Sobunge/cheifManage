@@ -49,7 +49,7 @@ public class WebSecurityConfig{
 
         @Bean
         public WebSecurityCustomizer webSecurityCustomizer() {
-            return (web) -> web.ignoring().antMatchers("/img/**", "/js/**", "/webjars/**");
+            return (web) -> web.ignoring().antMatchers("/img/**", "/js/**",  "/css/**", "/webjars/**");
         }
 
         @Bean(name = "passordEncoder")
