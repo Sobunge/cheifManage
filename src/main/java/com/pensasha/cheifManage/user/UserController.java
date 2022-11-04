@@ -1,5 +1,7 @@
 package com.pensasha.cheifManage.user;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -17,10 +19,11 @@ public class UserController {
 
     // Get all user
     @GetMapping("/users")
-    public String gettingAllUsers(Model model) {
+    public String gettingAllUsers(Model model, Principal principal) {
 
+        model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("user", new User());
+        model.addAttribute("newUser", new User());
 
         return "users";
     }
