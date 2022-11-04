@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    
+
     @Autowired
     private UserRepository userRepository;
 
-    //Adding a user
+    // Adding a user
     public User addUser(User user) {
 
         return userRepository.save(user);
@@ -20,7 +20,9 @@ public class UserService {
         User existingUser = userRepository.findById(idNumber).get();
 
         User tempUser = new User(user.getFirstName(), user.getSecondName(), user.getThirdName(),
-                idNumber, user.getPhoneNumber(), existingUser.getPassword(), existingUser.getRole());
+                user.getGender(), idNumber, user.getEmail(), user.getResidentialAddress(), user.getCounty(),
+                user.getDivision(), user.getLocation(), user.getSubLocation(), user.getTitle(), user.getPhoneNumber(),
+                existingUser.getPassword(), existingUser.getRole());
 
         return userRepository.save(tempUser);
     }

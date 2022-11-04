@@ -6,6 +6,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.pensasha.cheifManage.role.Role;
+import com.pensasha.cheifManage.user.Gender;
+import com.pensasha.cheifManage.user.Title;
 import com.pensasha.cheifManage.user.User;
 import com.pensasha.cheifManage.user.UserService;
 
@@ -19,7 +21,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        User admin = new User("Samuel", "Odhiambo", "Obunge", 32906735, 0707335375, encoder.encode("samuel1995"), Role.SUPER_ADMIN);
+        User admin = new User("Samuel", "Odhiambo", "Obunge", Gender.Male, 32906735, "samuelobunge@gmail.com", "Riat", "Kisumu", "Kogony", "Kisumu West", "Central", Title.MR, 0707335375, encoder.encode("samuel1995"), Role.SUPER_ADMIN);
         userService.addUser(admin);
 
     }
