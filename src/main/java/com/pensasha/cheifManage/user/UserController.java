@@ -28,6 +28,15 @@ public class UserController {
         return "users";
     }
 
+    @GetMapping("user")
+    public String addUserGet(Model model, Principal principal){
+
+        model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
+        model.addAttribute("newUser", new User());
+
+        return "addUser";
+    }
+
     // Adding user details
     @PostMapping("/user")
     public String addUser(@ModelAttribute User user, Model model) {
@@ -57,9 +66,12 @@ public class UserController {
     @GetMapping("/users/{idNumber}")
     public String viewUser(@PathVariable int idNumber, Model model) {
 
-        model.addAttribute("user", userService.getUserByIdNumber(idNumber));
+        User user = userService.getUserByIdNumber(idNumber);
 
-        return "user";
+        model.addAttribute("user", user);
+        model.addAttribute("newUser", user);
+
+        return "userProfile";
     }
 
     // Updating user details

@@ -15,8 +15,8 @@
 
 <body>
 
-    <div th:fragment="sidebar">
-        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #4d4c4a;">
+    <span th:fragment="sidebar">
+        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #4d4c4a; height: 100%;">
 
             <!-- Sidebar - Brand -->
             <a th:href="@{/homepage}">
@@ -47,6 +47,11 @@
                 <a class="nav-link" th:href="@{/users}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>users</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/user}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Add User</span></a>
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -137,7 +142,8 @@
 
 
         </ul>
-    </div>
+    </span>
+
     <!-- End of Sidebar -->
 
     <div th:fragment="script">

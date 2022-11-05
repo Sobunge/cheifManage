@@ -153,27 +153,7 @@
               <div class="topbar-divider d-none d-sm-block"></div>
 
               <!-- Nav Item - User Information -->
-              <li class="nav-item dropdown no-arrow">
-                  <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                      data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="mr-2 d-none d-lg-inline text-gray-600 small"
-                          th:text="${user.firstName + ' ' + user.secondName}">Douglas McGee</span>
-                      <img class="img-profile rounded-circle" th:src="@{img/avater.png}">
-                  </a>
-                  <!-- Dropdown - User Information -->
-                  <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                      aria-labelledby="userDropdown">
-                      <a class="dropdown-item" href="#">
-                          <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                          Profile
-                      </a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                          <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                          Logout
-                      </a>
-                  </div>
-              </li>
+              <div th:insert="fragments/profile.html :: userInfo"></div>
 
           </ul>
 
@@ -185,9 +165,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
-              Add a user
-            </button>
+            <a th:href="@{/user}" class="btn btn-primary"> Add User</a>
             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
           </div>
@@ -198,9 +176,11 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
+                <th scope="col">Title</th>
                 <th scope="col">First Name</th>
                 <th scope="col">Second Name</th>
                 <th scope="col">Third Name</th>
+                <th scope="col">Gender</th>
                 <th scope="col">Id Number</th>
                 <th scope="col">Phone Number</th>
                 <th scope="col"></th>
@@ -211,11 +191,13 @@
               <th:block th:each="user,itr : ${users}">
                 <tr>
                   <th scope="row" th:text="${itr.count}">1</th>
+                  <td th:text="${user.title}">Title</td>
                   <td th:text="${user.firstName}">First Name</td>
                   <td th:text="${user.secondName}">Second Name</td>
                   <td th:text="${user.thirdName}">Third Name</td>
-                  <td th:text="${user.idNumber}">Third Name</td>
-                  <td th:text="${user.phoneNumber}">Third Name</td>
+                  <td th:text="${user.gender}">Gender</td>  
+                  <td th:text="${user.idNumber}">id number</td>
+                  <td th:text="${user.phoneNumber}">phone number</td>
                   <td>
                     <a th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}" class="btn btn-primary">View</a>
                   </td>
@@ -320,52 +302,10 @@
   </div>
 
   <!-- Delete a user model -->
-  <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-danger" id="deleteUserModalLabel">
-            Delete User
-          </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p class="text-danger">
-            All user details and information will be deleted and will not be
-            recovered. Are you sure you want to delete?
-          </p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal">
-            No! Don't Delete <i class="fas fa-fw fa-times"></i>
-          </button>
-          <a class="btn btn-danger ok-button">Yes! Delete <i class="fas fa-fw fa-trash-alt"></i></a>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div th:insert="fragments/profile.html :: logoutModal"></div>
 
   <!-- Logout Modal-->
-  <div th:fragment="logoutModal">
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-                    <a class="btn btn-danger" href="/?logout">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+  <div th:insert="fragments/profile.html :: logoutModal"></div>
 
 <div></div>
 
