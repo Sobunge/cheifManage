@@ -1,6 +1,7 @@
 package com.pensasha.cheifManage.user;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,12 +11,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.pensasha.cheifManage.role.Role;
 
 @Controller
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    private final Gender[] gender = { Gender.Male, Gender.Female };
+    private final Title[] title = { Title.CHIEF, Title.ASSISTANT_CHIEF, Title.MR, Title.MRS, Title.MS };
+    private final Role[] role = { Role.ACCOUNTS_MANAGER, Role.COUNTY_ADMIN, Role.SUPER_ADMIN, Role.USER };
 
     // Get all user
     @GetMapping("/users")
@@ -29,27 +37,30 @@ public class UserController {
     }
 
     @GetMapping("user")
-    public String addUserGet(Model model, Principal principal){
+    public String addUserGet(Model model, Principal principal) {
 
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("newUser", new User());
+        model.addAttribute("genders", gender);
+        model.addAttribute("titles", title);
+        model.addAttribute("roles", role);
 
         return "addUser";
     }
 
     // Adding user details
     @PostMapping("/user")
-    public String addUser(@ModelAttribute User user, Model model) {
+    @ResponseBody
+    public User addUser(@ModelAttribute User newUser, Model model) {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setPassword(encoder.encode(String.valueOf(user.getIdNumber())));
+        newUser.setPassword(encoder.encode(String.valueOf(newUser.getIdNumber())));
 
-        userService.addUser(user);
+        // userService.addUser(newUser);
 
-        model.addAttribute("user", new User());
-        model.addAttribute("users", userService.getAllUsers());
+        return newUser;
 
-        return "users";
+        // return "redirect:/users";
 
     }
 
@@ -70,6 +81,9 @@ public class UserController {
 
         model.addAttribute("user", user);
         model.addAttribute("newUser", user);
+        model.addAttribute("genders", gender);
+        model.addAttribute("titles", title);
+        model.addAttribute("roles", role);
 
         return "userProfile";
     }
