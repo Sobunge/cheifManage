@@ -23,141 +23,140 @@
 
           <!-- Sidebar Toggle (Topbar) -->
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-              <i class="fa fa-bars"></i>
+            <i class="fa fa-bars"></i>
           </button>
 
           <nav aria-label="breadcrumb">
-              <ol class="breadcrumb small" style="margin-top: 15px;">
-                  <li class="breadcrumb-item"><a th:href="@{/homepage}">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">users</li>
-              </ol>
+            <ol class="breadcrumb small" style="margin-top: 15px;">
+              <li class="breadcrumb-item"><a th:href="@{/homepage}">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">users</li>
+            </ol>
           </nav>
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
 
-              <!-- Nav Item - Alerts -->
-              <li class="nav-item dropdown no-arrow mx-1">
-                  <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-bell fa-fw"></i>
-                      <!-- Counter - Alerts -->
-                      <span class="badge badge-danger badge-counter">3+</span>
-                  </a>
-                  <!-- Dropdown - Alerts -->
-                  <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                      aria-labelledby="alertsDropdown">
-                      <h6 class="dropdown-header">
-                          Alerts Center
-                      </h6>
-                      <a class="dropdown-item d-flex align-items-center" href="#">
-                          <div class="mr-3">
-                              <div class="icon-circle bg-primary">
-                                  <i class="fas fa-file-alt text-white"></i>
-                              </div>
-                          </div>
-                          <div>
-                              <div class="small text-gray-500">December 12, 2019</div>
-                              <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                          </div>
-                      </a>
-                      <a class="dropdown-item d-flex align-items-center" href="#">
-                          <div class="mr-3">
-                              <div class="icon-circle bg-success">
-                                  <i class="fas fa-donate text-white"></i>
-                              </div>
-                          </div>
-                          <div>
-                              <div class="small text-gray-500">December 7, 2019</div>
-                              $290.29 has been deposited into your account!
-                          </div>
-                      </a>
-                      <a class="dropdown-item d-flex align-items-center" href="#">
-                          <div class="mr-3">
-                              <div class="icon-circle bg-warning">
-                                  <i class="fas fa-exclamation-triangle text-white"></i>
-                              </div>
-                          </div>
-                          <div>
-                              <div class="small text-gray-500">December 2, 2019</div>
-                              Spending Alert: We've noticed unusually high spending for your account.
-                          </div>
-                      </a>
-                      <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+            <!-- Nav Item - Alerts -->
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-bell fa-fw"></i>
+                <!-- Counter - Alerts -->
+                <span class="badge badge-danger badge-counter">3+</span>
+              </a>
+              <!-- Dropdown - Alerts -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header">
+                  Alerts Center
+                </h6>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                      <i class="fas fa-file-alt text-white"></i>
+                    </div>
                   </div>
-              </li>
-
-              <!-- Nav Item - Messages -->
-              <li class="nav-item dropdown no-arrow mx-1">
-                  <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-envelope fa-fw"></i>
-                      <!-- Counter - Messages -->
-                      <span class="badge badge-danger badge-counter">7</span>
-                  </a>
-                  <!-- Dropdown - Messages -->
-                  <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                      aria-labelledby="messagesDropdown">
-                      <h6 class="dropdown-header">
-                          Message Center
-                      </h6>
-                      <a class="dropdown-item d-flex align-items-center" href="#">
-                          <div class="dropdown-list-image mr-3">
-                              <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
-                              <div class="status-indicator bg-success"></div>
-                          </div>
-                          <div class="font-weight-bold">
-                              <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                  problem I've been having.</div>
-                              <div class="small text-gray-500">Emily Fowler · 58m</div>
-                          </div>
-                      </a>
-                      <a class="dropdown-item d-flex align-items-center" href="#">
-                          <div class="dropdown-list-image mr-3">
-                              <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
-                              <div class="status-indicator"></div>
-                          </div>
-                          <div>
-                              <div class="text-truncate">I have the photos that you ordered last month, how
-                                  would you like them sent to you?</div>
-                              <div class="small text-gray-500">Jae Chun · 1d</div>
-                          </div>
-                      </a>
-                      <a class="dropdown-item d-flex align-items-center" href="#">
-                          <div class="dropdown-list-image mr-3">
-                              <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
-                              <div class="status-indicator bg-warning"></div>
-                          </div>
-                          <div>
-                              <div class="text-truncate">Last month's report looks great, I am very happy with
-                                  the progress so far, keep up the good work!</div>
-                              <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                          </div>
-                      </a>
-                      <a class="dropdown-item d-flex align-items-center" href="#">
-                          <div class="dropdown-list-image mr-3">
-                              <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                                  alt="...">
-                              <div class="status-indicator bg-success"></div>
-                          </div>
-                          <div>
-                              <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                                  told me that people say this to all dogs, even if they aren't good...</div>
-                              <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                          </div>
-                      </a>
-                      <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                  <div>
+                    <div class="small text-gray-500">December 12, 2019</div>
+                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
                   </div>
-              </li>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-success">
+                      <i class="fas fa-donate text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 7, 2019</div>
+                    $290.29 has been deposited into your account!
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-warning">
+                      <i class="fas fa-exclamation-triangle text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 2, 2019</div>
+                    Spending Alert: We've noticed unusually high spending for your account.
+                  </div>
+                </a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+              </div>
+            </li>
 
-              <div class="topbar-divider d-none d-sm-block"></div>
+            <!-- Nav Item - Messages -->
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-envelope fa-fw"></i>
+                <!-- Counter - Messages -->
+                <span class="badge badge-danger badge-counter">7</span>
+              </a>
+              <!-- Dropdown - Messages -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                aria-labelledby="messagesDropdown">
+                <h6 class="dropdown-header">
+                  Message Center
+                </h6>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
+                    <div class="status-indicator bg-success"></div>
+                  </div>
+                  <div class="font-weight-bold">
+                    <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                      problem I've been having.</div>
+                    <div class="small text-gray-500">Emily Fowler · 58m</div>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
+                    <div class="status-indicator"></div>
+                  </div>
+                  <div>
+                    <div class="text-truncate">I have the photos that you ordered last month, how
+                      would you like them sent to you?</div>
+                    <div class="small text-gray-500">Jae Chun · 1d</div>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
+                    <div class="status-indicator bg-warning"></div>
+                  </div>
+                  <div>
+                    <div class="text-truncate">Last month's report looks great, I am very happy with
+                      the progress so far, keep up the good work!</div>
+                    <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="...">
+                    <div class="status-indicator bg-success"></div>
+                  </div>
+                  <div>
+                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                      told me that people say this to all dogs, even if they aren't good...</div>
+                    <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                  </div>
+                </a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+              </div>
+            </li>
 
-              <!-- Nav Item - User Information -->
-              <div th:insert="fragments/profile.html :: userInfo"></div>
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- Nav Item - User Information -->
+            <div th:insert="fragments/profile.html :: userInfo"></div>
 
           </ul>
 
-      </nav>
+        </nav>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -170,45 +169,48 @@
                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
           </div>
 
-          
+          <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">User exists</div>
+          <div class="alert alert-success" th:if="${success}" th:text="${success}">User saved</div>
 
-          <table class="table">
+          <table id="usersTable" class="table table-striped" style="width:100%">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Title</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Second Name</th>
-                <th scope="col">Third Name</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Id Number</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Second Name</th>
+                <th>Third Name</th>
+                <th>Id Number</th>
+                <th>Phone Number</th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              <th:block th:each="user,itr : ${users}">
-                <tr>
-                  <th scope="row" th:text="${itr.count}">1</th>
-                  <td th:text="${user.title}">Title</td>
-                  <td th:text="${user.firstName}">First Name</td>
-                  <td th:text="${user.secondName}">Second Name</td>
-                  <td th:text="${user.thirdName}">Third Name</td>
-                  <td th:text="${user.gender}">Gender</td>  
-                  <td th:text="${user.idNumber}">id number</td>
-                  <td th:text="${user.phoneNumber}">phone number</td>
-                  <td>
-                    <a th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}" class="btn btn-primary">View</a>
-                  </td>
-                  <td>
-                    <a data-bs-toggle="modal" href="#" data-bs-target="#deleteUserModal"
-                      th:data-href="@{/user/{idNumber}(idNumber = ${user.idNumber})}" class="btn btn-danger">
-                      Delete <i class="fas fa-fw fa-trash-alt"></i></a>
-                  </td>
-                </tr>
-              </th:block>
+              <tr th:each="u, iter : ${users}">
+                <td th:text="${iter.count}">Counter</td>
+                <td th:text="${u.firstName}">First Name</td>
+                <td th:text="${u.secondName}">Second Name</td>
+                <td th:text="${u.thirdName}">Third Name</td>
+                <td th:text="${u.idNumber}">Id Number</td>
+                <td th:text="${u.phoneNumber}">Phone Number</td>
+                <td> <a class="btn btn-primary" th:href="@{/users/{idNumber}(idNumber = ${u.idNumber})}"> View </a>
+                </td>
+                <td> <a class="btn btn-danger" th:href="@{/user/{idNumber}(idNumber = ${u.idNumber})}"
+                    th:unless="${u == user}"> Delete </a> </td>
+              </tr>
             </tbody>
+            <tfoot>
+              <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Second Name</th>
+                <th>Third Name</th>
+                <th>Id Number</th>
+                <th>Phone Number</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </tfoot>
           </table>
         </div>
         <!-- /.container-fluid -->
@@ -231,85 +233,34 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Add User Modal -->
-  <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+  <!-- Delete a user model -->
+  <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="addUserModalLabel">Add User</h1>
+          <h5 class="modal-title text-danger" id="deleteUserModalLabel">Delete User</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="g-3 needs-validation" action="#" th:action="@{/user}" th:object="${newUser}" method="post"
-            novalidate>
-            <div class="mb-3">
-              <label for="firstName" class="form-label">First Name</label>
-              <input type="text" th:field="*{firstName}" class="form-control" id="firstNameInput"
-                placeholder="First Name" required />
-              <div class="valid-feedback">Looks good!</div>
-              <div class="invalid-feedback">Please provide First Name.</div>
-            </div>
-            <div class="mb-3">
-              <label for="secondName" class="form-label">Second Name</label>
-              <input type="text" th:field="*{secondName}" class="form-control" id="secondNameInput"
-                placeholder="Second Name" required />
-              <div class="valid-feedback">Looks good!</div>
-              <div class="invalid-feedback">Please provide Second Name.</div>
-            </div>
-            <div class="mb-3">
-              <label for="thirdName" class="form-label">Third Name</label>
-              <input type="text" th:field="*{thirdName}" class="form-control" id="thirdNameInput"
-                placeholder="Third Name" required />
-              <div class="valid-feedback">Looks good!</div>
-              <div class="invalid-feedback">Please provide a Third Name.</div>
-            </div>
-            <div class="mb-3">
-              <label for="role" class="form-label">Roles</label>
-              <select class="form-select" id="roleInput" th:name="role" required>
-                <option selected disabled value="">Choose Role...</option>
-                <option value="ADMIN">Admin</option>
-                <option value="ACCOUNT_USER">Account User</option>
-              </select>
-              <div class="valid-feedback">Looks good!</div>
-              <div class="invalid-feedback">Please choose a role.</div>
-            </div>
-            <div class="mb-3">
-              <label for="phoneNumber" class="form-label">Phone Number</label>
-              <input type="number" th:field="*{phoneNumber}" class="form-control" id="phoneNumberInput"
-                placeholder="Phone Number" min="0100000000" max="0799999999" required />
-              <div class="valid-feedback">Looks good!</div>
-              <div class="invalid-feedback">
-                Please provide a phone number.
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="idNumber" class="form-label">Id Number</label>
-              <input type="number" th:field="*{idNumber}" class="form-control" id="idNumberInput"
-                placeholder="Id Number" required min="1000000" />
-              <div class="valid-feedback">Looks good!</div>
-              <div class="invalid-feedback">Please provide an id number.</div>
-            </div>
-            <button type="submit" class="btn btn-success">Submit</button>
-          </form>
+          <p class="text-danger">All user details and information
+            will be deleted and will not be recovered. Are you sure you want
+            to delete?</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-            Close
-          </button>
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">No! Don't Delete <i
+              class="fas fa-fw fa-times"></i></button>
+          <a class="btn btn-danger ok-button">Yes! Delete <i class="fas fa-fw fa-trash-alt"></i></a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Delete a user model -->
-  <div th:insert="fragments/profile.html :: logoutModal"></div>
-
   <!-- Logout Modal-->
   <div th:insert="fragments/profile.html :: logoutModal"></div>
 
-<div></div>
+  <div></div>
 
-<div th:insert="fragments/sidebar.html :: script"></div>
+  <div th:insert="fragments/sidebar.html :: script"></div>
 
   <script type="text/javascript">
     // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -341,6 +292,11 @@
         .find(".ok-button")
         .attr("href", $(e.relatedTarget).data("href"));
     });
+
+    $(document).ready(function () {
+      $('#usersTable').DataTable();
+    });
+
   </script>
 
 </body>

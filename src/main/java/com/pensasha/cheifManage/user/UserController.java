@@ -1,7 +1,6 @@
 package com.pensasha.cheifManage.user;
 
 import java.security.Principal;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,7 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.pensasha.cheifManage.role.Role;
 
@@ -31,12 +31,11 @@ public class UserController {
 
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("newUser", new User());
 
         return "users";
     }
 
-    @GetMapping("user")
+    @GetMapping("/user")
     public String addUserGet(Model model, Principal principal) {
 
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
@@ -50,37 +49,53 @@ public class UserController {
 
     // Adding user details
     @PostMapping("/user")
-    @ResponseBody
-    public User addUser(@ModelAttribute User newUser, Model model) {
+    public RedirectView addUser(@ModelAttribute User newUser, RedirectAttributes redit) {
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        newUser.setPassword(encoder.encode(String.valueOf(newUser.getIdNumber())));
+        RedirectView redirectView;
 
-        // userService.addUser(newUser);
+        if (userService.doesUserExist(newUser.getIdNumber())) {
+            redit.addFlashAttribute("fail", "A user of id number:" + newUser.getIdNumber() + " already exists");
+            redit.addFlashAttribute("newUser", newUser);
+            redirectView = new RedirectView("/user", true);
+        } else {
 
-        return newUser;
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            newUser.setPassword(encoder.encode(String.valueOf(newUser.getIdNumber())));
 
-        // return "redirect:/users";
+            userService.addUser(newUser);
+
+            redit.addFlashAttribute("success",
+                    newUser.getFirstName() + " " + newUser.getThirdName() + " successfully added");
+            redirectView = new RedirectView("/users", true);
+        }
+
+        return redirectView;
 
     }
 
     // Deleting a user
     @GetMapping("/user/{idNumber}")
-    public String deleteUser(@PathVariable int idNumber, Model model) {
+    public RedirectView deleteUser(@PathVariable int idNumber, RedirectAttributes redit) {
 
-        userService.deleteUserDetails(idNumber);
+        if(userService.doesUserExist(idNumber) != true){
+            redit.addFlashAttribute("fail", "A user of id number: " + idNumber + " does not exist");
+        }else{
 
-        return "redirect:/users";
+            User user = userService.getUserByIdNumber(idNumber);
+
+            userService.deleteUserDetails(idNumber);
+            redit.addFlashAttribute("success", user.getFirstName() + " " + user.getThirdName() + " successfully removed");
+        }
+
+        return new RedirectView("/users", true);
     }
 
     // Getting a single User
     @GetMapping("/users/{idNumber}")
-    public String viewUser(@PathVariable int idNumber, Model model) {
+    public String viewUser(@PathVariable int idNumber, Model model, Principal principal) {
 
-        User user = userService.getUserByIdNumber(idNumber);
-
-        model.addAttribute("user", user);
-        model.addAttribute("newUser", user);
+        model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
+        model.addAttribute("newUser", userService.getUserByIdNumber(idNumber));
         model.addAttribute("genders", gender);
         model.addAttribute("titles", title);
         model.addAttribute("roles", role);
@@ -90,11 +105,17 @@ public class UserController {
 
     // Updating user details
     @PostMapping("/users/{idNumber}")
-    public String updateUserDetails(@PathVariable int idNumber, @ModelAttribute User user) {
+    public RedirectView updateUserDetails(@PathVariable int idNumber, @ModelAttribute User user, RedirectAttributes redit) {
 
-        userService.updateUserDetails(user, idNumber);
+        if(userService.doesUserExist(idNumber)){
+            userService.updateUserDetails(user, idNumber);
 
-        return "redirect:/users/" + idNumber;
+            redit.addFlashAttribute("success", "Details successfully updated");
+        }else{
+            redit.addFlashAttribute("fail", "A user of id number:" + idNumber + " does not exist");
+        }
+
+        return new RedirectView("/users/" + idNumber, true);
     }
 
 }

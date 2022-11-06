@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap CSS -->
-    <link th:href="@{webjars/bootstrap/5.2.2/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}" rel="stylesheet" />
 
     <title>user</title>
 </head>
@@ -16,7 +16,8 @@
 <body>
 
     <span th:fragment="sidebar">
-        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #4d4c4a; height: 100%;">
+        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
+            style="background-color: #4d4c4a; height: 100%;">
 
             <!-- Sidebar - Brand -->
             <a th:href="@{/homepage}">
@@ -92,46 +93,6 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Addons
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -154,6 +115,14 @@
 
         <!-- Custom scripts for all pages-->
         <script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+        <!-- Page level plugins -->
+        <script th:src="@{/datatables/jquery.dataTables.min.js}"></script>
+        <script th:src="@{/datatables/dataTables.bootstrap4.min.js}"></script>
+
+        <!-- Page level custom scripts -->
+        <script th:src="@{/js/datatables-demo.js}"></script>
+
     </div>
 
 </body>
