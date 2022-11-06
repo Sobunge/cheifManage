@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.pensasha.cheifManage.account.Account;
 import com.pensasha.cheifManage.role.Role;
 
 @Controller
@@ -61,6 +62,9 @@ public class UserController {
 
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             newUser.setPassword(encoder.encode(String.valueOf(newUser.getIdNumber())));
+
+            Account account = new Account();
+            newUser.setAccount(account);
 
             userService.addUser(newUser);
 
