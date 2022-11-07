@@ -55,6 +55,9 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private Month month;
 
+    @NotNull
+    private String referenceNumber;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
