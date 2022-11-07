@@ -5,11 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.pensasha.cheifManage.account.Account;
 import com.pensasha.cheifManage.role.Role;
 
 import lombok.AllArgsConstructor;
@@ -57,8 +55,5 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @OneToOne
-    private Account account;
 
 }

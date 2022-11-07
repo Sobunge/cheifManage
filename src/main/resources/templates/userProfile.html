@@ -28,7 +28,7 @@
 
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb small" style="margin-top: 15px;">
-                            <li class="breadcrumb-item"><a th:href="@{/homepage}">Home</a></li>
+                            <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
                             <li class="breadcrumb-item"><a th:href="@{/users}">Users</a></li>
                             <li class="breadcrumb-item active" aria-current="page"
                                 th:text="${user.firstName + ' ' + user.thirdName}">user</li>
@@ -190,14 +190,14 @@
                                         <div class="invalid-feedback">Please provide First Name.</div>
                                     </div>
                                     <div class="mb-3 col-md">
-                                        <label for="secondName" class="form-label">Second Name</label>
+                                        <label for="secondName" class="form-label">Middle Name</label>
                                         <input type="text" th:field="*{secondName}" class="form-control"
                                             id="secondNameInput" placeholder="Second Name" disabled required />
                                         <div class="valid-feedback">Looks good!</div>
                                         <div class="invalid-feedback">Please provide Second Name.</div>
                                     </div>
                                     <div class="mb-3 col-md">
-                                        <label for="thirdName" class="form-label">Third Name</label>
+                                        <label for="thirdName" class="form-label">Sir Name</label>
                                         <input type="text" th:field="*{thirdName}" class="form-control"
                                             id="thirdNameInput" placeholder="Third Name" disabled required />
                                         <div class="valid-feedback">Looks good!</div>

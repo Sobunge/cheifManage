@@ -10,7 +10,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <span th:insert="fragments/sidebar.html :: sidebar"></span>
+        <div th:insert="fragments/sidebar.html :: sidebar"></div>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -25,17 +25,19 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
+        
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb small" style="margin-top: 15px;">
                             <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">User Registration</li>
+                            <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
+                            <li class="breadcrumb-item"><a th:href="@{/accounts/{id}(id = ${account.id})}">Account</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Transaction</li>
                         </ol>
                     </nav>
-
+        
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
+        
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
@@ -86,7 +88,7 @@
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                             </div>
                         </li>
-
+        
                         <!-- Nav Item - Messages -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
@@ -149,14 +151,14 @@
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
                         </li>
-
+        
                         <div class="topbar-divider d-none d-sm-block"></div>
-
+        
                         <!-- Nav Item - User Information -->
                         <div th:insert="fragments/profile.html :: userInfo"></div>
-
+        
                     </ul>
-
+        
                 </nav>
                 <!-- End of Topbar -->
 
@@ -166,157 +168,71 @@
                     <!-- Page Heading -->
                     <div th:fragment="pageHeader">
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800"> User Registration </h1>
+                            <h1 class="h3 mb-0 text-gray-800">Transaction</h1>
                         </div>
                     </div>
 
                     <div class="card">
+                        <div class="alert alert-danger" th:if="${transactionFail}" th:text="${transactionFail}">User exists</div>
+                        <div class="alert alert-success" th:if="${transactionSuccess}" th:text="${transactionSuccess}">User saved</div>
+              
+                        <div class="card-header"
+                            th:text="${' Acc Bal: ' + account.balance + ' - ' + account.user.firstName +  ' ' + account.user.thirdName + ' Transaction '}"></div>
                         <div class="card-body">
-
-                            <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">User exists</div>
-                            <div class="alert alert-success" th:if="${success}" th:text="${success}">User saved</div>
-
-                            <form class="g-3 needs-validation" action="#" th:action="@{/user}" th:object="${newUser}"
-                                method="post" novalidate>
+                            <form action="#" class="g-3 needs-validation" novalidate
+                                th:action="@{/accounts/{id}/transaction/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}"
+                                th:object="${transaction}" method="post">
                                 <div class="row">
-                                    <div class="mb-3 col-md">
-                                        <label for="firstName" class="form-label">First Name</label>
-                                        <input type="text" th:field="*{firstName}" class="form-control"
-                                            id="firstNameInput" placeholder="First Name" required />
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please provide First Name.</div>
+                                    <div class="mb-3 col-6">
+                                        <label for="id" class="form-label">Transaction Id</label>
+                                        <input type="text" th:field="*{id}" class="form-control" id="idInput" placeholder="id"
+                                            disabled>
                                     </div>
-                                    <div class="mb-3 col-md">
-                                        <label for="secondName" class="form-label">Second Name</label>
-                                        <input type="text" th:field="*{secondName}" class="form-control"
-                                            id="secondNameInput" placeholder="Second Name" required />
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please provide Second Name.</div>
+                                    <div class="mb-3 col-6">
+                                        <label for="amount" class="form-label">Amount</label>
+                                        <input type="number" th:field="*{amount}" class="form-control" id="amountInput"
+                                            placeholder="Amount" disabled required>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter amount.
+                                        </div>
                                     </div>
-                                    <div class="mb-3 col-md">
-                                        <label for="thirdName" class="form-label">Third Name</label>
-                                        <input type="text" th:field="*{thirdName}" class="form-control"
-                                            id="thirdNameInput" placeholder="Third Name" required />
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please provide a Third Name.</div>
+                                    <div class="mb-3 col-6">
+                                        <label for="date" class="form-label">Date</label>
+                                        <input type="text" th:field="*{date}" class="form-control" id="dateInput" placeholder="Date"
+                                            disabled>
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="idNumber" class="form-label">Id Number</label>
-                                    <input type="number" th:field="*{idNumber}" class="form-control" id="idNumberInput"
-                                        placeholder="Id Number" required min="1000000" />
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please provide an id number.</div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="gender" class="form-label">Gender</label>
-                                    <select class="form-select" th:field="*{gender}" id="genderInput" th:name="gender"
-                                        required>
-                                        <option selected disabled value="">Choose Gender...</option>
-                                        <th:block th:each="g : ${genders}">
-                                            <option th:value="${g}" th:text="${g}">gender</option>
-                                        </th:block>
-                                    </select>
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please choose your gender.</div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="residentialAddress" class="form-label">Residential Address</label>
-                                    <input type="text" th:field="*{residentialAddress}" class="form-control"
-                                        id="residentialAddressInput" placeholder="Residential Address" />
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please provide your residential address.</div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="title" class="form-label">Title</label>
-                                    <select class="form-select" id="titleInput" th:field="*{title}" th:name="title"
-                                        required>
-                                        <option selected disabled value="">Choose Title...</option>
-                                        <th:block th:each="t : ${titles}">
-                                            <option th:value="${t}" th:text="${t}">Chief</option>
-                                        </th:block>
-                                    </select>
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please choose your title.</div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" th:field="*{email}" class="form-control" id="emailInput"
-                                        placeholder="Email" required />
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please provide an email.</div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="role" class="form-label">Roles</label>
-                                    <select class="form-select" id="roleInput" th:field="*{role}" th:name="role"
-                                        required>
-                                        <option selected disabled th:value="${null}">Choose Role...</option>
-                                        <th:block th:each="r : ${roles}">
-                                            <option th:value="${r}" th:text="${r}">Account Manager</option>
-                                        </th:block>
-                                    </select>
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">Please choose a role.</div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="phoneNumber" class="form-label">Phone Number</label>
-                                    <input type="number" th:field="*{phoneNumber}" class="form-control"
-                                        id="phoneNumberInput" placeholder="Phone Number" min="0100000000"
-                                        max="0799999999" required />
-                                    <div class="valid-feedback">Looks good!</div>
-                                    <div class="invalid-feedback">
-                                        Please provide a phone number.
+                                    <div class="mb-3 col-6">
+                                        <label for="time" class="form-label">Time</label>
+                                        <input type="text" th:field="*{time}" class="form-control" id="timeInput" placeholder="Time"
+                                            disabled>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg mb-3">
-                                        <label for="county" class="form-label">County</label>
-                                        <select class="form-select" id="counterInput" th:field="*{county}"
-                                            th:name="county" required>
-                                            <option selected disabled value="">Choose County...</option>
-                                            <option value="Kisumu">Kisumu</option>
-                                            <option value="Siaya">Siaya</option>
+                                    <div class="mb-3">
+                                        <label for="user" class="form-label">Owner</label>
+                                        <select class="form-select" id="userInput" name="userInput" disabled required>
+                                            <option selected th:value="${transaction.user.idNumber}"
+                                                th:text="${transaction.user.firstName + ' ' + transaction.user.secondName + ' ' + transaction.user.thirdName}">
+                                                Choose User...</option>
+                                            <th:block th:each="user : ${users}">
+                                                <option th:unless="${transaction.user.idNumber == user.idNumber}" th:value="${user.idNumber}"
+                                                    th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName + ' - ' + user.idNumber}">
+                                                    Admin</option>
+                                            </th:block>
                                         </select>
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please choose your county.</div>
-                                    </div>
-                                    <div class="col-lg mb-3">
-                                        <label for="division" class="form-label">Division</label>
-                                        <select class="form-select" id="divisionInput" th:field="*{division}"
-                                            th:name="division" required>
-                                            <option selected disabled value="">Choose Division...</option>
-                                            <option value="Kisumu West">Kisumu West</option>
-                                            <option value="Kisumu East">Kisumu East</option>
-                                        </select>
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please choose your division.</div>
-                                    </div>
-                                    <div class="col-lg mb-3">
-                                        <label for="location" class="form-label">Location</label>
-                                        <select class="form-select" id="locationInput" th:field="*{location}"
-                                            th:name="location" required>
-                                            <option selected disabled value="">Choose Location...</option>
-                                            <option value="Central">Central</option>
-                                            <option value="North">North</option>
-                                        </select>
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please choose your location.</div>
-                                    </div>
-                                    <div class="col-lg mb-3">
-                                        <label for="subLocation" class="form-label">Sub Location</label>
-                                        <select class="form-select" id="subLocation" th:field="*{subLocation}"
-                                            th:name="subLocation" required>
-                                            <option selected disabled value="">Choose Sub Location...</option>
-                                            <option value="Kogony">Kogony</option>
-                                            <option value="Korando">Korando</option>
-                                        </select>
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">Please choose your sub location.</div>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please choose an owner.
+                                        </div>
                                     </div>
                                 </div>
-
-                                <button type="submit" class="btn btn-success">Submit</button>
+                                <button type="submit" class="btn btn-success" id="changeDetails" style="display: none;">Change
+                                    Details</button>
                             </form>
+                            <button class="btn btn-primary" id="editDetails">Edit Details</button>
                         </div>
                     </div>
 
@@ -327,7 +243,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <div th:insert="fragments/header.html :: footer"></div>
+            <div th:insert="fragments/header.html :: footer"></div>   
             <!-- End of Footer -->
 
         </div>
@@ -346,6 +262,7 @@
 
     <div th:insert="fragments/sidebar.html :: script"></div>
     <script type="text/javascript">
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function () {
             'use strict'
 
@@ -365,8 +282,24 @@
                     }, false)
                 })
         })()
+
+        $("#editDetails").click(function () {
+            $("#changeDetails").show();
+            $("#editDetails").hide();
+            $("#amountInput").prop('disabled', false);
+            $("#userInput").prop('disabled', false);
+
+
+        });
+
+        $("#changeDetails").submit(function (e) {
+            e.preventDefault();
+            $("#editDetails").show();
+            $("#changeDetails").hide();
+        });
+
     </script>
 
 </body>
 
-</html>
+</html> 

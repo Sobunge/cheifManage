@@ -1,5 +1,7 @@
 package com.pensasha.cheifManage.account;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.pensasha.cheifManage.transaction.Transaction;
 import com.pensasha.cheifManage.transaction.TransactionService;
@@ -23,8 +27,9 @@ public class AccountController {
 
     //Get all accounts
     @GetMapping("/accounts")
-    public String getAccounts(Model model){
+    public String getAccounts(Model model, Principal principal){
    
+        model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("account", new Account());
         model.addAttribute("accounts", accountService.allAccount());
         
@@ -33,8 +38,9 @@ public class AccountController {
 
     //Get an account
     @GetMapping("/accounts/{id}")
-    public String getAnAccount(@PathVariable Long id, Model model){
+    public String getAnAccount(@PathVariable Integer id, Model model, Principal principal){
 
+        model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("account", accountService.getAccount(id));
         model.addAttribute("transactions", transactionService.getAllTransactionForAccount(id));
@@ -44,29 +50,50 @@ public class AccountController {
 
     //Save an account
     @PostMapping("/account")
-    public String addAnAccount(@ModelAttribute Account account){
+    public RedirectView addAnAccount(@ModelAttribute Account account, RedirectAttributes redit){
 
-        accountService.addAccount(account);
+        if(accountService.doesAccountExist(account.getId())){
+            redit.addFlashAttribute("accountFail", "Account already exists");
+        }else{
 
-        return "redirect:/accounts";
+            accountService.addAccount(account);
+
+            redit.addFlashAttribute("accountSuccess", "Account successfully created");
+        }
+        
+
+        return new RedirectView("/accounts", true);
     }
 
     //Update an account
     @PostMapping("/accounts/{id}")
-    public String updateAnAccount(@ModelAttribute Account account,@PathVariable Long id){
+    public RedirectView updateAnAccount(@ModelAttribute Account account,@PathVariable int id, RedirectAttributes redit){
 
-        accountService.updateAccount(account);
+        if(accountService.doesAccountExist(id)){
+            redit.addFlashAttribute("accountSuccess", "Account successfully created");
+       
+            Account existingAccount = accountService.getAccount(id);
+            existingAccount.setDescription(account.getDescription());
+    
+            accountService.updateAccount(existingAccount);
+        }else{
+            redit.addFlashAttribute("accountFail", "Account does not exist.");
+        }
 
-        return "redirect:/accounts/" + id;
+       
+
+        return new RedirectView("/accounts/" + id, true);
     }
 
     //Delete an Account
     @GetMapping("/account/{id}")
-    public String deleteAnAccount(@PathVariable Long id){
+    public RedirectView deleteAnAccount(@PathVariable Integer id, RedirectAttributes redit){
 
         accountService.deleteAccount(id);
 
-        return "redirect:/accounts";
+        redit.addFlashAttribute("successAccount", "Account successfully deleted");
+
+        return new RedirectView("/accounts", true);
     }
 
 }

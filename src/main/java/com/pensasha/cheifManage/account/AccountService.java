@@ -17,7 +17,7 @@ public class AccountService {
     }
 
     //Get an account by id
-    public Account getAccount(Long id){
+    public Account getAccount(Integer id){
         return accountRepository.findById(id).get();
     }
 
@@ -28,16 +28,23 @@ public class AccountService {
 
     //update an account
     public Account updateAccount(Account account){
-        Account existingAccount = accountRepository.findById(account.getId()).get();
-
-        existingAccount.setDescription(account.getDescription());
-        existingAccount.setName(account.getName());
-
-        return existingAccount;
+      
+      return accountRepository.save(account);
+    
     }
 
     //delete an account
-    public void deleteAccount(Long id){
+    public void deleteAccount(int id){
         accountRepository.deleteById(id);
+    }
+
+    //Getting an account by user id
+    public Account getAccountByUserIdNumber(int idNumber){
+        return accountRepository.findByUserIdNumber(idNumber);
+    }
+
+    //Does account exist
+    public Boolean doesAccountExist(int id){
+        return accountRepository.existsById(id);
     }
 }

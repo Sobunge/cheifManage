@@ -35,7 +35,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             roles.add(a.getAuthority());
         }
 
-        return "/homepage";
+        return "/users";
     }
 
     public void setRedirectStrategy(RedirectStrategy redirectStrategy) {

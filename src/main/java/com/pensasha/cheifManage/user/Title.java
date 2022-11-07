@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum Title {
     CHIEF("Chief"),
-    ASSISTANT_CHIEF("Assistant_chief"),
-    MR("Mr"),
-    MRS("Mrs"),
-    MS("Ms");
+    ASSISTANT_CHIEF("Assistant_chief");
 
     String title;
 }

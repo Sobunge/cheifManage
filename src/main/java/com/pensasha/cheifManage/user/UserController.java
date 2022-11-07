@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.pensasha.cheifManage.account.Account;
+import com.pensasha.cheifManage.account.AccountService;
 import com.pensasha.cheifManage.role.Role;
 
 @Controller
@@ -22,8 +23,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AccountService accountService;
+
     private final Gender[] gender = { Gender.Male, Gender.Female };
-    private final Title[] title = { Title.CHIEF, Title.ASSISTANT_CHIEF, Title.MR, Title.MRS, Title.MS };
+    private final Title[] title = { Title.CHIEF, Title.ASSISTANT_CHIEF};
     private final Role[] role = { Role.ACCOUNTS_MANAGER, Role.COUNTY_ADMIN, Role.SUPER_ADMIN, Role.USER };
 
     // Get all user
@@ -64,9 +68,13 @@ public class UserController {
             newUser.setPassword(encoder.encode(String.valueOf(newUser.getIdNumber())));
 
             Account account = new Account();
-            newUser.setAccount(account);
+            account.setId(newUser.getIdNumber());
+            account.setName(String.valueOf(newUser.getIdNumber()));
+            account.setDescription("My saving account");
+            account.setUser(newUser);
 
             userService.addUser(newUser);
+            accountService.addAccount(account);
 
             redit.addFlashAttribute("success",
                     newUser.getFirstName() + " " + newUser.getThirdName() + " successfully added");
@@ -86,6 +94,9 @@ public class UserController {
         }else{
 
             User user = userService.getUserByIdNumber(idNumber);
+            
+            Account account = accountService.getAccountByUserIdNumber(idNumber);
+            accountService.deleteAccount(account.getId());
 
             userService.deleteUserDetails(idNumber);
             redit.addFlashAttribute("success", user.getFirstName() + " " + user.getThirdName() + " successfully removed");

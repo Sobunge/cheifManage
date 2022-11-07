@@ -12,7 +12,7 @@ public class TransactionService {
     private TransactionRepository transactionRepository;
 
     //Getting all transaction for an account
-    public List<Transaction> getAllTransactionForAccount(Long accountId){
+    public List<Transaction> getAllTransactionForAccount(Integer accountId){
         return transactionRepository.findAllByAccountId(accountId);
     }
 
@@ -38,5 +38,10 @@ public class TransactionService {
     //Deleting a transaction
     public void deleteTransaction(Long id){
         transactionRepository.deleteById(id); 
+    }
+
+    //Does transaction exist
+    public Boolean doesTransactionExist(Long id){
+        return transactionRepository.existsById(id);
     }
 }
