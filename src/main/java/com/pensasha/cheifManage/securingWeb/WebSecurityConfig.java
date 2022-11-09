@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -34,7 +33,7 @@ public class WebSecurityConfig{
         @Bean
         protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 http.authorizeRequests()
-                                .antMatchers("/", "/error", "/changePassword")
+                                .antMatchers("/", "/error", "/changePassword", "/img/**", "/fontawesome-free/**", "/js/**",  "/css/**", "/webjars/**")
                                 .permitAll()
                                 .anyRequest().authenticated().and().formLogin().loginPage("/")
                                 .usernameParameter("username")
@@ -45,11 +44,6 @@ public class WebSecurityConfig{
                                 .accessDeniedPage("/403").and().csrf().disable();
 
                 return http.build();
-        }
-
-        @Bean
-        public WebSecurityCustomizer webSecurityCustomizer() {
-            return (web) -> web.ignoring().antMatchers("/img/**", "/fontawesome-free/**", "/js/**",  "/css/**", "/webjars/**");
         }
 
         @Bean(name = "passordEncoder")
