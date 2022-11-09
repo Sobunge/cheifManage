@@ -46,7 +46,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
             account.setUser(admin);
             accountService.addAccount(account);
         }
-        if (accountService.doesAccountExist(admin.getIdNumber()) == false) {
+        if (accountService.doesAccountExist(admin1.getIdNumber()) == false) {
 
             Account account = new Account();
             account.setId(admin1.getIdNumber());
