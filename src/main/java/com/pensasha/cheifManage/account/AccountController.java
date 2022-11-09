@@ -2,7 +2,12 @@ package com.pensasha.cheifManage.account;
 
 import java.security.Principal;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
@@ -12,7 +17,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
 
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.pensasha.cheifManage.transaction.Transaction;
 import com.pensasha.cheifManage.transaction.TransactionService;
 import com.pensasha.cheifManage.user.UserService;
@@ -25,6 +35,17 @@ public class AccountController {
     @Autowired TransactionService transactionService;
     @Autowired UserService userService;
 
+    @Autowired
+    private ServletContext servletContext;
+
+    private final String baseUrl = "http://localhost:8081/";
+
+    private final TemplateEngine templateEngine;
+    
+    public AccountController(TemplateEngine templateEngine) {
+        this.templateEngine = templateEngine;
+    }
+
     //Get all accounts
     @GetMapping("/accounts")
     public String getAccounts(Model model, Principal principal){
@@ -34,6 +55,22 @@ public class AccountController {
         model.addAttribute("accounts", accountService.allAccount());
         
         return "accounts";
+    }
+
+    @GetMapping("/accounts/pdf")
+    public ResponseEntity<?> getAccountsPdf(HttpServletRequest request, HttpServletResponse response){
+
+        WebContext context = new WebContext(request, response, this.servletContext);
+        context.setVariable("accounts", accountService.allAccount());
+
+        String accountsHtml = this.templateEngine.process("reports/accountsPdf", context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri(baseUrl);
+        HtmlConverter.convertToPdf(accountsHtml, target, converterProperties);
+        byte[] bytes = target.toByteArray();
+
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes); 
     }
 
     //Get an account

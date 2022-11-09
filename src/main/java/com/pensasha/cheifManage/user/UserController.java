@@ -64,13 +64,12 @@ public class UserController {
     }
 
     @GetMapping("/users/pdf")
-    public ResponseEntity<?> getUsersReport(HttpServletRequest request, HttpServletResponse response, Principal principal){
+    public ResponseEntity<?> getUsersReport(HttpServletRequest request, HttpServletResponse response){
 
         WebContext context = new WebContext(request, response, this.servletContext);
         context.setVariable("users", userService.getAllUsers());
-        context.setVariable("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
 
-        String usersListHtml = this.templateEngine.process("usersListPdf", context);
+        String usersListHtml = this.templateEngine.process("reports/usersListPdf", context);
         ByteArrayOutputStream target = new ByteArrayOutputStream();
         ConverterProperties converterProperties = new ConverterProperties();
         converterProperties.setBaseUri(baseUrl);
@@ -90,6 +89,21 @@ public class UserController {
         model.addAttribute("roles", role);
 
         return "addUser";
+    }
+
+    @GetMapping("/user/pdf")
+    public ResponseEntity<?> getRegistrationForm(HttpServletRequest request, HttpServletResponse response){
+
+        WebContext context = new WebContext(request, response, this.servletContext);
+    
+        String registrationHtml = this.templateEngine.process("reports/registrationPdf", context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri(baseUrl);
+        HtmlConverter.convertToPdf(registrationHtml, target, converterProperties);
+        byte[] bytes = target.toByteArray();
+
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes); 
     }
 
     // Adding user details

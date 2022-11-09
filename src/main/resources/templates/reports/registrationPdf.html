@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head th:insert="fragments/header.html :: header"></head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column" style="background-color: white;">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Begin Page Content -->
+
+                <div class="d-flex flex-column mb-4" style="text-align:center;">
+
+                    <div class="row d-flex justify-content-center">
+                        <h3 style="font-weight:bold;">Kenya National Chief</h3>
+                    </div>
+                    <div class="row d-flex justify-content-center">
+                        <h4 style="font-weight:700;">Registration Form</h4>
+                    </div>
+
+                </div>
+
+                <form class="g-3 needs-validation" action="#" method="post"
+                    novalidate>
+                    <div class="row">
+                        <div class="mb-3 col-md">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="firstNameInput" required />
+                        </div>
+                        <div class="mb-3 col-md">
+                            <label for="secondName" class="form-label">Second Name</label>
+                            <input type="text" class="form-control" id="secondNameInput" required />
+                        </div>
+                        <div class="mb-3 col-md">
+                            <label for="thirdName" class="form-label">Third Name</label>
+                            <input type="text" class="form-control" id="thirdNameInput" required />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="idNumber" class="form-label">Id Number</label>
+                        <input type="number" class="form-control" id="idNumberInput" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="gender" class="form-label">Gender</label>
+                        <input type="text" class="form-control" id="genderInput" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="residentialAddress" class="form-label">Residential Address</label>
+                       c
+                    </div>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="titleInput" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="emailInput" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Roles</label>
+                        <input type="role" class="form-control" id="roleInput" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                        <input type="number" class="form-control" id="phoneNumberInput" required />
+                    </div>
+                    <div class="row">
+                        <div class="col-lg mb-3">
+                            <label for="county" class="form-label">County</label>
+                            <input type="text" class="form-control" id="countyInput" required />
+                        </div>
+                        <div class="col-lg mb-3">
+                            <label for="division" class="form-label">Division</label>
+                            <input type="text" class="form-control" id="divisionInput" required />
+                        </div>
+                        <div class="col-lg mb-3">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="locationInput" required />
+                        </div>
+                        <div class="col-lg mb-3">
+                            <label for="subLocation" class="form-label">Sub Location</label>
+                            <input type="text" class="form-control" id="subLocationInput" required />
+                        </div>
+                    </div>
+
+                </form>
+
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+</body>
+
+</html>

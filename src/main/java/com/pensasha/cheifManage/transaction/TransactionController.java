@@ -8,9 +8,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TimeZone;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +23,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
 
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.pensasha.cheifManage.account.Account;
 import com.pensasha.cheifManage.account.AccountService;
 import com.pensasha.cheifManage.month.Month;
@@ -41,6 +49,17 @@ public class TransactionController {
     @Autowired
     YearService yearService;
 
+    @Autowired
+    private ServletContext servletContext;
+
+    private final String baseUrl = "http://localhost:8081/";
+
+    private final TemplateEngine templateEngine;
+    
+    public TransactionController(TemplateEngine templateEngine) {
+        this.templateEngine = templateEngine;
+    }
+
     //Getting account transactions
     @GetMapping("/accounts/{id}/transactions")
     public String getAccountTransactions(@PathVariable int id, Principal principal, Model model){
@@ -53,6 +72,24 @@ public class TransactionController {
         model.addAttribute("transactions", transactionService.getAllTransactionForAccount(id));
 
         return "transactions";
+    }
+
+    //Getting transactions pdf
+    @GetMapping("/accounts/{id}/transactions/pdf")
+    public ResponseEntity<?> getTransactionsPdf(@PathVariable int id, HttpServletRequest request, HttpServletResponse response){
+
+        WebContext context = new WebContext(request, response, this.servletContext);
+        context.setVariable("transactions", transactionService.getAllTransactionForAccount(id));
+        context.setVariable("account", accountService.getAccount(id));
+
+        String accountsHtml = this.templateEngine.process("reports/statementsPdf", context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri(baseUrl);
+        HtmlConverter.convertToPdf(accountsHtml, target, converterProperties);
+        byte[] bytes = target.toByteArray();
+
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes); 
     }
 
     // Adding a transaction
@@ -195,6 +232,25 @@ public class TransactionController {
         model.addAttribute("account", account);
 
         return "transaction";
+    }
+
+    //Getting a transaction pdf
+    @GetMapping("/accounts/{id}/transaction/{trans_id}/pdf")
+    public ResponseEntity<?>getTransactionReciept(@PathVariable int id, @PathVariable Long trans_id, HttpServletRequest request, HttpServletResponse response){
+
+        WebContext context = new WebContext(request, response, this.servletContext);
+        context.setVariable("transactions", transactionService.getAllTransactionForAccount(id));
+        context.setVariable("account", accountService.getAccount(id));
+        context.setVariable("transaction", transactionService.getTransaction(trans_id));
+
+        String transactionHtml = this.templateEngine.process("reports/transactionPdf", context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri(baseUrl);
+        HtmlConverter.convertToPdf(transactionHtml, target, converterProperties);
+        byte[] bytes = target.toByteArray();
+
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes); 
     }
 
     // Update a transaction
