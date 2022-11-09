@@ -78,7 +78,7 @@
                     <td th:text="${iter.count}">Counter</td>
                     <td th:text="${u.firstName + ' ' + u.secondName + ' ' + u.thirdName}">First Name</td>
                     <td th:text="${u.idNumber}">Id Number</td>
-                    <td th:text="${u.phoneNumber}">Phone Number</td>
+                    <td th:text="${'0' + u.phoneNumber}">Phone Number</td>
                     <td> <a class="btn btn-primary" th:href="@{/users/{idNumber}(idNumber = ${u.idNumber})}"> View </a>
                     </td>
                     <td> <a class="btn btn-danger" th:href="@{/user/{idNumber}(idNumber = ${u.idNumber})}"
