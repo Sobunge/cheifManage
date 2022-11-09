@@ -41,6 +41,20 @@ public class TransactionController {
     @Autowired
     YearService yearService;
 
+    //Getting account transactions
+    @GetMapping("/accounts/{id}/transactions")
+    public String getAccountTransactions(@PathVariable int id, Principal principal, Model model){
+
+        User user = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
+
+        model.addAttribute("user", user);
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("account", accountService.getAccount(id));
+        model.addAttribute("transactions", transactionService.getAllTransactionForAccount(id));
+
+        return "transactions";
+    }
+
     // Adding a transaction
     @PostMapping("/accounts/{id}/transaction")
     public RedirectView addTransaction(@PathVariable Integer id, @ModelAttribute Transaction transaction,

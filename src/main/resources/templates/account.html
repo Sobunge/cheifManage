@@ -171,8 +171,8 @@
                             Add transaction
                         </button>
                         <h1 class="h3 mb-0 text-gray-800"> Account </h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        <a th:href="@{/accounts/{id}/transactions(id = ${account.id})}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> View Statements </a>
                     </div>
 
                     <div class="card">
@@ -221,49 +221,6 @@
                                     id="changeDetails">Change Details</button>
                             </form>
                             <button class="btn btn-primary" id="editDetails">Edit Details</button>
-                        </div>
-                    </div>
-
-                    <br />
-                    <div class="card">
-
-                        <div class="alert alert-danger" th:if="${transactionFail}" th:text="${transactionFail}">User exists</div>
-                        <div class="alert alert-success" th:if="${transactionSuccess}" th:text="${transactionSuccess}">User saved</div>
-              
-                        <div class="card-header" th:text="${account.name + ' Transactions'}"></div>
-                        <div class="card-body">
-                            <table class="table table-responsive-md">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">reference Number</th>
-                                        <th scope="col">Amount</th>
-                                        <th scope="col">Time</th>
-                                        <th scope="col">Date</th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <th:block>
-                                        <tr th:each="transaction, itr : ${transactions}">
-                                            <th scope="row" th:text="${itr.count}">1</th>
-                                            <th scope="row" th:text="${transaction.referenceNumber}"></th>
-                                            <td th:text="${transaction.amount}"></td>
-                                            <td th:text="${transaction.time}"></td>
-                                            <td th:text="${transaction.date}"></td>
-                                            <td><a class="btn btn-primary"
-                                                    th:href="@{/accounts/{id}/transaction/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}">View</a>
-                                            </td>
-                                            <td><a data-bs-toggle="modal" href="#"
-                                                    data-bs-target="#deleteTransactionModal"
-                                                    th:data-href="@{/accounts/{id}/transactions/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}"
-                                                    class="btn btn-danger"> Delete <i
-                                                        class="fas fa-fw fa-trash-alt"></i></a></td>
-                                        </tr>
-                                    </th:block>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
 
