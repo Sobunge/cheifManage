@@ -39,8 +39,8 @@ public class UserController {
     @Autowired
     private ServletContext servletContext;
 
-    //private final String baseUrl = "http://localhost:8081/";
-   private final String baseUrl = "https://analytica-school.herokuapp.com/";
+    private final String baseUrl = "http://localhost:8081/";
+    //private final String baseUrl = "https://analytica-school.herokuapp.com/";
 
     private final TemplateEngine templateEngine;
     
