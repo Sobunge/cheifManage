@@ -160,42 +160,74 @@
                                         <select class="form-select" id="counterInput" th:field="*{county}"
                                             th:name="county" required>
                                             <option selected disabled value="">Choose County...</option>
-                                            <option value="Kisumu">Kisumu</option>
-                                            <option value="Siaya">Siaya</option>
+                                            <option value="Mombasa">1. Mombasa</option>
+                                            <option value="Kwale">2. Kwale</option>
+                                            <option value="Kilifi">3. Kilifi</option>
+                                            <option value="Tana River">4. Tana River</option>
+                                            <option value="Lamu">5. Lamu</option>
+                                            <option value="Taita/Taveta">6. Taita/Taveta</option>
+                                            <option value="Wajir">8. Wajir</option>
+                                            <option value="Mandera">9. Mandera</option>
+                                            <option value="Marsabit">10. Marsabit</option>
+                                            <option value="Isiolo">11. Isiolo</option>
+                                            <option value="Meru">12. Meru</option>
+                                            <option value="Tharaka-Nithi">13. Tharaka-Nithi</option>
+                                            <option value="Embu">14. Embu</option>
+                                            <option value="Kitui">15. Kitui</option>
+                                            <option value="Machakos">16. Machakos</option>
+                                            <option value="Makueni">17. Makueni</option>
+                                            <option value="Nyandarua">18. Nyandarua</option>
+                                            <option value="Nyeri">19. Nyeri</option>
+                                            <option value="Kirinyaga">20. Kirinyaga</option>
+                                            <option value="Murang'a">21. Murang'a</option>
+                                            <option value="Kiambu">22. Kiambu</option>
+                                            <option value="Turkana">23. Turkana</option>
+                                            <option value="West Pokot">24. West Pokot</option>
+                                            <option value="Samburu">25. Samburu</option>
+                                            <option value="Trans Nzoia">26. Trans Nzoia</option>
+                                            <option value="Uasin Gishu">27. Uasin Gishu</option>
+                                            <option value="Elgeyo/Marakwet">28. Elgeyo/Marakwet</option>
+                                            <option value="Nandi">29. Nandi</option>
+                                            <option value="Baringo">30. Baringo</option>
+                                            <option value="Laikipia">31. Laikipia</option>
+                                            <option value="Nakuru">32. Nakuru</option>
+                                            <option value="Narok">33. Narok</option>
+                                            <option value="Kajiado">34. Kajiado</option>
+                                            <option value="Kericho">35. Kericho</option>
+                                            <option value="Kakamega">37. Kakamega</option>
+                                            <option value="Vihiga">38. Vihiga</option>
+                                            <option value="Bungoma">39. Bungoma</option>
+                                            <option value="Busia">40. Busia</option>
+                                            <option value="Siaya">41. Siaya</option>
+                                            <option value="Kisumu">42. Kisumu</option>
+                                            <option value="Homa Bay">43. Homa Bay</option>
+                                            <option value="Migori">44. Migori</option>
+                                            <option value="Kisii">45. Kisii</option>
+                                            <option value="Nyamira">46. Nyamira</option>
+                                            <option value="Nairobi City">47. Nairobi City</option>
                                         </select>
                                         <div class="valid-feedback">Looks good!</div>
                                         <div class="invalid-feedback">Please choose your county.</div>
                                     </div>
                                     <div class="col-lg mb-3">
                                         <label for="division" class="form-label">Division</label>
-                                        <select class="form-select" id="divisionInput" th:field="*{division}"
-                                            th:name="division" required>
-                                            <option selected disabled value="">Choose Division...</option>
-                                            <option value="Kisumu West">Kisumu West</option>
-                                            <option value="Kisumu East">Kisumu East</option>
-                                        </select>
+                                        <input type="text" th:field="*{division}" class="form-control" id="divisionInput"
+                                        placeholder="Division" required />
                                         <div class="valid-feedback">Looks good!</div>
                                         <div class="invalid-feedback">Please choose your division.</div>
                                     </div>
                                     <div class="col-lg mb-3">
                                         <label for="location" class="form-label">Location</label>
-                                        <select class="form-select" id="locationInput" th:field="*{location}"
-                                            th:name="location" required>
-                                            <option selected disabled value="">Choose Location...</option>
-                                            <option value="Central">Central</option>
-                                            <option value="North">North</option>
-                                        </select>
+                                        <input type="text" th:field="*{location}" class="form-control" id="locationInput"
+                                        placeholder="Location" required />
+                           
                                         <div class="valid-feedback">Looks good!</div>
                                         <div class="invalid-feedback">Please choose your location.</div>
                                     </div>
                                     <div class="col-lg mb-3">
                                         <label for="subLocation" class="form-label">Sub Location</label>
-                                        <select class="form-select" id="subLocation" th:field="*{subLocation}"
-                                            th:name="subLocation" required>
-                                            <option selected disabled value="">Choose Sub Location...</option>
-                                            <option value="Kogony">Kogony</option>
-                                            <option value="Korando">Korando</option>
-                                        </select>
+                                        <input type="text" th:field="*{subLocation}" class="form-control" id="subLocation"
+                                        placeholder="Sub Location" required />
                                         <div class="valid-feedback">Looks good!</div>
                                         <div class="invalid-feedback">Please choose your sub location.</div>
                                     </div>
