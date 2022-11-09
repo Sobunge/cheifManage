@@ -12,4 +12,4 @@ public enum Role {
 
     String role;
 
-}
+}  

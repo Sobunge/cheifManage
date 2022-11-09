@@ -51,7 +51,10 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <a th:href="@{/user}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> Add User</a>
+            </td>
+            <th:block th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN'}">
+              <a th:href="@{/user}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> Add User</a>
+            </th:block>
             <h1 class="h3 mb-0 text-gray-800"> Users </h1>
             <a th:href="@{/users/pdf}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
@@ -67,22 +70,28 @@
                   <tr>
                     <th>#</th>
                     <th>Name</th>
+                    <th>Role</th>
                     <th>Id Number</th>
                     <th>Phone Number</th>
                     <th></th>
-                    <th></th>
+                    <th:block th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN'}">
+                      <th></th>
+                    </th:block>
                   </tr>
                 </thead>
                 <tbody>
                   <tr th:each="u, iter : ${users}">
                     <td th:text="${iter.count}">Counter</td>
                     <td th:text="${u.firstName + ' ' + u.secondName + ' ' + u.thirdName}">First Name</td>
+                    <td th:text="${u.role}">Title</td>
                     <td th:text="${u.idNumber}">Id Number</td>
                     <td th:text="${'0' + u.phoneNumber}">Phone Number</td>
                     <td> <a class="btn btn-primary" th:href="@{/users/{idNumber}(idNumber = ${u.idNumber})}"> View </a>
                     </td>
-                    <td> <a class="btn btn-danger" th:href="@{/user/{idNumber}(idNumber = ${u.idNumber})}"
-                        th:unless="${u == user}"> Delete </a> </td>
+                    <th:block th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN'}">
+                      <td> <a class="btn btn-danger" th:href="@{/user/{idNumber}(idNumber = ${u.idNumber})}"
+                          th:unless="${u == user}"> Delete </a> </td>
+                    </th:block>
                   </tr>
                 </tbody>
                 <tfoot>
@@ -92,7 +101,9 @@
                     <th>Id Number</th>
                     <th>Phone Number</th>
                     <th></th>
-                    <th></th>
+                    <th:block th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN'}">
+                      <th></th>
+                    </th:block>
                   </tr>
                 </tfoot>
               </table>

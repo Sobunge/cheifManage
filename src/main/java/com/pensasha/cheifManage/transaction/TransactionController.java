@@ -191,7 +191,7 @@ public class TransactionController {
             redit.addFlashAttribute("transactionSuccess", "Transaction successfully recorded");
         }
 
-        return new RedirectView("/accounts/" + id, true);
+        return new RedirectView("/accounts/" + id + "/transactions", true);
 
     }
 
@@ -217,7 +217,7 @@ public class TransactionController {
             redit.addFlashAttribute("transactionFail", "Transaction does not exist");
         }
 
-        return new RedirectView("/accounts/" + id, true);
+        return new RedirectView("/accounts/" + id + "/transactions", true);
     }
 
     // Getting a transaction
@@ -282,7 +282,7 @@ public class TransactionController {
             redit.addFlashAttribute("transactionFail", "Transaction does not exist");
         }
 
-        return new RedirectView("/accounts/" + id + "/transaction/" + trans_id, true);
+        return new RedirectView("/accounts/" + id + "/transactions", true);
 
     }
 }   

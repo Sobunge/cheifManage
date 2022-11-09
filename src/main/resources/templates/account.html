@@ -28,8 +28,11 @@
 
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb small" style="margin-top: 15px;">
-                            <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
-                            <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
+                            <li class="breadcrumb-item"><a th:href="@{/accounts/{id}(id = ${account.id})}" th:if="${user.role.name == 'USER'}">Home</a></li>
+                            <th:block th:if="${user.role.name != 'USER'}">
+                                <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
+                                <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
+                            </th:block>
                             <li class="breadcrumb-item active" aria-current="page">Account</li>
                         </ol>
                     </nav>
@@ -57,16 +60,20 @@
                             Add transaction
                         </button>
                         <h1 class="h3 mb-0 text-gray-800"> Account </h1>
-                        <a th:href="@{/accounts/{id}/transactions(id = ${account.id})}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <a th:href="@{/accounts/{id}/transactions(id = ${account.id})}"
+                            class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> View Statements </a>
                     </div>
 
                     <div class="card">
 
-                        <div class="alert alert-danger" th:if="${accountFail}" th:text="${accountFail}">User exists</div>
-                        <div class="alert alert-success" th:if="${accountSuccess}" th:text="${accountSuccess}">User saved</div>
-            
-                        <div class="card-header" th:text="${'Account: ' + account.user.firstName + ' ' + account.user.thirdName}"></div>
+                        <div class="alert alert-danger" th:if="${accountFail}" th:text="${accountFail}">User exists
+                        </div>
+                        <div class="alert alert-success" th:if="${accountSuccess}" th:text="${accountSuccess}">User
+                            saved</div>
+
+                        <div class="card-header"
+                            th:text="${'Account: ' + account.user.firstName + ' ' + account.user.thirdName}"></div>
                         <div class="card-body">
                             <form class="g-3 needs-validation" action="#"
                                 th:action="@{/accounts/{id}(id = ${account.id})}" th:object="${account}" method="post"
@@ -142,13 +149,13 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="referenceNumber" class="form-label"> Reference Number </label>
-                                        <input type="text" th:field="*{referenceNumber}" class="form-control" id="referenceNumberInput"
-                                            placeholder="Reference Number" required>
+                                        <input type="text" th:field="*{referenceNumber}" class="form-control"
+                                            id="referenceNumberInput" placeholder="Reference Number" required>
                                         <div class="valid-feedback">
                                             Looks good!
                                         </div>
                                         <div class="invalid-feedback">
-                                            Please enter reference number.  
+                                            Please enter reference number.
                                         </div>
                                     </div>
                                     <br />

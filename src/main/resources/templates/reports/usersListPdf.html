@@ -50,7 +50,7 @@
                                 <td th:if="${u.title.name == 'CHIEF'}">Chief</td>
                                 <td th:if="${u.title.name == 'ASSISTANT_CHIEF'}">Assistant Chief</td>
                             </th:block>
-                            <td th:text="${u.firstName + ' ' + u.secondName + ' ' + u.thirdName}">First Name</td>
+                            <td th:text="${u.firstName + ' ' + u.thirdName}">First Name</td>
                             <td th:text="${u.idNumber}">Id Number</td>
                             <td th:text="${u.gender}">Gender</td>
                             <td th:text="${'0' + u.phoneNumber}">Phone Number</td>

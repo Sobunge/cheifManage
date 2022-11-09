@@ -68,7 +68,9 @@
                     <th>Name</th>
                     <th>Balance</th>
                     <th></th>
-                    <th></th>
+                    <th:block th:if="${user.role.name == 'ADMIN'}">
+                      <th></th>
+                    </th:block>
                   </tr>
                 </thead>
                 <tbody>
@@ -78,8 +80,10 @@
                     <td th:text="${ac.balance}">Balance/td>
                     <td> <a class="btn btn-primary" th:href="@{/accounts/{id}(id = ${ac.id})}"> View </a>
                     </td>
-                    <td> <a class="btn btn-danger" th:href="@{/account/{id}(id = ${ac.id})}" th:unless="${u == user}">
-                        Delete </a> </td>
+                    <th:block th:if="${user.role.name == 'ADMIN'}">
+                      <td> <a class="btn btn-danger" th:href="@{/account/{id}(id = ${ac.id})}" th:unless="${u == user}">
+                          Delete </a> </td>
+                    </th:block>
                   </tr>
                 </tbody>
                 <tfoot>
@@ -88,7 +92,9 @@
                     <th>Name</th>
                     <th>Balance</th>
                     <th></th>
-                    <th></th>
+                    <th:block th:if="${user.role.name == 'ADMIN'}">
+                      <th></th>
+                    </th:block>
                   </tr>
                 </tfoot>
               </table>

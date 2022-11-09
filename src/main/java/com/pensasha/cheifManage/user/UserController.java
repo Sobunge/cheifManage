@@ -84,6 +84,7 @@ public class UserController {
     public String addUserGet(Model model, Principal principal) {
 
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
+        model.addAttribute("account", accountService.getAccountByUserIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("newUser", new User());
         model.addAttribute("genders", gender);
         model.addAttribute("titles", title);
@@ -165,6 +166,7 @@ public class UserController {
     public String viewUser(@PathVariable int idNumber, Model model, Principal principal) {
 
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
+        model.addAttribute("account", accountService.getAccountByUserIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("newUser", userService.getUserByIdNumber(idNumber));
         model.addAttribute("genders", gender);
         model.addAttribute("titles", title);

@@ -121,7 +121,11 @@
                                 <button type="submit" class="btn btn-success" id="changeDetails" style="display: none;">Change
                                     Details</button>
                             </form>
-                            <button class="btn btn-primary" id="editDetails">Edit Details</button>
+
+                            <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
+                                <button class="btn btn-primary" id="editDetails">Edit Details</button>
+                            </th:block>
+                        
                         </div>
                     </div>
 

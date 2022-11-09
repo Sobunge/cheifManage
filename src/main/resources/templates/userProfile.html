@@ -28,8 +28,13 @@
 
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb small" style="margin-top: 15px;">
-                            <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
-                            <li class="breadcrumb-item"><a th:href="@{/users}">Users</a></li>
+                            <th:block th:if="${user.role.name == 'USER'}">
+                                <li class="breadcrumb-item"><a th:href="@{/accounts/{id}(id = ${account.id})}">Home</a></li>
+                            </th:block>
+                            <th:block th:if="${user.role.name != 'USER'}">
+                                <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
+                                <li class="breadcrumb-item"><a th:href="@{/users}">Users</a></li>
+                            </th:block>
                             <li class="breadcrumb-item active" aria-current="page"
                                 th:text="${newUser.firstName + ' ' + newUser.thirdName}">user</li>
                         </ol>

@@ -25,8 +25,8 @@ import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.pensasha.cheifManage.transaction.Transaction;
 import com.pensasha.cheifManage.transaction.TransactionService;
+import com.pensasha.cheifManage.user.User;
 import com.pensasha.cheifManage.user.UserService;
-
 
 @Controller
 public class AccountController {
@@ -84,6 +84,15 @@ public class AccountController {
         model.addAttribute("transactions", transactionService.getAllTransactionForAccount(id));
 
         return "account";
+    }
+
+    @GetMapping("/usersHome")
+    public String getHomePage(Principal principal){
+
+        User user = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
+        Account account = accountService.getAccountByUserIdNumber(user.getIdNumber());
+
+        return "redirect:/accounts/" + account.getId();
     }
 
     //Save an account

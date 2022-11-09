@@ -30,7 +30,7 @@ public class UserService {
         User tempUser = new User(user.getFirstName(), user.getSecondName(), user.getThirdName(),
                 user.getGender(), idNumber, user.getEmail(), user.getResidentialAddress(), user.getCounty(),
                 user.getDivision(), user.getLocation(), user.getSubLocation(), user.getTitle(), user.getPhoneNumber(),
-                existingUser.getPassword(), existingUser.getRole());
+                existingUser.getPassword(), user.getRole());
 
         userRepository.save(tempUser);
 

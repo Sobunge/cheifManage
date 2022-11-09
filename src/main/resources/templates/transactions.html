@@ -28,10 +28,16 @@
 
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb small" style="margin-top: 15px;">
-                            <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
-                            <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
-                            <li class="breadcrumb-item"><a th:href="@{/accounts/{id}(id=${account.id})}">Account</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Statements</li>
+                            <th:block th:if="${user.role.name == 'USER'}">
+                                <li class="breadcrumb-item"><a th:href="@{/accounts/{id}(id = ${account.id})}">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Statements</li>
+                            </th:block>
+                            <th:block th:if="${user.role.name != 'USER'}">
+                                <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
+                                <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
+                                <li class="breadcrumb-item"><a th:href="@{/accounts/{id}(id=${account.id})}">Account</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Statements</li>
+                            </th:block>
                         </ol>
                     </nav>
 
@@ -81,7 +87,9 @@
                                         <th scope="col">Time</th>
                                         <th scope="col">Date</th>
                                         <th></th>
-                                        <th></th>
+                                        <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
+                                            <th></th>
+                                        </th:block>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -95,11 +103,13 @@
                                             <td><a class="btn btn-primary"
                                                     th:href="@{/accounts/{id}/transaction/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}">View</a>
                                             </td>
-                                            <td><a data-bs-toggle="modal" href="#"
+                                            <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
+                                                <td><a data-bs-toggle="modal" href="#"
                                                     data-bs-target="#deleteTransactionModal"
                                                     th:data-href="@{/accounts/{id}/transactions/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}"
                                                     class="btn btn-danger"> Delete <i
                                                         class="fas fa-fw fa-trash-alt"></i></a></td>
+                                            </th:block>
                                         </tr>
                                     </th:block>
                                 </tbody>

@@ -12,12 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Component
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-    protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+    protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+            throws IOException {
         String targetUrl = this.determineTargetUrl(authentication);
         if (response.isCommitted()) {
             System.out.println("Can't redirect");
@@ -28,6 +30,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     protected String determineTargetUrl(Authentication authentication) {
 
+        String url = "";
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         ArrayList<String> roles = new ArrayList<String>();
 
@@ -35,7 +38,13 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             roles.add(a.getAuthority());
         }
 
-        return "/users";
+       if (this.isUser(roles)) {
+            url = "/usersHome";
+        }else{
+            url = "/users";
+        }
+
+        return url;
     }
 
     public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
@@ -46,5 +55,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         return this.redirectStrategy;
     }
 
+    private boolean isUser(List<String> roles) {
+        return roles.contains("USER");
+    }
 
 }
