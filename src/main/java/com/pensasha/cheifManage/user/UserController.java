@@ -2,7 +2,12 @@ package com.pensasha.cheifManage.user;
 
 import java.security.Principal;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +17,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
 
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.pensasha.cheifManage.account.Account;
 import com.pensasha.cheifManage.account.AccountService;
 import com.pensasha.cheifManage.role.Role;
@@ -26,9 +36,22 @@ public class UserController {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private ServletContext servletContext;
+
+    private final String baseUrl = "http://localhost:8081/";
+
+    private final TemplateEngine templateEngine;
+    
+    public UserController(TemplateEngine templateEngine) {
+        this.templateEngine = templateEngine;
+    }
+
     private final Gender[] gender = { Gender.Male, Gender.Female };
     private final Title[] title = { Title.CHIEF, Title.ASSISTANT_CHIEF};
     private final Role[] role = { Role.ACCOUNTS_MANAGER, Role.COUNTY_ADMIN, Role.SUPER_ADMIN, Role.USER };
+
+
 
     // Get all user
     @GetMapping("/users")
@@ -38,6 +61,23 @@ public class UserController {
         model.addAttribute("users", userService.getAllUsers());
 
         return "users";
+    }
+
+    @GetMapping("/users/pdf")
+    public ResponseEntity<?> getUsersReport(HttpServletRequest request, HttpServletResponse response, Principal principal){
+
+        WebContext context = new WebContext(request, response, this.servletContext);
+        context.setVariable("users", userService.getAllUsers());
+        context.setVariable("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
+
+        String usersListHtml = this.templateEngine.process("usersListPdf", context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri(baseUrl);
+        HtmlConverter.convertToPdf(usersListHtml, target, converterProperties);
+        byte[] bytes = target.toByteArray();
+
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes); 
     }
 
     @GetMapping("/user")
