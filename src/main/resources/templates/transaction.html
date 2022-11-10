@@ -31,8 +31,8 @@
                             <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
                             <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
                             <li class="breadcrumb-item"><a th:href="@{/accounts/{id}(id = ${account.id})}">Account</a></li>
-                            <li class="breadcrumb-item"><a th:href="@{/accounts/{id}/transactions(id=${account.id})}">Statements</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Statement</li>
+                            <li class="breadcrumb-item"><a th:href="@{/accounts/{id}/transactions(id=${account.id})}">Contributions</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Contribution</li>
                         </ol>
                     </nav>
         
@@ -55,7 +55,7 @@
                     <!-- Page Heading -->
                     <div th:fragment="pageHeader">
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">Statement</h1>
+                            <h1 class="h3 mb-0 text-gray-800">Contribution</h1>
                             <a th:href="@{/accounts/{id}/transaction/{trans_id}/pdf(id = ${account.id}, trans_id = ${transaction.id})}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Print Receipt </a>
                         </div>
@@ -66,14 +66,14 @@
                         <div class="alert alert-success" th:if="${transactionSuccess}" th:text="${transactionSuccess}">User saved</div>
               
                         <div class="card-header"
-                            th:text="${' Acc Bal: ' + account.balance + ' - ' + account.user.firstName +  ' ' + account.user.thirdName + ' Statement '}"></div>
+                            th:text="${' Acc Bal: ' + account.balance + ' - ' + account.user.firstName +  ' ' + account.user.thirdName + ' Contribution '}"></div>
                         <div class="card-body">
                             <form action="#" class="g-3 needs-validation" novalidate
                                 th:action="@{/accounts/{id}/transaction/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}"
                                 th:object="${transaction}" method="post">
                                 <div class="row">
                                     <div class="mb-3 col-6">
-                                        <label for="id" class="form-label">Statement Identifier</label>
+                                        <label for="id" class="form-label">Contribution Identifier</label>
                                         <input type="text" th:field="*{referenceNumber}" class="form-control" id="idInput" placeholder="id"
                                             disabled>
                                     </div>

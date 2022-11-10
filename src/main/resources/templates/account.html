@@ -28,7 +28,9 @@
 
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb small" style="margin-top: 15px;">
-                            <li class="breadcrumb-item"><a th:href="@{/accounts/{id}(id = ${account.id})}" th:if="${user.role.name == 'USER'}">Home</a></li>
+                            <th:block th:if="${user.role.name == 'USER'}">
+                                <li class="breadcrumb-item"><a th:href="@{/accounts/{id}(id = ${account.id})}">Home</a></li>
+                            </th:block>
                             <th:block th:if="${user.role.name != 'USER'}">
                                 <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
                                 <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
@@ -57,12 +59,12 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"
                             data-bs-toggle="modal" data-bs-target="#addTransactionModal">
-                            Add transaction
+                            Add Contribution
                         </button>
                         <h1 class="h3 mb-0 text-gray-800"> Account </h1>
                         <a th:href="@{/accounts/{id}/transactions(id = ${account.id})}"
                             class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> View Statements </a>
+                                class="fas fa-download fa-sm text-white-50"></i> View Contributions</a>
                     </div>
 
                     <div class="card">
