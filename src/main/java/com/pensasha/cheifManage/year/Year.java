@@ -48,6 +48,5 @@ public class Year {
     @JsonIgnore
     @OneToMany(mappedBy = "year", cascade = {CascadeType.ALL})
     private Collection<Transaction> transactions;
-
     
 }
