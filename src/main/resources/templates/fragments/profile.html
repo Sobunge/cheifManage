@@ -1,86 +1,86 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-<head th:fragment="header">
+        <head th:fragment="header">
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <meta name="description" content="">
+            <meta name="author" content="">
 
-    <title>Kenya National Chiefs</title>
+            <title>Kenya National Chiefs</title>
 
-    <!-- Bootstrap CSS -->
-    <link th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}" rel="stylesheet" />
+            <!-- Bootstrap CSS -->
+            <link th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}" rel="stylesheet" />
 
-    <!-- Custom fonts for this template-->
-    <link th:href="@{/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/ptarmigan">
+            <!-- Custom fonts for this template-->
+            <link th:href="@{/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+            <link
+                href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+                rel="stylesheet">
+            <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/ptarmigan">
 
-    <!-- Custom styles for this template-->
-    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+            <!-- Custom styles for this template-->
+            <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
 
-</head>
+        </head>
 
-<body>
+        <body>
 
-    <div th:fragment="userInfo">
-        <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small"
-                    th:text="${user.firstName + ' ' + user.secondName}">Douglas McGee</span>
-                <img class="img-profile rounded-circle" th:src="@{/img/avater.png}">
-            </a>
-            <!-- Dropdown - User Information -->
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="userDropdown">
-                <a class="dropdown-item" th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Profile
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
-                </a>
-            </div>
-        </li>
-    </div>
-
-    <div th:fragment="logoutModal">
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                        <button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
+            <div th:fragment="userInfo">
+                <li class="nav-item dropdown no-arrow">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"
+                            th:text="${user.firstName + ' ' + user.secondName}">Douglas McGee</span>
+                        <img class="img-profile rounded-circle" th:src="@{/img/avater.png}">
+                    </a>
+                    <!-- Dropdown - User Information -->
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                        aria-labelledby="userDropdown">
+                        <a class="dropdown-item" th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">
+                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Profile
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Logout
+                        </a>
                     </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-                        <a class="btn btn-danger" href="/?logout">Logout</a>
+                </li>
+            </div>
+
+            <div th:fragment="logoutModal">
+                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                                <button class="close" type="button" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">Select "Logout" below if you are ready to end your current session.
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                                <a class="btn btn-danger" href="/?logout">Logout</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Jquery -->
-    <script th:src="@{/webjars/jquery/3.6.1/jquery.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>
-</body>
+            <!-- Jquery -->
+            <script th:src="@{/webjars/jquery/3.6.1/jquery.min.js}"></script>
+            <script th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>
+        </body>
 
-</html>
-
+    </html>

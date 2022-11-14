@@ -2,124 +2,125 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-<head th:insert="fragments/header.html :: header"></head>
+    <head th:insert="fragments/header.html :: header"></head>
 
-<body id="page-top">
+    <body id="page-top">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+        <!-- Page Wrapper -->
+        <div id="wrapper">
 
-        <!-- Sidebar -->
-        <span th:insert="fragments/sidebar.html :: sidebar"></span>
+            <!-- Sidebar -->
+            <span th:insert="fragments/sidebar.html :: sidebar"></span>
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
 
-            <!-- Main Content -->
-            <div id="content">
+                <!-- Main Content -->
+                <div id="content">
 
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Topbar -->
+                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
+                        <!-- Sidebar Toggle (Topbar) -->
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
 
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb small" style="margin-top: 15px;">
-                            <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">User Registration</li>
-                        </ol>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb small" style="margin-top: 15px;">
+                                <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">User Registration</li>
+                            </ol>
+                        </nav>
+
+                        <!-- Topbar Navbar -->
+                        <ul class="navbar-nav ml-auto">
+
+                            <div class="topbar-divider d-none d-sm-block"></div>
+
+                            <!-- Nav Item - User Information -->
+                            <div th:insert="fragments/profile.html :: userInfo"></div>
+
+                        </ul>
+
                     </nav>
+                    <!-- End of Topbar -->
 
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
 
-                        <div class="topbar-divider d-none d-sm-block"></div>
-
-                        <!-- Nav Item - User Information -->
-                        <div th:insert="fragments/profile.html :: userInfo"></div>
-
-                    </ul>
-
-                </nav>
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div th:fragment="pageHeader">
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800"> User Registration </h1>
+                        <!-- Page Heading -->
+                        <div th:fragment="pageHeader">
+                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 class="h3 mb-0 text-gray-800"> User Registration </h1>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="card">
-                        <div class="card-body">
+                        <div class="card">
+                            <div class="card-body">
 
-                            <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">User exists</div>
-                            <div class="alert alert-success" th:if="${success}" th:text="${success}">User saved</div>
+                                <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">User exists</div>
+                                <div class="alert alert-success" th:if="${success}" th:text="${success}">User saved
+                                </div>
 
-                            <form class="g-3 needs-validation" action="#" th:action="@{/user}" th:object="${newUser}"
-                                method="post" novalidate>
-                              
-                                <!-- User profile form -->
-                                <div th:insert="fragments/header.html :: profileForm"></div>
+                                <form class="g-3 needs-validation" action="#" th:action="@{/user}"
+                                    th:object="${newUser}" method="post" novalidate>
 
-                                <button type="submit" class="btn btn-success">Submit</button>
-                            </form>
+                                    <!-- User profile form -->
+                                    <div th:insert="fragments/header.html :: profileForm"></div>
+
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                </form>
+                            </div>
                         </div>
+
                     </div>
+                    <!-- /.container-fluid -->
 
                 </div>
-                <!-- /.container-fluid -->
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <div th:insert="fragments/header.html :: footer"></div>
+                <!-- End of Footer -->
 
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <div th:insert="fragments/header.html :: footer"></div>
-            <!-- End of Footer -->
+            <!-- End of Content Wrapper -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Page Wrapper -->
 
-    </div>
-    <!-- End of Page Wrapper -->
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+        <!-- Logout Modal-->
+        <div th:insert="fragments/profile.html :: logoutModal"></div>
 
-    <!-- Logout Modal-->
-    <div th:insert="fragments/profile.html :: logoutModal"></div>
+        <div th:insert="fragments/sidebar.html :: script"></div>
+        <script type="text/javascript">
+            (function () {
+                'use strict'
 
-    <div th:insert="fragments/sidebar.html :: script"></div>
-    <script type="text/javascript">
-        (function () {
-            'use strict'
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.querySelectorAll('.needs-validation')
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.querySelectorAll('.needs-validation')
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (!form.checkValidity()) {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
 
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
+                            form.classList.add('was-validated')
+                        }, false)
+                    })
+            })()
+        </script>
 
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
-    </script>
-
-</body>
+    </body>
 
 </html>

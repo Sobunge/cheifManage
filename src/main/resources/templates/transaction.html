@@ -2,197 +2,207 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-<head th:insert="fragments/header.html :: header"></head>
+    <head th:insert="fragments/header.html :: header"></head>
 
-<body id="page-top">
+    <body id="page-top">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+        <!-- Page Wrapper -->
+        <div id="wrapper">
 
-        <!-- Sidebar -->
-        <div th:insert="fragments/sidebar.html :: sidebar"></div>
+            <!-- Sidebar -->
+            <div th:insert="fragments/sidebar.html :: sidebar"></div>
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
 
-            <!-- Main Content -->
-            <div id="content">
+                <!-- Main Content -->
+                <div id="content">
 
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Topbar -->
+                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-        
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb small" style="margin-top: 15px;">
-                            <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
-                            <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
-                            <li class="breadcrumb-item"><a th:href="@{/accounts/{id}(id = ${account.id})}">Account</a></li>
-                            <li class="breadcrumb-item"><a th:href="@{/accounts/{id}/transactions(id=${account.id})}">Contributions</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Contribution</li>
-                        </ol>
+                        <!-- Sidebar Toggle (Topbar) -->
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb small" style="margin-top: 15px;">
+                                <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
+                                <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
+                                <li class="breadcrumb-item"><a
+                                        th:href="@{/accounts/{id}(id = ${account.id})}">Account</a></li>
+                                <li class="breadcrumb-item"><a
+                                        th:href="@{/accounts/{id}/transactions(id=${account.id})}">Contributions</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">Contribution</li>
+                            </ol>
+                        </nav>
+
+                        <!-- Topbar Navbar -->
+                        <ul class="navbar-nav ml-auto">
+
+                            <div class="topbar-divider d-none d-sm-block"></div>
+
+                            <!-- Nav Item - User Information -->
+                            <div th:insert="fragments/profile.html :: userInfo"></div>
+
+                        </ul>
+
                     </nav>
-        
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-        
-                        <div class="topbar-divider d-none d-sm-block"></div>
-        
-                        <!-- Nav Item - User Information -->
-                        <div th:insert="fragments/profile.html :: userInfo"></div>
-        
-                    </ul>
-        
-                </nav>
-                <!-- End of Topbar -->
+                    <!-- End of Topbar -->
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <div th:fragment="pageHeader">
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">Contribution</h1>
-                            <a th:href="@{/accounts/{id}/transaction/{trans_id}/pdf(id = ${account.id}, trans_id = ${transaction.id})}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Print Receipt </a>
+                        <!-- Page Heading -->
+                        <div th:fragment="pageHeader">
+                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 class="h3 mb-0 text-gray-800">Contribution</h1>
+                                <a th:href="@{/accounts/{id}/transaction/{trans_id}/pdf(id = ${account.id}, trans_id = ${transaction.id})}"
+                                    class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                        class="fas fa-download fa-sm text-white-50"></i> Print Receipt </a>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="card">
-                        <div class="alert alert-danger" th:if="${transactionFail}" th:text="${transactionFail}">User exists</div>
-                        <div class="alert alert-success" th:if="${transactionSuccess}" th:text="${transactionSuccess}">User saved</div>
-              
-                        <div class="card-header"
-                            th:text="${' Acc Bal: ' + account.balance + ' - ' + account.user.firstName +  ' ' + account.user.thirdName + ' Contribution '}"></div>
-                        <div class="card-body">
-                            <form action="#" class="g-3 needs-validation" novalidate
-                                th:action="@{/accounts/{id}/transaction/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}"
-                                th:object="${transaction}" method="post">
-                                <div class="row">
-                                    <div class="mb-3 col-6">
-                                        <label for="id" class="form-label">Contribution Identifier</label>
-                                        <input type="text" th:field="*{referenceNumber}" class="form-control" id="idInput" placeholder="id"
-                                            disabled>
-                                    </div>
-                                    <div class="mb-3 col-6">
-                                        <label for="amount" class="form-label">Amount</label>
-                                        <input type="number" th:field="*{amount}" class="form-control" id="amountInput"
-                                            placeholder="Amount" disabled required>
-                                        <div class="valid-feedback">
-                                            Looks good!
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            Please enter amount.
-                                        </div>
-                                    </div>
-                                    <div class="mb-3 col-6">
-                                        <label for="date" class="form-label">Date</label>
-                                        <input type="text" th:field="*{date}" class="form-control" id="dateInput" placeholder="Date"
-                                            disabled>
-                                    </div>
-                                    <div class="mb-3 col-6">
-                                        <label for="time" class="form-label">Time</label>
-                                        <input type="text" th:field="*{time}" class="form-control" id="timeInput" placeholder="Time"
-                                            disabled>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="user" class="form-label">Owner</label>
-                                        <select class="form-select" id="userInput" name="userInput" disabled required>
-                                            <option selected th:value="${transaction.user.idNumber}"
-                                                th:text="${transaction.user.firstName + ' ' + transaction.user.secondName + ' ' + transaction.user.thirdName}">
-                                                Choose User...</option>
-                                            <th:block th:each="user : ${users}">
-                                                <option th:unless="${transaction.user.idNumber == user.idNumber}" th:value="${user.idNumber}"
-                                                    th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName + ' - ' + user.idNumber}">
-                                                    Admin</option>
-                                            </th:block>
-                                        </select>
-                                        <div class="valid-feedback">
-                                            Looks good!
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            Please choose an owner.
-                                        </div>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-success" id="changeDetails" style="display: none;">Change
-                                    Details</button>
-                            </form>
+                        <div class="card">
+                            <div class="alert alert-danger" th:if="${transactionFail}" th:text="${transactionFail}">User
+                                exists</div>
+                            <div class="alert alert-success" th:if="${transactionSuccess}"
+                                th:text="${transactionSuccess}">User saved</div>
 
-                            <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
-                                <button class="btn btn-primary" id="editDetails">Edit Details</button>
-                            </th:block>
-                        
+                            <div class="card-header"
+                                th:text="${' Acc Bal: ' + account.balance + ' - ' + account.user.firstName +  ' ' + account.user.thirdName + ' Contribution '}">
+                            </div>
+                            <div class="card-body">
+                                <form action="#" class="g-3 needs-validation" novalidate
+                                    th:action="@{/accounts/{id}/transaction/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}"
+                                    th:object="${transaction}" method="post">
+                                    <div class="row">
+                                        <div class="mb-3 col-6">
+                                            <label for="id" class="form-label">Contribution Identifier</label>
+                                            <input type="text" th:field="*{referenceNumber}" class="form-control"
+                                                id="idInput" placeholder="id" disabled>
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label for="amount" class="form-label">Amount</label>
+                                            <input type="number" th:field="*{amount}" class="form-control"
+                                                id="amountInput" placeholder="Amount" disabled required>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter amount.
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label for="date" class="form-label">Date</label>
+                                            <input type="text" th:field="*{date}" class="form-control" id="dateInput"
+                                                placeholder="Date" disabled>
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label for="time" class="form-label">Time</label>
+                                            <input type="text" th:field="*{time}" class="form-control" id="timeInput"
+                                                placeholder="Time" disabled>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="user" class="form-label">Owner</label>
+                                            <select class="form-select" id="userInput" name="userInput" disabled
+                                                required>
+                                                <option selected th:value="${transaction.user.idNumber}"
+                                                    th:text="${transaction.user.firstName + ' ' + transaction.user.secondName + ' ' + transaction.user.thirdName}">
+                                                    Choose User...</option>
+                                                <th:block th:each="user : ${users}">
+                                                    <option th:unless="${transaction.user.idNumber == user.idNumber}"
+                                                        th:value="${user.idNumber}"
+                                                        th:text="${user.firstName + ' ' + user.secondName + ' ' + user.thirdName + ' - ' + user.idNumber}">
+                                                        Admin</option>
+                                                </th:block>
+                                            </select>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please choose an owner.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-success" id="changeDetails"
+                                        style="display: none;">Change
+                                        Details</button>
+                                </form>
+
+                                <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
+                                    <button class="btn btn-primary" id="editDetails">Edit Details</button>
+                                </th:block>
+
+                            </div>
                         </div>
+
                     </div>
+                    <!-- /.container-fluid -->
 
                 </div>
-                <!-- /.container-fluid -->
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <div th:insert="fragments/header.html :: footer"></div>
+                <!-- End of Footer -->
 
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <div th:insert="fragments/header.html :: footer"></div>   
-            <!-- End of Footer -->
+            <!-- End of Content Wrapper -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Page Wrapper -->
 
-    </div>
-    <!-- End of Page Wrapper -->
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+        <!-- Logout Modal-->
+        <div th:insert="fragments/profile.html :: logoutModal"></div>
 
-    <!-- Logout Modal-->
-    <div th:insert="fragments/profile.html :: logoutModal"></div>
+        <div th:insert="fragments/sidebar.html :: script"></div>
+        <script type="text/javascript">
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function () {
+                'use strict'
 
-    <div th:insert="fragments/sidebar.html :: script"></div>
-    <script type="text/javascript">
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
-            'use strict'
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.querySelectorAll('.needs-validation')
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.querySelectorAll('.needs-validation')
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (!form.checkValidity()) {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
 
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
+                            form.classList.add('was-validated')
+                        }, false)
+                    })
+            })()
 
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
-
-        $("#editDetails").click(function () {
-            $("#changeDetails").show();
-            $("#editDetails").hide();
-            $("#amountInput").prop('disabled', false);
-            $("#userInput").prop('disabled', false);
+            $("#editDetails").click(function () {
+                $("#changeDetails").show();
+                $("#editDetails").hide();
+                $("#amountInput").prop('disabled', false);
+                $("#userInput").prop('disabled', false);
 
 
-        });
+            });
 
-        $("#changeDetails").submit(function (e) {
-            e.preventDefault();
-            $("#editDetails").show();
-            $("#changeDetails").hide();
-        });
+            $("#changeDetails").submit(function (e) {
+                e.preventDefault();
+                $("#editDetails").show();
+                $("#changeDetails").hide();
+            });
 
-    </script>
+        </script>
 
-</body>
+    </body>
 
-</html> 
+</html>

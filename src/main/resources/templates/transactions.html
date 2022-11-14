@@ -2,272 +2,282 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-<head th:insert="fragments/header.html :: header"></head>
+    <head th:insert="fragments/header.html :: header"></head>
 
-<body id="page-top">
+    <body id="page-top">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+        <!-- Page Wrapper -->
+        <div id="wrapper">
 
-        <!-- Sidebar -->
-        <div th:insert="fragments/sidebar.html :: sidebar"></div>
+            <!-- Sidebar -->
+            <div th:insert="fragments/sidebar.html :: sidebar"></div>
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
 
-            <!-- Main Content -->
-            <div id="content">
+                <!-- Main Content -->
+                <div id="content">
 
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Topbar -->
+                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb small" style="margin-top: 15px;">
-                            <th:block th:if="${user.role.name == 'USER'}">
-                                <li class="breadcrumb-item"><a th:href="@{/accounts/{id}(id = ${account.id})}">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Contributions</li>
-                            </th:block>
-                            <th:block th:if="${user.role.name != 'USER'}">
-                                <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
-                                <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
-                                <li class="breadcrumb-item"><a th:href="@{/accounts/{id}(id=${account.id})}">Account</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Contributions</li>
-                            </th:block>
-                        </ol>
-                    </nav>
-
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-
-                        <div class="topbar-divider d-none d-sm-block"></div>
-
-                        <!-- Nav Item - User Information -->
-                        <div th:insert="fragments/profile.html :: userInfo"></div>
-
-                    </ul>
-
-                </nav>
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"
-                            data-bs-toggle="modal" data-bs-target="#addTransactionModal">
-                            Add Contribution
+                        <!-- Sidebar Toggle (Topbar) -->
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
                         </button>
-                        <h1 class="h3 mb-0 text-gray-800" th:text="${account.user.firstName + ' ' + account.user.thirdName + ' Contributions'}"> Transactions </h1>
-                        <a th:href="@{/accounts/{id}/transactions/pdf(id = ${account.id})}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-                    </div>
 
-                    <br />
-                    <div class="card">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb small" style="margin-top: 15px;">
+                                <th:block th:if="${user.role.name == 'USER'}">
+                                    <li class="breadcrumb-item"><a
+                                            th:href="@{/accounts/{id}(id = ${account.id})}">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Contributions</li>
+                                </th:block>
+                                <th:block th:if="${user.role.name != 'USER'}">
+                                    <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
+                                    <li class="breadcrumb-item"><a th:href="@{/accounts}">Accounts</a></li>
+                                    <li class="breadcrumb-item"><a
+                                            th:href="@{/accounts/{id}(id=${account.id})}">Account</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Contributions</li>
+                                </th:block>
+                            </ol>
+                        </nav>
 
-                        <div class="alert alert-danger" th:if="${transactionFail}" th:text="${transactionFail}">User
-                            exists</div>
-                        <div class="alert alert-success" th:if="${transactionSuccess}" th:text="${transactionSuccess}">
-                            User saved</div>
+                        <!-- Topbar Navbar -->
+                        <ul class="navbar-nav ml-auto">
 
-                        <div class="card-header" th:text="${account.user.firstName + ' ' + account.user.thirdName + ' Account Bal:' + account.balance}"></div>
-                        <div class="card-body">
-                            <table id="transactionTable" class="table table-responsive-md" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">reference Number</th>
-                                        <th scope="col">Amount</th>
-                                        <th scope="col">Time</th>
-                                        <th scope="col">Date</th>
-                                        <th></th>
-                                        <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
+                            <div class="topbar-divider d-none d-sm-block"></div>
+
+                            <!-- Nav Item - User Information -->
+                            <div th:insert="fragments/profile.html :: userInfo"></div>
+
+                        </ul>
+
+                    </nav>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"
+                                data-bs-toggle="modal" data-bs-target="#addTransactionModal">
+                                Add Contribution
+                            </button>
+                            <h1 class="h3 mb-0 text-gray-800"
+                                th:text="${account.user.firstName + ' ' + account.user.thirdName + ' Contributions'}">
+                                Transactions </h1>
+                            <a th:href="@{/accounts/{id}/transactions/pdf(id = ${account.id})}"
+                                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                    class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        </div>
+
+                        <br />
+                        <div class="card">
+
+                            <div class="alert alert-danger" th:if="${transactionFail}" th:text="${transactionFail}">User
+                                exists</div>
+                            <div class="alert alert-success" th:if="${transactionSuccess}"
+                                th:text="${transactionSuccess}">
+                                User saved</div>
+
+                            <div class="card-header"
+                                th:text="${account.user.firstName + ' ' + account.user.thirdName + ' Account Bal:' + account.balance}">
+                            </div>
+                            <div class="card-body">
+                                <table id="transactionTable" class="table table-responsive-md" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">reference Number</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Time</th>
+                                            <th scope="col">Date</th>
                                             <th></th>
-                                        </th:block>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <th:block>
-                                        <tr th:each="transaction, itr : ${transactions}">
-                                            <th scope="row" th:text="${itr.count}">1</th>
-                                            <th scope="row" th:text="${transaction.referenceNumber}"></th>
-                                            <td th:text="${transaction.amount}"></td>
-                                            <td th:text="${transaction.time}"></td>
-                                            <td th:text="${transaction.date}"></td>
-                                            <td><a class="btn btn-primary"
-                                                    th:href="@{/accounts/{id}/transaction/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}">View</a>
-                                            </td>
                                             <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
-                                                <td><a data-bs-toggle="modal" href="#"
-                                                    data-bs-target="#deleteTransactionModal"
-                                                    th:data-href="@{/accounts/{id}/transactions/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}"
-                                                    class="btn btn-danger"> Delete <i
-                                                        class="fas fa-fw fa-trash-alt"></i></a></td>
+                                                <th></th>
                                             </th:block>
                                         </tr>
-                                    </th:block>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <th:block>
+                                            <tr th:each="transaction, itr : ${transactions}">
+                                                <th scope="row" th:text="${itr.count}">1</th>
+                                                <th scope="row" th:text="${transaction.referenceNumber}"></th>
+                                                <td th:text="${transaction.amount}"></td>
+                                                <td th:text="${transaction.time}"></td>
+                                                <td th:text="${transaction.date}"></td>
+                                                <td><a class="btn btn-primary"
+                                                        th:href="@{/accounts/{id}/transaction/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}">View</a>
+                                                </td>
+                                                <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
+                                                    <td><a data-bs-toggle="modal" href="#"
+                                                            data-bs-target="#deleteTransactionModal"
+                                                            th:data-href="@{/accounts/{id}/transactions/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}"
+                                                            class="btn btn-danger"> Delete <i
+                                                                class="fas fa-fw fa-trash-alt"></i></a></td>
+                                                </th:block>
+                                            </tr>
+                                        </th:block>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Add a saving transaction model -->
+                    <div class="modal fade" id="addTransactionModal" tabindex="-1"
+                        aria-labelledby="addTransactionModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addTransactionModalLabel">
+                                        Add Contribution</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="g-3 needs-validation" action="#"
+                                        th:action="@{/accounts/{id}/transaction(id = ${account.id})}"
+                                        th:object="${transaction}" method="post" novalidate>
+                                        <input type="text" id="typeInput" name="typeInput" value="Saving" hidden>
+                                        <div class="mb-3">
+                                            <label for="amount" class="form-label"> Amount </label>
+                                            <input type="number" th:field="*{amount}" class="form-control"
+                                                id="amountInput" placeholder="Amount" min="1" required>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter amount.
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="referenceNumber" class="form-label"> Reference Number </label>
+                                            <input type="text" th:field="*{referenceNumber}" class="form-control"
+                                                id="referenceNumberInput" placeholder="Reference Number" required>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter reference number.
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <button type="submit" class="btn btn-success">Add Contribution</button>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                </div>
-
-                <!-- Add a saving transaction model -->
-                <div class="modal fade" id="addTransactionModal" tabindex="-1"
-                    aria-labelledby="addTransactionModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addTransactionModalLabel">
-                                    Add Contribution</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form class="g-3 needs-validation" action="#"
-                                    th:action="@{/accounts/{id}/transaction(id = ${account.id})}"
-                                    th:object="${transaction}" method="post" novalidate>
-                                    <input type="text" id="typeInput" name="typeInput" value="Saving" hidden>
-                                    <div class="mb-3">
-                                        <label for="amount" class="form-label"> Amount </label>
-                                        <input type="number" th:field="*{amount}" class="form-control" id="amountInput"
-                                            placeholder="Amount" min="1" required>
-                                        <div class="valid-feedback">
-                                            Looks good!
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            Please enter amount.
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="referenceNumber" class="form-label"> Reference Number </label>
-                                        <input type="text" th:field="*{referenceNumber}" class="form-control"
-                                            id="referenceNumberInput" placeholder="Reference Number" required>
-                                        <div class="valid-feedback">
-                                            Looks good!
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            Please enter reference number.
-                                        </div>
-                                    </div>
-                                    <br />
-                                    <button type="submit" class="btn btn-success">Add Contribution</button>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <!-- Delete a transaction model -->
+                    <div class="modal fade" id="deleteTransactionModal" tabindex="-1"
+                        aria-labelledby="deleteTransactionModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-danger" id="deleteTransactionModalLabel">Delete
+                                        Contribution
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="text-danger">Contribution details and information
+                                        will be deleted and will not be recovered. Are you sure you want
+                                        to delete?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">No! Don't
+                                        Delete
+                                        <i class="fas fa-fw fa-times"></i></button>
+                                    <a class="btn btn-danger ok-button">Yes! Delete <i
+                                            class="fas fa-fw fa-trash-alt"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <!-- /.container-fluid -->
 
-                <!-- Delete a transaction model -->
-                <div class="modal fade" id="deleteTransactionModal" tabindex="-1"
-                    aria-labelledby="deleteTransactionModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title text-danger" id="deleteTransactionModalLabel">Delete Contribution
-                                </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p class="text-danger">Contribution details and information
-                                    will be deleted and will not be recovered. Are you sure you want
-                                    to delete?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-success" data-bs-dismiss="modal">No! Don't Delete
-                                    <i class="fas fa-fw fa-times"></i></button>
-                                <a class="btn btn-danger ok-button">Yes! Delete <i
-                                        class="fas fa-fw fa-trash-alt"></i></a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <!-- /.container-fluid -->
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <div th:insert="fragments/header.html :: footer"></div>
+                <!-- End of Footer -->
 
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <div th:insert="fragments/header.html :: footer"></div>
-            <!-- End of Footer -->
+            <!-- End of Content Wrapper -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Page Wrapper -->
 
-    </div>
-    <!-- End of Page Wrapper -->
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+        <!-- Logout Modal-->
+        <div th:insert="fragments/profile.html :: logoutModal"></div>
 
-    <!-- Logout Modal-->
-    <div th:insert="fragments/profile.html :: logoutModal"></div>
+        <div></div>
 
-    <div></div>
+        <div th:insert="fragments/sidebar.html :: script"></div>
 
-    <div th:insert="fragments/sidebar.html :: script"></div>
+        <script type="text/javascript">
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function () {
+                'use strict'
 
-    <script type="text/javascript">
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
-            'use strict'
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.querySelectorAll('.needs-validation')
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.querySelectorAll('.needs-validation')
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (!form.checkValidity()) {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
 
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
+                            form.classList.add('was-validated')
+                        }, false)
+                    })
+            })()
 
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
+            $('#deleteTransactionModal').on(
+                'show.bs.modal',
+                function (e) {
+                    $(this).find('.ok-button').attr('href',
+                        $(e.relatedTarget).data('href'));
+                });
 
-        $('#deleteTransactionModal').on(
-            'show.bs.modal',
-            function (e) {
-                $(this).find('.ok-button').attr('href',
-                    $(e.relatedTarget).data('href'));
+            $("#editDetails").click(function () {
+                $("#changeDetails").show();
+                $("#editDetails").hide();
+                $("#descriptionInput").prop('disabled', false);
+
             });
 
-        $("#editDetails").click(function () {
-            $("#changeDetails").show();
-            $("#editDetails").hide();
-            $("#descriptionInput").prop('disabled', false);
+            $("#changeDetails").submit(function (e) {
+                e.preventDefault();
+                $("#editDetails").show();
+                $("#changeDetails").hide();
+            });
 
-        });
+            $(document).ready(function () {
+                $('#transactionTable').DataTable();
+            });
 
-        $("#changeDetails").submit(function (e) {
-            e.preventDefault();
-            $("#editDetails").show();
-            $("#changeDetails").hide();
-        });
+        </script>
 
-        $(document).ready(function () {
-            $('#transactionTable').DataTable();
-        });
-
-    </script>
-
-</body>
+    </body>
 
 </html>

@@ -2,80 +2,80 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-<head th:insert="fragments/header.html :: header"></head>
+    <head th:insert="fragments/header.html :: header"></head>
 
-<body id="page-top">
+    <body id="page-top">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+        <!-- Page Wrapper -->
+        <div id="wrapper">
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column" style="background-color: white;">
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column" style="background-color: white;">
 
-            <!-- Main Content -->
-            <div id="content">
+                <!-- Main Content -->
+                <div id="content">
 
-                <!-- Begin Page Content -->
+                    <!-- Begin Page Content -->
 
-                <div class="d-flex flex-column mb-4" style="text-align:center;">
+                    <div class="d-flex flex-column mb-4" style="text-align:center;">
 
-                    <div class="row d-flex justify-content-center">
-                        <h3 style="font-weight:bold;">Kenya National Chief</h3>
+                        <div class="row d-flex justify-content-center">
+                            <h3 style="font-weight:bold;">Kenya National Chief</h3>
+                        </div>
+                        <div class="row d-flex justify-content-center">
+                            <h4 style="font-weight:700;">Statement</h4>
+                        </div>
+
                     </div>
-                    <div class="row d-flex justify-content-center">
-                        <h4 style="font-weight:700;">Statement</h4>
+
+
+                    <div class="card">
+
+                        <div class="card-header"
+                            th:text="${' Acc Bal: ' + account.balance + ' - ' + account.user.firstName +  ' ' + account.user.thirdName + ' Statement '}">
+                        </div>
+                        <div class="card-body">
+                            <form action="#">
+                                <div class="row">
+                                    <div class="mb-3 col-6">
+                                        <label for="id" class="form-label">Reference Number</label>
+                                        <input type="text" class="form-control" id="idInput"
+                                            th:value="${transaction.referenceNumber}" disabled>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label for="amount" class="form-label">Amount</label>
+                                        <input type="number" class="form-control" id="amountInput"
+                                            th:value="${transaction.amount}" disabled required>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label for="date" class="form-label">Date</label>
+                                        <input type="text" class="form-control" id="dateInput"
+                                            th:value="${transaction.date}" disabled>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label for="time" class="form-label">Time</label>
+                                        <input type="text" class="form-control" id="timeInput"
+                                            th:value="${transaction.time}" disabled>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                        </div>
                     </div>
+
+                    <!-- container-fluid -->
 
                 </div>
-
-
-                <div class="card">
-
-                    <div class="card-header"
-                        th:text="${' Acc Bal: ' + account.balance + ' - ' + account.user.firstName +  ' ' + account.user.thirdName + ' Statement '}">
-                    </div>
-                    <div class="card-body">
-                        <form action="#">
-                            <div class="row">
-                                <div class="mb-3 col-6">
-                                    <label for="id" class="form-label">Reference Number</label>
-                                    <input type="text" class="form-control" id="idInput"
-                                        th:value="${transaction.referenceNumber}" disabled>
-                                </div>
-                                <div class="mb-3 col-6">
-                                    <label for="amount" class="form-label">Amount</label>
-                                    <input type="number" class="form-control" id="amountInput"
-                                        th:value="${transaction.amount}" disabled required>
-                                </div>
-                                <div class="mb-3 col-6">
-                                    <label for="date" class="form-label">Date</label>
-                                    <input type="text" class="form-control" id="dateInput"
-                                        th:value="${transaction.date}" disabled>
-                                </div>
-                                <div class="mb-3 col-6">
-                                    <label for="time" class="form-label">Time</label>
-                                    <input type="text" class="form-control" id="timeInput"
-                                        th:value="${transaction.time}" disabled>
-                                </div>
-
-                            </div>
-
-                        </form>
-
-                    </div>
-                </div>
-
-                <!-- container-fluid -->
+                <!-- End of Main Content -->
 
             </div>
-            <!-- End of Main Content -->
+            <!-- End of Content Wrapper -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Page Wrapper -->
 
-    </div>
-    <!-- End of Page Wrapper -->
-
-</body>
+    </body>
 
 </html>

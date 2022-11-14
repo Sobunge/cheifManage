@@ -2,142 +2,143 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap CSS -->
-    <link th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}" rel="stylesheet" />
+        <!-- Bootstrap CSS -->
+        <link th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}" rel="stylesheet" />
 
-    <title>user</title>
+        <title>user</title>
 
-</head>
+    </head>
 
-<body>
+    <body>
 
-    <span th:fragment="sidebar">
-        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
-            style="background-color: #4d4c4a; height: 100%;">
+        <span th:fragment="sidebar">
+            <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
+                style="background-color: #4d4c4a; height: 100%;">
 
-            <!-- Sidebar - Brand -->
-            <th:block th:if="${user.role.name == 'USER'}">
-                <a th:href="@{/accounts/{id}(id = ${account.id})}">
-                    <div class="sidebar-brand-text"
-                        style="font-size: 20px; font-family:'Ptarmigan', sans-serif; color:whitesmoke; padding-left: 20px;">
-                        <span id="title">  National Chiefs Forum Of Kenya </span>
-                    </div>
-                </a>
-            </th:block>
-            <th:block th:if="${user.role.name != 'USER'}">
-                <a th:href="@{/users}">
-                    <div class="sidebar-brand-text"
-                        style="font-size: 20px; font-family:'Ptarmigan', sans-serif; color:whitesmoke; padding-left: 20px;">
-                        <span id="title">  National Chiefs Forum Of Kenya </span>
-                    </div>
-                </a>
-            </th:block>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <th:block th:if="${user.role.name != 'USER'}">
-                    <a class="nav-link" th:href="@{/users}">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span></a>
-                </th:block>
+                <!-- Sidebar - Brand -->
                 <th:block th:if="${user.role.name == 'USER'}">
-                    <a class="nav-link" th:href="@{/accounts/{id}(id = ${account.id})}">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span></a>
-                </th:block>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Interface
-            </div>
-
-            <li class="nav-item">
-                <th:block th:if="${user.role.name != 'USER'}">
-                    <a class="nav-link" th:href="@{/users}">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>users</span></a>
-                </th:block>
-            </li>
-            <li class="nav-item">
-                <th:block th:if="${user.role.name != 'USER'}">
-                    <a class="nav-link" th:href="@{/user}">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Add User</span></a>
-                </th:block>
-            </li>
-            <li class="nav-item">
-                <th:block th:if="${user.role.name != 'USER'}">
-                    <a class="nav-link" th:href="@{/accounts}">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Accounts</span></a>
-                </th:block>
-            </li>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <th:block th:if="${user.role.name != 'USER'}">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                        aria-expanded="true" aria-controls="collapseTwo">
-                        <i class="fas fa-fw fa-cog"></i>
-                        <span>Statements</span>
-                    </a>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Custom Components:</h6>
-                            <a class="collapse-item" href="buttons.html">Buttons</a>
-                            <a class="collapse-item" href="cards.html">Cards</a>
+                    <a th:href="@{/accounts/{id}(id = ${account.id})}">
+                        <div class="sidebar-brand-text"
+                            style="font-size: 20px; font-family:'Ptarmigan', sans-serif; color:whitesmoke; padding-left: 20px;">
+                            <span id="title"> National Chiefs Forum Of Kenya </span>
                         </div>
-                    </div>
+                    </a>
                 </th:block>
-            </li>
+                <th:block th:if="${user.role.name != 'USER'}">
+                    <a th:href="@{/users}">
+                        <div class="sidebar-brand-text"
+                            style="font-size: 20px; font-family:'Ptarmigan', sans-serif; color:whitesmoke; padding-left: 20px;">
+                            <span id="title"> National Chiefs Forum Of Kenya </span>
+                        </div>
+                    </a>
+                </th:block>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item active">
+                    <th:block th:if="${user.role.name != 'USER'}">
+                        <a class="nav-link" th:href="@{/users}">
+                            <i class="fas fa-fw fa-tachometer-alt"></i>
+                            <span>Dashboard</span></a>
+                    </th:block>
+                    <th:block th:if="${user.role.name == 'USER'}">
+                        <a class="nav-link" th:href="@{/accounts/{id}(id = ${account.id})}">
+                            <i class="fas fa-fw fa-tachometer-alt"></i>
+                            <span>Dashboard</span></a>
+                    </th:block>
+                </li>
 
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Interface
+                </div>
+
+                <li class="nav-item">
+                    <th:block th:if="${user.role.name != 'USER'}">
+                        <a class="nav-link" th:href="@{/users}">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>users</span></a>
+                    </th:block>
+                </li>
+                <li class="nav-item">
+                    <th:block th:if="${user.role.name != 'USER'}">
+                        <a class="nav-link" th:href="@{/user}">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Add User</span></a>
+                    </th:block>
+                </li>
+                <li class="nav-item">
+                    <th:block th:if="${user.role.name != 'USER'}">
+                        <a class="nav-link" th:href="@{/accounts}">
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <span>Accounts</span></a>
+                    </th:block>
+                </li>
+
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <th:block th:if="${user.role.name != 'USER'}">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                            aria-expanded="true" aria-controls="collapseTwo">
+                            <i class="fas fa-fw fa-cog"></i>
+                            <span>Statements</span>
+                        </a>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Custom Components:</h6>
+                                <a class="collapse-item" href="buttons.html">Buttons</a>
+                                <a class="collapse-item" href="cards.html">Cards</a>
+                            </div>
+                        </div>
+                    </th:block>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+                <!-- Sidebar Toggler (Sidebar) -->
+                <div class="text-center d-none d-md-inline">
+                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                </div>
 
 
-        </ul>
-    </span>
+            </ul>
+        </span>
 
-    <!-- End of Sidebar -->
+        <!-- End of Sidebar -->
 
-    <div th:fragment="script">
-        <!-- Jquery -->
-        <script th:src="@{/webjars/jquery/3.6.1/jquery.min.js}"></script>
+        <div th:fragment="script">
+            <!-- Jquery -->
+            <script th:src="@{/webjars/jquery/3.6.1/jquery.min.js}"></script>
 
-        <script th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.bundle.min.js }"></script>
+            <script th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.bundle.min.js }"></script>
 
-        <!-- Custom scripts for all pages-->
-        <script th:src="@{/js/sb-admin-2.min.js}"></script>
+            <!-- Custom scripts for all pages-->
+            <script th:src="@{/js/sb-admin-2.min.js}"></script>
 
-        <!-- Page level plugins -->
-        <script th:src="@{/datatables/jquery.dataTables.min.js}"></script>
-        <script th:src="@{/datatables/dataTables.bootstrap4.min.js}"></script>
+            <!-- Page level plugins -->
+            <script th:src="@{/datatables/jquery.dataTables.min.js}"></script>
+            <script th:src="@{/datatables/dataTables.bootstrap4.min.js}"></script>
 
-        <!-- Page level custom scripts -->
-        <script th:src="@{/js/datatables-demo.js}"></script>
+            <!-- Page level custom scripts -->
+            <script th:src="@{/js/datatables-demo.js}"></script>
 
-    </div>
+        </div>
 
-</body>
+    </body>
 
 </html>
