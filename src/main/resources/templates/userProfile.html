@@ -246,9 +246,12 @@
                                 <button id="changeDetails" type="submit" class="btn btn-success"
                                     style="display: none;">Submit</button>
                             </form>
-
-                            <button class="btn btn-primary" onClick="toggleEdit()" id="editDetails"> Edit Details
-                            </button>
+ 
+                            <th:block th:if="${user.idNumber == newUser.idNumber || user.role.name == 'SUPER_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name != 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && newUser.role.name == 'USER'}">
+                                <button class="btn btn-primary" onClick="toggleEdit()" id="editDetails"> Edit Details
+                                </button>
+                            </th:block>
+                           
                         </div>
                     </div>
                 </div>
