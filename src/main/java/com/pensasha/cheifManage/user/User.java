@@ -25,7 +25,10 @@ public class User {
     @NotNull
     @Column(length = 15)
     @Size(min = 2, max = 15)
-    private String firstName, secondName, thirdName;
+    private String firstName, thirdName;
+
+    @Column(length = 15)
+    private String secondName;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;

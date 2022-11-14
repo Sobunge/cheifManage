@@ -54,23 +54,23 @@
             <div class="mb-3 col-md">
                 <label for="firstName" class="form-label">First Name</label>
                 <input type="text" th:field="*{firstName}" class="form-control" id="firstNameInput"
-                    placeholder="First Name" required />
+                    placeholder="First Name" minlength="2" required />
                 <div class="valid-feedback">Looks good!</div>
-                <div class="invalid-feedback">Please provide First Name.</div>
+                <div class="invalid-feedback">Please provide full First Name.</div>
             </div>
             <div class="mb-3 col-md">
-                <label for="secondName" class="form-label">Second Name</label>
+                <label for="secondName" class="form-label">Middle Name</label>
                 <input type="text" th:field="*{secondName}" class="form-control" id="secondNameInput"
-                    placeholder="Second Name" required />
+                    placeholder="Second Name" />
                 <div class="valid-feedback">Looks good!</div>
-                <div class="invalid-feedback">Please provide Second Name.</div>
+                <div class="invalid-feedback">Please provide full Middle Name.</div>
             </div>
             <div class="mb-3 col-md">
-                <label for="thirdName" class="form-label">Third Name</label>
+                <label for="thirdName" class="form-label">Sir Name</label>
                 <input type="text" th:field="*{thirdName}" class="form-control" id="thirdNameInput"
-                    placeholder="Third Name" required />
+                    placeholder="Third Name" minlength="2" required />
                 <div class="valid-feedback">Looks good!</div>
-                <div class="invalid-feedback">Please provide a Third Name.</div>
+                <div class="invalid-feedback">Please provide a full Third Name.</div>
             </div>
         </div>
         <div class="mb-3">

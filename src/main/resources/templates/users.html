@@ -74,7 +74,8 @@
                     <th>Id Number</th>
                     <th>Phone Number</th>
                     <th></th>
-                    <th:block th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER'}">
+                    <th:block
+                      th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER'}">
                       <th></th>
                     </th:block>
                   </tr>
@@ -88,11 +89,16 @@
                     <td th:text="${'0' + u.phoneNumber}">Phone Number</td>
                     <td> <a class="btn btn-primary" th:href="@{/users/{idNumber}(idNumber = ${u.idNumber})}"> View </a>
                     </td>
-                    <th:block th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name != 'SUPER_ADMIN'}">
-                      <td> <a class="btn btn-danger" th:href="@{/user/{idNumber}(idNumber = ${u.idNumber})}"
-                          th:unless="${u == user}"> Delete </a> </td>
+                    <th:block
+                      th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name != 'SUPER_ADMIN'}">
+                      <td>
+                        <a data-bs-toggle="modal" href="#" data-bs-target="#deleteUserModal"
+                          th:data-href="@{/user/{idNumber}(idNumber = ${u.idNumber})}" class="btn btn-danger"
+                          th:unless="${u == user}"> <i class="fas fa-fw fa-trash-alt"></i> Delete </a>
+                      </td>
                     </th:block>
-                    <th:block  th:unless="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name != 'SUPER_ADMIN'}">
+                    <th:block
+                      th:unless="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name != 'SUPER_ADMIN'}">
                       <td>
                     </th:block>
                   </tr>
@@ -105,7 +111,8 @@
                     <th>Id Number</th>
                     <th>Phone Number</th>
                     <th></th>
-                    <th:block th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER'}">
+                    <th:block
+                      th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER'}">
                       <th></th>
                     </th:block>
                   </tr>
