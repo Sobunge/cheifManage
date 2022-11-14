@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Kenya National Chiefs</title>
+    <title> National Chiefs Forum Of Kenya</title>
 
     <!-- Bootstrap CSS -->
     <link th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}" rel="stylesheet" />
@@ -122,7 +122,11 @@
                 <th:block th:if="${user.role.name == 'COUNTY_ADMIN'}">
                     <option th:value="${roles[3]}" th:text="${roles[3]}">Account Manager</option>
                 </th:block>
-                <th:block th:each="r : ${roles}" th:unless="${user.role.name == 'COUNTY_ADMIN'}">
+                <th:block th:if="${user.role.name == 'ACCOUNTS_MANAGER'}">
+                    <option th:value="${roles[3]}" th:text="${roles[1]}">Account Manager</option>
+                    <option th:value="${roles[3]}" th:text="${roles[3]}">Account Manager</option>
+                </th:block>
+                <th:block th:each="r : ${roles}" th:if="${user.role.name == 'SUPER_ADMIN'}">
                     <option th:value="${r}" th:text="${r}">Account Manager</option>
                 </th:block>
             </select>

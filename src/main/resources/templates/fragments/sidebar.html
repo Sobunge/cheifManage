@@ -25,7 +25,7 @@
                 <a th:href="@{/accounts/{id}(id = ${account.id})}">
                     <div class="sidebar-brand-text"
                         style="font-size: 20px; font-family:'Ptarmigan', sans-serif; color:whitesmoke; padding-left: 20px;">
-                        <span id="title"> Kenya National Chiefs </span>
+                        <span id="title">  National Chiefs Forum Of Kenya </span>
                     </div>
                 </a>
             </th:block>
@@ -33,7 +33,7 @@
                 <a th:href="@{/users}">
                     <div class="sidebar-brand-text"
                         style="font-size: 20px; font-family:'Ptarmigan', sans-serif; color:whitesmoke; padding-left: 20px;">
-                        <span id="title"> Kenya National Chiefs </span>
+                        <span id="title">  National Chiefs Forum Of Kenya </span>
                     </div>
                 </a>
             </th:block>
@@ -71,7 +71,7 @@
                 </th:block>
             </li>
             <li class="nav-item">
-                <th:block th:if="${user.role.name != 'USER' && user.role.name != 'ACCOUNTS_MANAGER'}">
+                <th:block th:if="${user.role.name != 'USER'}">
                     <a class="nav-link" th:href="@{/user}">
                         <i class="fas fa-fw fa-chart-area"></i>
                         <span>Add User</span></a>
