@@ -1,6 +1,7 @@
 package com.pensasha.cheifManage.user;
 
 import java.security.Principal;
+import java.util.LinkedHashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -39,19 +40,44 @@ public class UserController {
     @Autowired
     private ServletContext servletContext;
 
-    //private final String baseUrl = "http://localhost:8081/";
+    // private final String baseUrl = "http://localhost:8081/";
     private final String baseUrl = "https://analytica-school.herokuapp.com/";
 
     private final TemplateEngine templateEngine;
-    
+
     public UserController(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
 
-    private final Gender[] gender = { Gender.Male, Gender.Female };
-    private final Title[] title = { Title.CHIEF, Title.ASSISTANT_CHIEF};
-    private final Role[] role = { Role.ACCOUNTS_MANAGER, Role.COUNTY_ADMIN, Role.SUPER_ADMIN, Role.USER };
-
+    private final LinkedHashMap<Gender, String> gender = new LinkedHashMap<Gender, String>(){
+        {
+            put(Gender.Male, "Male");
+            put(Gender.Female, "Female");
+        };
+    };
+    private final LinkedHashMap<Title, String> titles = new LinkedHashMap<Title, String>() {
+        {
+            put(Title.SNR_CHIEF, "Senior Chief");
+            put(Title.SNR_ASS_CHIEF, "Senior Assistant Chief");
+            put(Title.PRINCIPAL_CHIEF, "Principal Chief");
+            put(Title.CHIEF, "Chief");
+            put(Title.ASSISTANT_CHIEF, "Assistant Chief");
+            put(Title.SNR_CHIEF_1, "Senior Chief I");
+            put(Title.SNR_ASS_CHIEF_1, "Senior Assistant Chief I");
+            put(Title.SNR_CHIEF_2, "Senior Chief II");
+            put(Title.SNR_ASS_CHIEF_2, "Senior Assistant Chief II");
+           
+        };
+    };
+    private final LinkedHashMap<Role, String> roles = new LinkedHashMap<Role, String>(){
+        {
+            put(Role.ACCOUNTS_MANAGER, "Accounts Manager");
+            put(Role.COUNTY_ADMIN, "County Admin");
+            put(Role.SUPER_ADMIN, "Super Admin");
+            put(Role.USER, "User");
+        };
+    };
+   
     // Get all user
     @GetMapping("/users")
     public String gettingAllUsers(Model model, Principal principal) {
@@ -63,7 +89,7 @@ public class UserController {
     }
 
     @GetMapping("/users/pdf")
-    public ResponseEntity<?> getUsersReport(HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<?> getUsersReport(HttpServletRequest request, HttpServletResponse response) {
 
         WebContext context = new WebContext(request, response, this.servletContext);
         context.setVariable("users", userService.getAllUsers());
@@ -75,7 +101,7 @@ public class UserController {
         HtmlConverter.convertToPdf(usersListHtml, target, converterProperties);
         byte[] bytes = target.toByteArray();
 
-        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes); 
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes);
     }
 
     @GetMapping("/user")
@@ -85,17 +111,17 @@ public class UserController {
         model.addAttribute("account", accountService.getAccountByUserIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("newUser", new User());
         model.addAttribute("genders", gender);
-        model.addAttribute("titles", title);
-        model.addAttribute("roles", role);
+        model.addAttribute("titles", titles);
+        model.addAttribute("roles", roles);
 
         return "addUser";
     }
 
     @GetMapping("/user/pdf")
-    public ResponseEntity<?> getRegistrationForm(HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<?> getRegistrationForm(HttpServletRequest request, HttpServletResponse response) {
 
         WebContext context = new WebContext(request, response, this.servletContext);
-    
+
         String registrationHtml = this.templateEngine.process("reports/registrationPdf", context);
         ByteArrayOutputStream target = new ByteArrayOutputStream();
         ConverterProperties converterProperties = new ConverterProperties();
@@ -103,7 +129,7 @@ public class UserController {
         HtmlConverter.convertToPdf(registrationHtml, target, converterProperties);
         byte[] bytes = target.toByteArray();
 
-        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes); 
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes);
     }
 
     // Adding user details
@@ -143,17 +169,18 @@ public class UserController {
     @GetMapping("/user/{idNumber}")
     public RedirectView deleteUser(@PathVariable int idNumber, RedirectAttributes redit) {
 
-        if(userService.doesUserExist(idNumber) != true){
+        if (userService.doesUserExist(idNumber) != true) {
             redit.addFlashAttribute("fail", "A user of id number: " + idNumber + " does not exist");
-        }else{
+        } else {
 
             User user = userService.getUserByIdNumber(idNumber);
-            
+
             Account account = accountService.getAccountByUserIdNumber(idNumber);
             accountService.deleteAccount(account.getId());
 
             userService.deleteUserDetails(idNumber);
-            redit.addFlashAttribute("success", user.getFirstName() + " " + user.getThirdName() + " successfully removed");
+            redit.addFlashAttribute("success",
+                    user.getFirstName() + " " + user.getThirdName() + " successfully removed");
         }
 
         return new RedirectView("/users", true);
@@ -167,21 +194,22 @@ public class UserController {
         model.addAttribute("account", accountService.getAccountByUserIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("newUser", userService.getUserByIdNumber(idNumber));
         model.addAttribute("genders", gender);
-        model.addAttribute("titles", title);
-        model.addAttribute("roles", role);
+        model.addAttribute("titles", titles);
+        model.addAttribute("roles", roles);
 
         return "userProfile";
     }
 
     // Updating user details
     @PostMapping("/users/{idNumber}")
-    public RedirectView updateUserDetails(@PathVariable int idNumber, @ModelAttribute User user, RedirectAttributes redit) {
+    public RedirectView updateUserDetails(@PathVariable int idNumber, @ModelAttribute User user,
+            RedirectAttributes redit) {
 
-        if(userService.doesUserExist(idNumber)){
+        if (userService.doesUserExist(idNumber)) {
             userService.updateUserDetails(user, idNumber);
 
             redit.addFlashAttribute("success", "Details successfully updated");
-        }else{
+        } else {
             redit.addFlashAttribute("fail", "A user of id number:" + idNumber + " does not exist");
         }
 
