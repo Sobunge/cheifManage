@@ -136,8 +136,11 @@
                                     <label for="role" class="form-label">Roles</label>
                                     <select class="form-select" id="roleInput" th:field="*{role}" th:name="role"
                                         required>
-                                        <option selected disabled th:value="${null}">Choose Role...</option>
-                                        <th:block th:each="r : ${roles}">
+                                        <option selected disabled>Choose Role...</option>
+                                        <th:block th:if="user.role.name == 'COUNTY_ADMIN'">
+                                            <option th:value="${roles[3]}" th:text="${roles[3]}">User</option>
+                                        </th:block>
+                                        <th:block th:each="r : ${roles}" th:unless="${user.role.name == 'COUNTY_ADMIN'}">
                                             <option th:value="${r}" th:text="${r}">Account Manager</option>
                                         </th:block>
                                     </select>

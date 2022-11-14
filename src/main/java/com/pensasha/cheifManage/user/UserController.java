@@ -52,8 +52,6 @@ public class UserController {
     private final Title[] title = { Title.CHIEF, Title.ASSISTANT_CHIEF};
     private final Role[] role = { Role.ACCOUNTS_MANAGER, Role.COUNTY_ADMIN, Role.SUPER_ADMIN, Role.USER };
 
-
-
     // Get all user
     @GetMapping("/users")
     public String gettingAllUsers(Model model, Principal principal) {
