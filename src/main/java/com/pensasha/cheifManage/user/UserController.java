@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import org.thymeleaf.TemplateEngine;
@@ -49,7 +52,7 @@ public class UserController {
         this.templateEngine = templateEngine;
     }
 
-    private final LinkedHashMap<Gender, String> gender = new LinkedHashMap<Gender, String>(){
+    private final LinkedHashMap<Gender, String> gender = new LinkedHashMap<Gender, String>() {
         {
             put(Gender.Male, "Male");
             put(Gender.Female, "Female");
@@ -66,10 +69,10 @@ public class UserController {
             put(Title.SNR_ASS_CHIEF_1, "Senior Assistant Chief I");
             put(Title.SNR_CHIEF_2, "Senior Chief II");
             put(Title.SNR_ASS_CHIEF_2, "Senior Assistant Chief II");
-           
+
         };
     };
-    private final LinkedHashMap<Role, String> roles = new LinkedHashMap<Role, String>(){
+    private final LinkedHashMap<Role, String> roles = new LinkedHashMap<Role, String>() {
         {
             put(Role.ACCOUNTS_MANAGER, "Accounts Manager");
             put(Role.COUNTY_ADMIN, "County Admin");
@@ -77,7 +80,7 @@ public class UserController {
             put(Role.USER, "User");
         };
     };
-   
+
     // Get all user
     @GetMapping("/users")
     public String gettingAllUsers(Model model, Principal principal) {
@@ -163,6 +166,27 @@ public class UserController {
 
         return redirectView;
 
+    }
+
+    // CHanging user password
+    @PostMapping("/user/{idNumber}/changePassword")
+    public RedirectView changePassword(@PathVariable int idNumber, RedirectAttributes redit,
+            @RequestParam String currentPass, @RequestParam String newPass) {
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        User user = userService.getUserByIdNumber(idNumber);
+
+        if(encoder.matches(currentPass, user.getPassword())){
+
+            user.setPassword(encoder.encode(newPass));
+            userService.addUser(user);
+
+            redit.addFlashAttribute("success", "Password successfully changed");
+        }else{
+            redit.addFlashAttribute("fail", "Password entered does not match current password");
+        }
+
+        return new RedirectView("/users/" + idNumber, true);
     }
 
     // Deleting a user
