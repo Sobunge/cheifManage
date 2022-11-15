@@ -18,24 +18,33 @@
 
         <span th:fragment="sidebar">
             <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
-                style="background-color: #4d4c4a; height: 100%;">
+                style="background-color: #4d4c4a; height: 100%">
 
                 <!-- Sidebar - Brand -->
                 <th:block th:if="${user.role.name == 'USER'}">
-                    <a th:href="@{/accounts/{id}(id = ${account.id})}">
-                        <div class="sidebar-brand-text"
-                            style="font-size: 20px; font-family:'Ptarmigan', sans-serif; color:whitesmoke; padding-left: 20px;">
-                            <span id="title"> National Chiefs Forum Of Kenya </span>
+
+                    <nav class="navbar">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" th:href="@{/accounts/{id}(id = ${account.id})}" id="title"
+                                style="margin:auto;">
+                                <img th:src="@{/img/logo.png}" alt="Logo" width="40" height="34"
+                                    class="d-inline-block align-text-top">
+                            </a>
                         </div>
-                    </a>
+                    </nav>
+
                 </th:block>
                 <th:block th:if="${user.role.name != 'USER'}">
-                    <a th:href="@{/users}">
-                        <div class="sidebar-brand-text"
-                            style="font-size: 20px; font-family:'Ptarmigan', sans-serif; color:whitesmoke; padding-left: 20px;">
-                            <span id="title"> National Chiefs Forum Of Kenya </span>
+
+                    <nav class="navbar">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" th:href="@{/users}" id="title" style="margin:auto;">
+                                <img th:src="@{/img/logo.png}" alt="Logo" width="40" height="34"
+                                    class="d-inline-block align-text-top">
+                            </a>
                         </div>
-                    </a>
+                    </nav>
+
                 </th:block>
 
                 <!-- Divider -->
@@ -112,9 +121,8 @@
 
                 <!-- Sidebar Toggler (Sidebar) -->
                 <div class="text-center d-none d-md-inline">
-                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                    <button class="rounded-circle border-0" id="sidebarToggle" onclick="smsmss()"></button>
                 </div>
-
 
             </ul>
         </span>
