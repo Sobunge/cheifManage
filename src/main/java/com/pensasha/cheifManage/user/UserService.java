@@ -23,20 +23,17 @@ public class UserService {
 
     // Updating user details
     public User updateUserDetails(User user, int idNumber) {
+    
         User existingUser = userRepository.findById(idNumber).get();
 
         Account account = accountService.getAccountByUserIdNumber(idNumber);
 
-        User tempUser = new User(user.getFirstName(), user.getSecondName(), user.getThirdName(),
-                user.getGender(), idNumber, user.getEmail(), user.getResidentialAddress(), user.getCounty(),
-                user.getDivision(), user.getLocation(), user.getSubLocation(), user.getTitle(), user.getPhoneNumber(),
-                existingUser.getPassword(), user.getRole());
-
-        userRepository.save(tempUser);
+        user.setPassword(existingUser.getPassword());
+        userRepository.save(user);
 
         accountService.addAccount(account);
 
-        return tempUser;
+        return user;
     }
 
     // Getting all users

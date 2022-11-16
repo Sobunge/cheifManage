@@ -219,7 +219,7 @@ public class UserController {
         model.addAttribute("titles", titles);
         model.addAttribute("roles", roles);
 
-        return "userProfile";
+        return "userProfile"; 
     }
 
     // Updating user details
