@@ -29,7 +29,6 @@
             <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
             <link th:href="@{/datatables/dataTables.bootstrap4.min.css}" rel="stylesheet">
             <style>
-
                 #title {
                     color: whitesmoke;
                 }
@@ -39,7 +38,6 @@
                         color: transparent;
                     }
                 }
-
             </style>
 
         </head>
@@ -122,14 +120,17 @@
                 <div class="mb-3">
                     <label for="role" class="form-label">Roles</label>
                     <select class="form-select" id="roleInput" th:field="*{role}" th:name="role" required>
-                        <option selected disabled th:value="${null}">Choose Role...</option>
-                        <th:block th:if="${user.role.name == 'COUNTY_ADMIN'}">
-                            <option th:value="${roles[3]['key']}" th:text="${roles[3]}">Account Manager</option>
+                        <option selected disabled th:value="${null}">
+                            Choose Role...
+                        </option>
+                        <th:block th:each="r : ${roles}" th:if="${user.role.name == 'COUNTY_ADMIN'}">
+                            <option th:if="${r['value'] == 'User'}" th:value="${r['key']}" th:text="${r['value']}">
+                                Account Manager</option>
                         </th:block>
-                        <th:block th:if="${user.role.name == 'ACCOUNTS_MANAGER'}">
-                            <option th:value="${roles[0]['key']}" th:text="${roles[0]}">Account Manager</option>
-                            <option th:value="${roles[2]['key']}" th:text="${roles[2]}">Account Manager</option>
-                            <option th:value="${roles[3]['key']}" th:text="${roles[3]}">Account Manager</option>
+                        <th:block th:each="r : ${roles}" th:if="${user.role.name == 'ACCOUNTS_MANAGER'}">
+                            <option th:if="${r['value'] != 'Super Admin'}" th:value="${r['key']}"
+                                th:text="${r['value']}">
+                                Account Manager</option>
                         </th:block>
                         <th:block th:each="r : ${roles}" th:if="${user.role.name == 'SUPER_ADMIN'}">
                             <option th:value="${r['key']}" th:text="${r['value']}">Account Manager</option>
