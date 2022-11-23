@@ -1,13 +1,19 @@
 package com.pensasha.cheifManage.user;
 
+import java.util.Collection;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pensasha.cheifManage.message.Message;
 import com.pensasha.cheifManage.role.Role;
 
 import lombok.AllArgsConstructor;
@@ -58,5 +64,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "recievers", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Collection<Message> messages;
 
 }

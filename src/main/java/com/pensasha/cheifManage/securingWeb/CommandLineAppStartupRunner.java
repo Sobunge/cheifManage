@@ -28,10 +28,10 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
         User admin = new User("Samuel", "Odhiambo", "Obunge", Gender.Male, 32906735, "samuelobunge@gmail.com", "Riat",
                 "Kisumu", "Kogony", "Kisumu West", "Central", Title.CHIEF, 0707335375, encoder.encode("samuel1995"),
-                Role.SUPER_ADMIN);
+                Role.SUPER_ADMIN, null);
                 User admin1 = new User("Jack", "Evans", "Madiwa", Gender.Male, 11111111, "samuelobunge@gmail.com", "Riat",
                 "Kisumu", "Kogony", "Kisumu West", "Central", Title.CHIEF, 0700000000, encoder.encode("madiwa"),
-                Role.SUPER_ADMIN);
+                Role.SUPER_ADMIN, null);
 
         userService.addUser(admin);
         userService.addUser(admin1);
