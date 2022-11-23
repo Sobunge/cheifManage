@@ -21,6 +21,11 @@ public class MessageService {
         return messageRepository.findAllByRecieversIdNumber(idNumber);
     }
 
+    //Get all my unread messages
+    public List<Message> getMyUnreadMessages(int idNumber, Status status){
+        return messageRepository.findAllByRecieversIdNumberAndStatus(idNumber, status);
+    }
+
     // Get a message
     public Message getMyMessage(Long id) {
         return messageRepository.findById(id).get();
