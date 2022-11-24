@@ -29,7 +29,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb small" style="margin-top: 15px;">
                                 <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Accounts</li>
+                                <li class="breadcrumb-item active" aria-current="page" th:text="${title}">Inbox</li>
                             </ol>
                         </nav>
 
@@ -54,15 +54,15 @@
                         <!-- Page Heading -->
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 class="h3 mb-0 text-gray-800" th:text="${title}"> Messages </h1>
-                            <a th:href="@{#}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                            <a th:href="@{/users/{idNumber}/message(idNumber = ${user.idNumber})}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                     class="fas fa-download fa-sm text-white-50"></i> Compose Message</a>
                         </div>
 
                         <div class="card">
                             <div class="card-body">
-                                <div class="alert alert-danger" th:if="${accountFail}" th:text="${accountFail}">Account
+                                <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Account
                                     exists</div>
-                                <div class="alert alert-success" th:if="${accountSuccess}" th:text="${accountSuccess}">
+                                <div class="alert alert-success" th:if="${success}" th:text="${success}">
                                     Account saved
                                 </div>
 
@@ -70,8 +70,10 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Sender</th>
+                                            <th>Subject</th>
                                             <th>Message</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
                                             <th></th>
                                             <th></th>
                                         </tr>
@@ -79,8 +81,10 @@
                                     <tbody>
                                         <tr th:each="message, iter : ${messages}">
                                             <td th:text="${iter.count}">Counter</td>
-                                            <td th:text="${message.sender}">Account Name</td>•
-                                            <td th:text="${message.message}">Balance/td>
+                                            <td th:text="${message.subject}">Subject</td>•
+                                            <td th:text="${message.mail}">Message</td>
+                                            <td th:text="${#dates.format(message.date, 'dd-MM-yyyy')}">Date</td>
+                                            <td th:text="${#dates.format(message.date, 'hh:mm:s a')}">Time</td>
                                             <td> <button class="btn btn-primary">View</button> </td>
                                             <td> <a class="btn btn-danger" th:href="@{#}" th:unless="${u == user}">
                                                     Delete </a> </td>
@@ -89,8 +93,10 @@
                                     <tfoot>
                                         <tr>
                                             <th>#</th>
-                                            <th>Sender</th>
+                                            <th>Subject</th>
                                             <th>Message</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
                                             <th></th>
                                             <th></th>
                                         </tr>

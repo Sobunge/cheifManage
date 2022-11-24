@@ -29,7 +29,10 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb small" style="margin-top: 15px;">
                                 <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Accounts</li>
+                                <li class="breadcrumb-item"><a
+                                        th:href="@{/users/{idNumber}/recievedMessages(idNumber = ${user.idNumber})}">Messages</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">Compose Message</li>
                             </ol>
                         </nav>
 
@@ -53,16 +56,57 @@
 
                         <!-- Page Heading -->
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800"> Compose </h1>
+                            <h1 class="h3 mb-0 text-gray-800"> Compose Message</h1>
                         </div>
 
                         <div class="card">
                             <div class="card-body">
-                                <div class="alert alert-danger" th:if="${accountFail}" th:text="${accountFail}">Account
+                                <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Account
                                     exists</div>
-                                <div class="alert alert-success" th:if="${accountSuccess}" th:text="${accountSuccess}">
+                                <div class="alert alert-success" th:if="${success}" th:text="${success}">
                                     Account saved
                                 </div>
+
+                                <form class="g-3 needs-validation" action="#"
+                                    th:action="@{/users/{idNumber}/message(idNumber = ${user.idNumber})}"
+                                    th:object="${mail}" method="post" novalidate>
+                                    <div class="mb-2">
+                                        <label for="disabledSenderInput" class="form-label">From:</label>
+                                        <input type="text" id="disabledSenderInput" class="form-control"
+                                            th:placeholder="${user.firstName + ' ' + user.thirdName + ' '}"
+                                            th:value="${user.firstName + ' ' + user.thirdName + ' '}" disabled>
+                                    </div>
+
+                                    <div class="mb-1">
+                                        <label class="form-check-label">To: </label>
+                                    </div>
+                                    <div class="mb-2">
+                                        <th:block th:each="title : ${titles}" class="mb-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox"
+                                                    th:value="${title['key']}" th:name="${title['key'] + 'Input'}">
+                                                <label class="form-check-label" for="inlineCheckbox"
+                                                    th:text="${title['value']}">Chiefs</label>
+                                            </div>
+                                        </th:block>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="disabledTextInput" class="form-label">Subject</label>
+                                        <input type="text" id="disabledTextInput" class="form-control"
+                                            placeholder="subject" th:field="*{subject}" >
+                                    </div>
+                                    <div>
+                                        <label> Message </label>
+                                        <div class="form-floating mb-3">
+                                            <textarea class="form-control" placeholder="Leave a comment here"
+                                                id="floatingTextarea2" style="height: 100px" th:field="*{mail}" maxlength="400"></textarea>
+                                            <label for="floatingTextarea2">Write message ... </label>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Send</button>
+                                </form>
 
                             </div>
                         </div>

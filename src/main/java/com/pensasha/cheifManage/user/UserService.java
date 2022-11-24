@@ -1,5 +1,7 @@
 package com.pensasha.cheifManage.user;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +57,11 @@ public class UserService {
     // Does user exist
     public Boolean doesUserExist(int idNumber) {
         return userRepository.existsById(idNumber);
+    }
+
+    //User with a title
+    public List<User> usersWithTitle(Title title){
+        return userRepository.findAllByTitle(title);
     }
 
 }

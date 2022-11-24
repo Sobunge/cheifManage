@@ -35,7 +35,8 @@ public class Message {
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "user_messages", joinColumns = @JoinColumn(name = "message_id"), inverseJoinColumns = @JoinColumn(name = "id_number"))
     private List<User> recievers;
-    private String message;
+    private String subject;
+    private String mail;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
