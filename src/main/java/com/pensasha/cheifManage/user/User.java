@@ -9,6 +9,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -69,4 +70,6 @@ public class User {
     @ManyToMany(mappedBy = "recievers", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Collection<Message> messages;
 
+    @OneToMany(mappedBy = "sender", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Collection<Message> sms;
 }

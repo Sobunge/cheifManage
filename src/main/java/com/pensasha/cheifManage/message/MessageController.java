@@ -94,7 +94,7 @@ public class MessageController {
             RedirectAttributes redit, Principal principal) {
 
         mail.setStatus(Status.UNREAD);
-        mail.setSender(idNumber);
+        mail.setSender(userService.getUserByIdNumber(idNumber));
 
         Date date = new Date();
         mail.setDate(date);
