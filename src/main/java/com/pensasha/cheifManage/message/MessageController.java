@@ -46,9 +46,19 @@ public class MessageController {
 
     // Get a message
     @GetMapping("/users/{idNumber}/messages/{id}")
-    public String getMessage(@PathVariable int idNumber, @PathVariable Long id) {
+    public String getMessage(@PathVariable int idNumber, @PathVariable Long id, Model model, Principal principal) {
+
+        model.addAttribute("user", userService.getUserByIdNumber(idNumber));
 
         return "message";
+    }
+
+    @GetMapping("/users/{idNumber}/message")
+    public String composeMessage(@PathVariable int idNumber, Model model, Principal principal){
+
+        model.addAttribute("user", userService.getUserByIdNumber(idNumber));
+
+        return "compose";
     }
 
     // send a message

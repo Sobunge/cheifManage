@@ -73,6 +73,11 @@
                 </div>
 
                 <li class="nav-item">
+                    <a class="nav-link" th:href="@{#}">
+                        <i class="fas fa-fw fa-chart-area"></i><span>Messages</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <th:block th:if="${user.role.name != 'USER'}">
                         <a class="nav-link" th:href="@{/users}">
                             <i class="fas fa-fw fa-chart-area"></i>
