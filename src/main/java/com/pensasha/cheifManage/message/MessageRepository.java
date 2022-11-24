@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long>{
  
-    public List<Message> findAllBySender(int idNumber);
+    public List<Message> findAllBySenderIdNumber(int idNumber);
     public List<Message> findAllByRecieversIdNumber(int idNumber);
     public List<Message> findAllByRecieversIdNumberAndStatus(int idNumber, Status status);
 }

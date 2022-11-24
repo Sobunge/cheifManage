@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -53,7 +52,18 @@ public class MessageController {
 
         model.addAttribute("title", "Sent Messages");
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));
-        model.addAttribute("messages", messageService.getMySentMessages(idNumber));
+        
+        List<Message> sentMessages = messageService.getMySentMessages(idNumber);
+        model.addAttribute("sentMessages", sentMessages);
+
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        model.addAttribute("messages", messages);
+    
+        int count = 0;
+        for(int i=0; i<messages.size(); i++){
+            count++;
+        }
+        model.addAttribute("messageCount", count);
 
         return "messages";
     }
@@ -64,7 +74,14 @@ public class MessageController {
 
         model.addAttribute("title", "Inbox");
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));
-        model.addAttribute("messages", messageService.getMyMessages(idNumber));
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        model.addAttribute("messages", messages);
+    
+        int count = 0;
+        for(int i=0; i<messages.size(); i++){
+            count++;
+        }
+        model.addAttribute("messageCount", count);
 
         return "messages";
     }
@@ -84,6 +101,14 @@ public class MessageController {
         model.addAttribute("titles", titles);
         model.addAttribute("mail", new Message());
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        model.addAttribute("messages", messages);
+    
+        int count = 0;
+        for(int i=0; i<messages.size(); i++){
+            count++;
+        }
+        model.addAttribute("messageCount", count);
 
         return "compose";
     }
@@ -102,7 +127,8 @@ public class MessageController {
         List<User> users = new ArrayList<>();
         for (Title t : Title.values()) {
             if (request.getParameter(t.name() + "Input") != null) {
-                users.addAll(userService.usersWithTitle(t));
+                    users.addAll(userService.usersWithTitle(t));
+                    users.remove(userService.getUserByIdNumber(idNumber));
             }
         }
         mail.setRecievers(users);

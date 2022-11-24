@@ -90,18 +90,15 @@ public class UserController {
     @GetMapping("/users")
     public String gettingAllUsers(Model model, Principal principal) {
 
-        int count = 0;
-
-        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
-
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("users", userService.getAllUsers());
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
         model.addAttribute("messages", messages);
-        
-        for(Message m : messages){
+    
+        int count = 0;
+        for(int i=0; i<messages.size(); i++){
             count++;
         }
-
         model.addAttribute("messageCount", count);
 
         return "users";
@@ -132,6 +129,14 @@ public class UserController {
         model.addAttribute("genders", gender);
         model.addAttribute("titles", titles);
         model.addAttribute("roles", roles);
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        model.addAttribute("messages", messages);
+    
+        int count = 0;
+        for(int i=0; i<messages.size(); i++){
+            count++;
+        }
+        model.addAttribute("messageCount", count);
 
         return "addUser";
     }
@@ -236,6 +241,14 @@ public class UserController {
         model.addAttribute("genders", gender);
         model.addAttribute("titles", titles);
         model.addAttribute("roles", roles);
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        model.addAttribute("messages", messages);
+    
+        int count = 0;
+        for(int i=0; i<messages.size(); i++){
+            count++;
+        }
+        model.addAttribute("messageCount", count);
 
         return "userProfile"; 
     }

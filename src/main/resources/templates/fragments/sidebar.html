@@ -71,18 +71,18 @@
                 <div class="sidebar-heading">
                     Interface
                 </div>
-
+            
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#messagePages"
                         aria-expanded="true" aria-controls="messagePages">
                         <i class="fas fa-fw fa-folder"></i>
-                        <span>Messages</span>
+                        <span>Messages <span class="badge badge-danger" style="font-size: 10px;" th:text="${messageCount}" th:if="${messageCount > 0}"> 2 </span> </span>
                     </a>
                     <div id="messagePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Message Screens:</h6>
                             <a class="collapse-item" th:href="@{/users/{idNumber}/message(idNumber = ${user.idNumber})}">Compose Message</a>
-                            <a class="collapse-item" th:href="@{/users/{idNumber}/recievedMessages(idNumber = ${user.idNumber})}">Inbox</a>
+                            <a class="collapse-item" th:href="@{/users/{idNumber}/recievedMessages(idNumber = ${user.idNumber})}">Inbox <span class="badge badge-danger badge-counter" style="font-size: 9px;" th:text="${messageCount}" th:if="${messageCount > 0}">7</span> </a>
                             <a class="collapse-item" th:href="@{/users/{idNumber}/sentMessages(idNumber = ${user.idNumber})}">Sent Messages</a>
                             <div class="collapse-divider"></div>
                         </div>

@@ -46,6 +46,8 @@
                         <!-- Topbar Navbar -->
                         <ul class="navbar-nav ml-auto">
 
+                            <div th:insert="fragments/profile.html :: userMessages"></div>
+
                             <div class="topbar-divider d-none d-sm-block"></div>
 
                             <!-- Nav Item - User Information -->
@@ -108,14 +110,14 @@
                                                 <td th:text="${transaction.amount}"></td>
                                                 <td th:text="${transaction.time}"></td>
                                                 <td th:text="${transaction.date}"></td>
-                                                <td><a class="btn btn-primary"
+                                                <td><a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
                                                         th:href="@{/accounts/{id}/transaction/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}">View</a>
                                                 </td>
                                                 <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
                                                     <td><a data-bs-toggle="modal" href="#"
                                                             data-bs-target="#deleteTransactionModal"
                                                             th:data-href="@{/accounts/{id}/transactions/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}"
-                                                            class="btn btn-danger"> Delete <i
+                                                            class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"> Delete <i
                                                                 class="fas fa-fw fa-trash-alt"></i></a></td>
                                                 </th:block>
                                             </tr>
@@ -166,11 +168,11 @@
                                             </div>
                                         </div>
                                         <br />
-                                        <button type="submit" class="btn btn-success">Add Contribution</button>
+                                        <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">Contribute</button>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>

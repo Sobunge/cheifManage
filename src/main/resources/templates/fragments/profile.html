@@ -45,6 +45,11 @@
                         <h6 class="dropdown-header">
                             Message Center
                         </h6>
+                        <th:block th:if="${messages.isEmpty()}">
+                            <div style="text-align: center;" class="p-3">
+                                No messages
+                            </div>
+                        </th:block>
                         <th:block th:each="message : ${messages}">
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="dropdown-list-image mr-3">
@@ -106,8 +111,8 @@
                             <div class="modal-body">Select "Logout" below if you are ready to end your current session.
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-                                <a class="btn btn-danger" href="/?logout">Logout</a>
+                                <button class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm" type="button" data-bs-dismiss="modal">Cancel</button>
+                                <a class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" href="/?logout">Logout</a>
                             </div>
                         </div>
                     </div>

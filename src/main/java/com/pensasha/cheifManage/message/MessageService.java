@@ -13,7 +13,7 @@ public class MessageService {
 
     // Get all messages sent by user
     public List<Message> getMySentMessages(int idNumber) {
-        return messageRepository.findAllBySender(idNumber);
+        return messageRepository.findAllBySenderIdNumber(idNumber);
     }
 
     // Get all messages received as a user

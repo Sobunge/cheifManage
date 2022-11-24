@@ -1,6 +1,7 @@
 package com.pensasha.cheifManage.account;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,9 @@ import org.thymeleaf.context.WebContext;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.io.source.ByteArrayOutputStream;
+import com.pensasha.cheifManage.message.Message;
+import com.pensasha.cheifManage.message.Status;
+import com.pensasha.cheifManage.message.MessageService;
 import com.pensasha.cheifManage.transaction.Transaction;
 import com.pensasha.cheifManage.transaction.TransactionService;
 import com.pensasha.cheifManage.user.User;
@@ -34,6 +38,7 @@ public class AccountController {
     @Autowired AccountService accountService;
     @Autowired TransactionService transactionService;
     @Autowired UserService userService;
+    @Autowired MessageService messageService;
 
     @Autowired
     private ServletContext servletContext;
@@ -54,6 +59,15 @@ public class AccountController {
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("account", new Account());
         model.addAttribute("accounts", accountService.allAccount());
+    
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        model.addAttribute("messages", messages);
+    
+        int count = 0;
+        for(int i=0; i<messages.size(); i++){
+            count++;
+        }
+        model.addAttribute("messageCount", count);
         
         return "accounts";
     }
@@ -82,6 +96,14 @@ public class AccountController {
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("account", accountService.getAccount(id));
         model.addAttribute("transactions", transactionService.getAllTransactionForAccount(id));
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        model.addAttribute("messages", messages);
+    
+        int count = 0;
+        for(int i=0; i<messages.size(); i++){
+            count++;
+        }
+        model.addAttribute("messageCount", count);
 
         return "account";
     }
@@ -126,8 +148,6 @@ public class AccountController {
         }else{
             redit.addFlashAttribute("accountFail", "Account does not exist.");
         }
-
-       
 
         return new RedirectView("/accounts/" + id, true);
     }

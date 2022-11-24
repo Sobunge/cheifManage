@@ -43,6 +43,8 @@
                         <!-- Topbar Navbar -->
                         <ul class="navbar-nav ml-auto">
 
+                            <div th:insert="fragments/profile.html :: userMessages"></div>
+
                             <div class="topbar-divider d-none d-sm-block"></div>
 
                             <!-- Nav Item - User Information -->
@@ -117,7 +119,7 @@
                                     <button type="submit" class="btn btn-success" style="display: none;"
                                         id="changeDetails">Change Details</button>
                                 </form>
-                                <button class="btn btn-primary" id="editDetails">Edit Details</button>
+                                <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="editDetails">Edit Details</button>
                             </div>
                         </div>
 
@@ -162,11 +164,11 @@
                                             </div>
                                         </div>
                                         <br />
-                                        <button type="submit" class="btn btn-success">Submit</button>
+                                        <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">Contribute</button>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>

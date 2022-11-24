@@ -45,6 +45,9 @@
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
+
+              <div th:insert="fragments/profile.html :: userMessages"></div>
+
               <div class="topbar-divider d-none d-sm-block"></div>
 
               <!-- Nav Item - User Information -->
@@ -294,15 +297,15 @@
                     </div>
                   </div>
 
-                  <button id="changeDetails" type="submit" class="btn btn-success" style="display: none">
-                    Submit
+                  <button id="changeDetails" type="submit" class="btn btn-sm btn-success shadow-sm" style="display: none">
+                    Save Changes
                   </button>
                 </form>
 
                 <th:block
                   th:if="${user.idNumber == newUser.idNumber || user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && newUser.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'COUNTY_ADMIN'}">
-                  <button class="btn btn-primary" onClick="toggleEdit()" id="editDetails">
-                    Edit Details
+                  <button class="btn btn-sm btn-primary shadow-sm" onClick="toggleEdit()" id="editDetails">
+                    Edit Profile
                   </button>
                 </th:block>
               </div>
@@ -354,13 +357,13 @@
                     </div>
                   </div>
 
-                  <button type="submit" class="btn btn-success">Change Password</button>
+                  <button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">Change Password</button>
 
                 </form>
 
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" data-bs-dismiss="modal">
                   Close
                 </button>
               </div>
