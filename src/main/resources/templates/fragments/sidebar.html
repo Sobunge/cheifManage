@@ -73,9 +73,20 @@
                 </div>
 
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{#}">
-                        <i class="fas fa-fw fa-chart-area"></i><span>Messages</span>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#messagePages"
+                        aria-expanded="true" aria-controls="messagePages">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>Messages</span>
                     </a>
+                    <div id="messagePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Message Screens:</h6>
+                            <a class="collapse-item" th:href="@{/users/{idNumber}/message(idNumber = ${user.idNumber})}">Compose Message</a>
+                            <a class="collapse-item" th:href="@{/users/{idNumber}/recievedMessages(idNumber = ${user.idNumber})}">Inbox</a>
+                            <a class="collapse-item" th:href="@{/users/{idNumber}/sentMessages(idNumber = ${user.idNumber})}">Sent Messages</a>
+                            <div class="collapse-divider"></div>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <th:block th:if="${user.role.name != 'USER'}">
@@ -91,6 +102,7 @@
                             <span>Add User</span></a>
                     </th:block>
                 </li>
+
                 <li class="nav-item">
                     <th:block th:if="${user.role.name != 'USER'}">
                         <a class="nav-link" th:href="@{/accounts}">
