@@ -12,6 +12,15 @@
     <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/ptarmigan">
 
     <title>National Chiefs Forum Of Kenya</title>
+
+    <style>
+      @media (max-width: 767.98px) { 
+        #siteLabel{
+          font-size: 20px;
+        }
+      }
+    </style>
+
   </head>
 
   <body style="background-color:#dadde2;">
@@ -20,7 +29,7 @@
       <div class="container">
         <a class="navbar-brand fs-2" href="#" style="font-family:'Ptarmigan', sans-serif; color: #4d4c4a;">
           <img th:src="@{/img/logo.png}" alt="Logo" width="65" height="50" class="d-inline-block align-text-top">
-           National Chiefs Forum Of Kenya
+           <span id="siteLabel"> National Chiefs Forum Of Kenya </span>
         </a>
       </div>
     </nav>
@@ -72,7 +81,7 @@
                   </div>
                   <div class="carousel-item" data-bs-interval="20000">
                     <img th:src="@{/img/finance02.jpg}" class="d-block w-100" alt="...">
-                    <div class="carousel-captio">
+                    <div class="carousel-caption">
                       <h4>Your finances, safe and secure</h4>
                       <p>With 256-bit encryption and multi-factor authentication, we
                         protect your info as if it’s our own.</p>

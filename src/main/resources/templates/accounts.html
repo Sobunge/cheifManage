@@ -79,9 +79,9 @@
                   <tbody>
                     <tr th:each="ac, iter : ${accounts}">
                       <td th:text="${iter.count}">Counter</td>
-                      <td th:text="${ac.user.firstName + ' ' + ac.user.thirdName}">Account Name</td>•
+                      <td th:text="${ac.user.firstName + ' ' + ac.user.thirdName}">Account Name</td>
                       <td th:text="${ac.balance}">Balance/td>
-                      <td> <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" th:href="@{/accounts/{id}(id = ${ac.id})}"> View </a>
+                      <td> <a class="btn btn-sm btn-primary shadow-sm" th:href="@{/accounts/{id}(id = ${ac.id})}"> View </a>
                       </td>
                       <th:block th:if="${user.role.name == 'ADMIN'}">
                         <td> <a class="btn btn-sm btn-danger shadow-sm" th:href="@{/account/{id}(id = ${ac.id})}"
