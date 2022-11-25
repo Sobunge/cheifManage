@@ -55,7 +55,7 @@
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 class="h3 mb-0 text-gray-800" th:text="${title}"> Messages </h1>
                             <a th:href="@{/users/{idNumber}/message(idNumber = ${user.idNumber})}"
-                                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="btn btn-sm btn-primary shadow-sm"><i
                                     class="fas fa-download fa-sm text-white-50"></i> Compose Message</a>
                         </div>
 
@@ -67,7 +67,7 @@
                                     Account saved
                                 </div>
 
-                                <table id="accountsTable" class="table table-responsive-md" style="width:100%">
+                                <table id="messagesTable" class="table table-responsive-md" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>#</th>
@@ -88,8 +88,9 @@
                                                 <td th:text="${message.mail}">Message</td>
                                                 <td th:text="${#dates.format(message.date, 'dd-MM-yyyy')}">Date</td>
                                                 <td th:text="${#dates.format(message.date, 'hh:mm:s a')}">Time</td>
-                                                <td> <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">View</button> </td>
-                                                <td> <a class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm" th:href="@{#}">
+                                                <td> <button class="btn btn-sm btn-primary shadow-sm">View</button>
+                                                </td>
+                                                <td> <a class="btn btn-sm btn-danger shadow-sm" th:href="@{#}">
                                                         Delete </a> </td>
                                             </tr>
                                         </th:block>
@@ -101,7 +102,8 @@
                                                 <td th:text="${message.mail}">Message</td>
                                                 <td th:text="${#dates.format(message.date, 'dd-MM-yyyy')}">Date</td>
                                                 <td th:text="${#dates.format(message.date, 'hh:mm:s a')}">Time</td>
-                                                <td> <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">View</button> </td>
+                                                <td> <button class="btn btn-sm btn-primary shadow-sm">View</button>
+                                                </td>
                                             </tr>
                                         </th:block>
                                     </tbody>
@@ -140,24 +142,23 @@
             <i class="fas fa-angle-up"></i>
         </a>
 
-        <!-- Delete a user model -->
-        <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel"
+        <!-- Delete a message model -->
+        <div class="modal fade" id="deleteMessageModal" tabindex="-1" aria-labelledby="deleteMessageModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title text-danger" id="deleteAccountModalLabel">Delete User</h5>
+                        <h5 class="modal-title text-danger" id="deleteMessageModalLabel">Delete Message</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p class="text-danger">All account details and information
-                            will be deleted and will not be recovered. Are you sure you want
+                        <p class="text-danger">This message will be deleted and will not be recovered. Are you sure you want
                             to delete?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">No! Don't Delete <i
+                        <button type="button" class="btn btn-sm btn-success shadow-sm" data-bs-dismiss="modal">No! Don't Delete <i
                                 class="fas fa-fw fa-times"></i></button>
-                        <a class="btn btn-danger ok-button">Yes! Delete <i class="fas fa-fw fa-trash-alt"></i></a>
+                        <a class="btn btn-sm btn-danger shadow-sm ok-button">Yes! Delete <i class="fas fa-fw fa-trash-alt"></i></a>
                     </div>
                 </div>
             </div>
@@ -195,14 +196,14 @@
                 });
             })();
 
-            $("#deleteAccountModal").on("show.bs.modal", function (e) {
+            $("#deleteMessageModal").on("show.bs.modal", function (e) {
                 $(this)
                     .find(".ok-button")
                     .attr("href", $(e.relatedTarget).data("href"));
             });
 
             $(document).ready(function () {
-                $('#accountsTable').DataTable();
+                $('#messagesTable').DataTable();
             });
 
         </script>
