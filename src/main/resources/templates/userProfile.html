@@ -80,7 +80,7 @@
                   <div class="row">
                     <div class="mb-3 col-md">
                       <label for="firstName" class="form-label">First Name</label>
-                      <input type="text" th:field="*{firstName}" class="form-control" id="firstNameInput"
+                      <input type="text" th:field="*{firstName}" class="form-control form-control-sm" id="firstNameInput"
                         placeholder="First Name" minlength="2" disabled required />
                       <div class="valid-feedback">Looks good!</div>
                       <div class="invalid-feedback">
@@ -89,7 +89,7 @@
                     </div>
                     <div class="mb-3 col-md">
                       <label for="secondName" class="form-label">Middle Name</label>
-                      <input type="text" th:field="*{secondName}" class="form-control" id="secondNameInput"
+                      <input type="text" th:field="*{secondName}" class="form-control form-control-sm" id="secondNameInput"
                         placeholder="Second Name" disabled />
                       <div class="valid-feedback">Looks good!</div>
                       <div class="invalid-feedback">
@@ -98,7 +98,7 @@
                     </div>
                     <div class="mb-3 col-md">
                       <label for="thirdName" class="form-label">Sir Name</label>
-                      <input type="text" th:field="*{thirdName}" class="form-control" id="thirdNameInput"
+                      <input type="text" th:field="*{thirdName}" class="form-control form-control-sm" id="thirdNameInput"
                         placeholder="Third Name" minlength="2" disabled required />
                       <div class="valid-feedback">Looks good!</div>
                       <div class="invalid-feedback">
@@ -109,14 +109,14 @@
                   <th:block
                     th:if="${user == newUser || user.role.name == 'SUPER_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'COUNTY_ADMIN' || user.role.name == 'COUNTY_ADMIN' && newUser.role.name == 'USER'}">
                     <div class="mb-3">
-                      <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      <button type="button" class="btn btn-link btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Change password
                       </button>
                     </div>
                   </th:block>
                   <div class="mb-3">
                     <label for="idNumber" class="form-label">Id Number</label>
-                    <input type="number" th:field="*{idNumber}" class="form-control" id="idNumberInput"
+                    <input type="number" th:field="*{idNumber}" class="form-control form-control-sm" id="idNumberInput"
                       placeholder="Id Number" disabled required min="1000000" />
                     <div class="valid-feedback">Looks good!</div>
                     <div class="invalid-feedback">
@@ -125,7 +125,7 @@
                   </div>
                   <div class="mb-3">
                     <label for="gender" class="form-label">Gender</label>
-                    <select class="form-select" th:field="*{gender}" id="genderInput" th:name="gender" disabled
+                    <select class="form-select form-select-sm" th:field="*{gender}" id="genderInput" th:name="gender" disabled
                       required>
                       <option selected disabled value="">
                         Choose Gender...
@@ -143,7 +143,7 @@
                   </div>
                   <div class="mb-3">
                     <label for="residentialAddress" class="form-label">Residential Address</label>
-                    <input type="text" th:field="*{residentialAddress}" class="form-control"
+                    <input type="text" th:field="*{residentialAddress}" class="form-control form-control-sm"
                       id="residentialAddressInput" placeholder="Residential Address" disabled />
                     <div class="valid-feedback">Looks good!</div>
                     <div class="invalid-feedback">
@@ -152,7 +152,7 @@
                   </div>
                   <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
-                    <select class="form-select" id="titleInput" th:field="*{title}" th:name="title" disabled required>
+                    <select class="form-select form-select-sm" id="titleInput" th:field="*{title}" th:name="title" disabled required>
                       <option selected disabled value="">
                         Choose Title...
                       </option>
@@ -169,14 +169,14 @@
                   </div>
                   <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" th:field="*{email}" class="form-control" id="emailInput" placeholder="Email"
+                    <input type="email" th:field="*{email}" class="form-control form-control-sm" id="emailInput" placeholder="Email"
                       disabled required />
                     <div class="valid-feedback">Looks good!</div>
                     <div class="invalid-feedback">Please provide an email.</div>
                   </div>
                   <div class="mb-3">
                     <label for="role" class="form-label">Roles</label>
-                    <select class="form-select" id="roleInput" th:field="*{role}" th:name="role" disabled required>
+                    <select class="form-select form-select-sm" id="roleInput" th:field="*{role}" th:name="role" disabled required>
                       <option selected disabled th:value="${null}">
                         Choose Role...
                       </option>
@@ -197,7 +197,7 @@
                   </div>
                   <div class="mb-3">
                     <label for="phoneNumber" class="form-label">Phone Number</label>
-                    <input type="number" th:field="*{phoneNumber}" class="form-control" id="phoneNumberInput"
+                    <input type="number" th:field="*{phoneNumber}" class="form-control form-control-sm" id="phoneNumberInput"
                       placeholder="Phone Number" min="0100000000" max="0799999999" disabled required />
                     <div class="valid-feedback">Looks good!</div>
                     <div class="invalid-feedback">
@@ -207,7 +207,7 @@
                   <div class="row">
                     <div class="col-lg mb-3">
                       <label for="county" class="form-label">County</label>
-                      <select class="form-select" id="countyInput" th:field="*{county}" th:name="county" disabled
+                      <select class="form-select form-select-sm" id="countyInput" th:field="*{county}" th:name="county" disabled
                         required>
                         <option selected disabled value="">
                           Choose County...
@@ -269,7 +269,7 @@
                     </div>
                     <div class="col-lg mb-3">
                       <label for="division" class="form-label">Division</label>
-                      <input type="text" th:field="*{division}" class="form-control" id="divisionInput"
+                      <input type="text" th:field="*{division}" class="form-control form-control-sm" id="divisionInput"
                         placeholder="Division" disabled required />
                       <div class="valid-feedback">Looks good!</div>
                       <div class="invalid-feedback">
@@ -278,7 +278,7 @@
                     </div>
                     <div class="col-lg mb-3">
                       <label for="location" class="form-label">Location</label>
-                      <input type="text" th:field="*{location}" class="form-control" id="locationInput"
+                      <input type="text" th:field="*{location}" class="form-control form-control-sm" id="locationInput"
                         placeholder="Location" disabled required />
 
                       <div class="valid-feedback">Looks good!</div>
@@ -288,7 +288,7 @@
                     </div>
                     <div class="col-lg mb-3">
                       <label for="subLocation" class="form-label">Sub Location</label>
-                      <input type="text" th:field="*{subLocation}" class="form-control" id="subLocationInput"
+                      <input type="text" th:field="*{subLocation}" class="form-control form-control-sm" id="subLocationInput"
                         placeholder="Sub Location" disabled required />
                       <div class="valid-feedback">Looks good!</div>
                       <div class="invalid-feedback">
