@@ -30,8 +30,8 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Message {
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="message_sender")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "message_sender")
     private User sender;
 
     @JsonIgnore
