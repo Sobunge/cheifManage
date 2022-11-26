@@ -1,6 +1,7 @@
 package com.pensasha.cheifManage.account;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,9 @@ import org.thymeleaf.context.WebContext;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.io.source.ByteArrayOutputStream;
+import com.pensasha.cheifManage.message.Message;
+import com.pensasha.cheifManage.message.Status;
+import com.pensasha.cheifManage.message.MessageService;
 import com.pensasha.cheifManage.transaction.Transaction;
 import com.pensasha.cheifManage.transaction.TransactionService;
 import com.pensasha.cheifManage.user.User;
@@ -30,36 +34,51 @@ import com.pensasha.cheifManage.user.UserService;
 
 @Controller
 public class AccountController {
-    
-    @Autowired AccountService accountService;
-    @Autowired TransactionService transactionService;
-    @Autowired UserService userService;
+
+    @Autowired
+    AccountService accountService;
+    @Autowired
+    TransactionService transactionService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    MessageService messageService;
 
     @Autowired
     private ServletContext servletContext;
 
-    //private final String baseUrl = "http://localhost:8081/";
+    // private final String baseUrl = "http://localhost:8081/";
     private final String baseUrl = "https://analytica-school.herokuapp.com/";
 
     private final TemplateEngine templateEngine;
-    
+
     public AccountController(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
 
-    //Get all accounts
+    // Get all accounts
     @GetMapping("/accounts")
-    public String getAccounts(Model model, Principal principal){
-   
+    public String getAccounts(Model model, Principal principal) {
+
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("account", new Account());
         model.addAttribute("accounts", accountService.allAccount());
-        
+
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+                Status.UNREAD);
+        model.addAttribute("messages", messages);
+
+        int count = 0;
+        for (int i = 0; i < messages.size(); i++) {
+            count++;
+        }
+        model.addAttribute("messageCount", count);
+
         return "accounts";
     }
 
     @GetMapping("/accounts/pdf")
-    public ResponseEntity<?> getAccountsPdf(HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<?> getAccountsPdf(HttpServletRequest request, HttpServletResponse response) {
 
         WebContext context = new WebContext(request, response, this.servletContext);
         context.setVariable("accounts", accountService.allAccount());
@@ -71,23 +90,32 @@ public class AccountController {
         HtmlConverter.convertToPdf(accountsHtml, target, converterProperties);
         byte[] bytes = target.toByteArray();
 
-        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes); 
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes);
     }
 
-    //Get an account
+    // Get an account
     @GetMapping("/accounts/{id}")
-    public String getAnAccount(@PathVariable Integer id, Model model, Principal principal){
+    public String getAnAccount(@PathVariable Integer id, Model model, Principal principal) {
 
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("account", accountService.getAccount(id));
         model.addAttribute("transactions", transactionService.getAllTransactionForAccount(id));
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+                Status.UNREAD);
+        model.addAttribute("messages", messages);
+
+        int count = 0;
+        for (int i = 0; i < messages.size(); i++) {
+            count++;
+        }
+        model.addAttribute("messageCount", count);
 
         return "account";
     }
 
     @GetMapping("/usersHome")
-    public String getHomePage(Principal principal){
+    public String getHomePage(Principal principal) {
 
         User user = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
         Account account = accountService.getAccountByUserIdNumber(user.getIdNumber());
@@ -95,46 +123,44 @@ public class AccountController {
         return "redirect:/accounts/" + account.getId();
     }
 
-    //Save an account
+    // Save an account
     @PostMapping("/account")
-    public RedirectView addAnAccount(@ModelAttribute Account account, RedirectAttributes redit){
+    public RedirectView addAnAccount(@ModelAttribute Account account, RedirectAttributes redit) {
 
-        if(accountService.doesAccountExist(account.getId())){
+        if (accountService.doesAccountExist(account.getId())) {
             redit.addFlashAttribute("accountFail", "Account already exists");
-        }else{
+        } else {
 
             accountService.addAccount(account);
 
             redit.addFlashAttribute("accountSuccess", "Account successfully created");
         }
-        
 
         return new RedirectView("/accounts", true);
     }
 
-    //Update an account
+    // Update an account
     @PostMapping("/accounts/{id}")
-    public RedirectView updateAnAccount(@ModelAttribute Account account,@PathVariable int id, RedirectAttributes redit){
+    public RedirectView updateAnAccount(@ModelAttribute Account account, @PathVariable int id,
+            RedirectAttributes redit) {
 
-        if(accountService.doesAccountExist(id)){
+        if (accountService.doesAccountExist(id)) {
             redit.addFlashAttribute("accountSuccess", "Account successfully created");
-       
+
             Account existingAccount = accountService.getAccount(id);
             existingAccount.setDescription(account.getDescription());
-    
+
             accountService.updateAccount(existingAccount);
-        }else{
+        } else {
             redit.addFlashAttribute("accountFail", "Account does not exist.");
         }
-
-       
 
         return new RedirectView("/accounts/" + id, true);
     }
 
-    //Delete an Account
+    // Delete an Account
     @GetMapping("/account/{id}")
-    public RedirectView deleteAnAccount(@PathVariable Integer id, RedirectAttributes redit){
+    public RedirectView deleteAnAccount(@PathVariable Integer id, RedirectAttributes redit) {
 
         accountService.deleteAccount(id);
 

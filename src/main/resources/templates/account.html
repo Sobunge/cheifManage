@@ -43,6 +43,8 @@
                         <!-- Topbar Navbar -->
                         <ul class="navbar-nav ml-auto">
 
+                            <div th:insert="fragments/profile.html :: userMessages"></div>
+
                             <div class="topbar-divider d-none d-sm-block"></div>
 
                             <!-- Nav Item - User Information -->
@@ -58,13 +60,13 @@
 
                         <!-- Page Heading -->
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"
+                            <button type="button" class="btn btn-sm btn-success shadow-sm"
                                 data-bs-toggle="modal" data-bs-target="#addTransactionModal">
                                 Add Contribution
                             </button>
                             <h1 class="h3 mb-0 text-gray-800"> Account </h1>
                             <a th:href="@{/accounts/{id}/transactions(id = ${account.id})}"
-                                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="btn btn-sm btn-primary shadow-sm"><i
                                     class="fas fa-download fa-sm text-white-50"></i> View Contributions</a>
                         </div>
 
@@ -114,10 +116,10 @@
                                         </div>
                                     </div>
 
-                                    <button type="submit" class="btn btn-success" style="display: none;"
+                                    <button type="submit" class="btn btn-sm btn-success shadow-sm" style="display: none;"
                                         id="changeDetails">Change Details</button>
                                 </form>
-                                <button class="btn btn-primary" id="editDetails">Edit Details</button>
+                                <button class="btn btn-sm btn-primary shadow-sm" id="editDetails">Edit Details</button>
                             </div>
                         </div>
 
@@ -162,43 +164,16 @@
                                             </div>
                                         </div>
                                         <br />
-                                        <button type="submit" class="btn btn-success">Submit</button>
+                                        <button type="submit" class="btn btn-sm btn-success shadow-sm">Contribute</button>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-sm btn-danger shadow-sm" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Delete a transaction model -->
-                    <div class="modal fade" id="deleteTransactionModal" tabindex="-1"
-                        aria-labelledby="deleteTransactionModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title text-danger" id="deleteTransactionModalLabel">Delete
-                                        Transaction
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p class="text-danger">Transaction details and information
-                                        will be deleted and will not be recovered. Are you sure you want
-                                        to delete?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">No! Don't
-                                        Delete
-                                        <i class="fas fa-fw fa-times"></i></button>
-                                    <a class="btn btn-danger ok-button">Yes! Delete <i
-                                            class="fas fa-fw fa-trash-alt"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <!-- /.container-fluid -->
 
                 </div>
@@ -247,13 +222,6 @@
                         }, false)
                     })
             })()
-
-            $('#deleteTransactionModal').on(
-                'show.bs.modal',
-                function (e) {
-                    $(this).find('.ok-button').attr('href',
-                        $(e.relatedTarget).data('href'));
-                });
 
             $("#editDetails").click(function () {
                 $("#changeDetails").show();

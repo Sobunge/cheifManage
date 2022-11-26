@@ -10,7 +10,7 @@
         <div id="wrapper">
 
             <!-- Sidebar -->
-            <span th:insert="fragments/sidebar.html :: sidebar"></span>
+            <div th:insert="fragments/sidebar.html :: sidebar"></div>
 
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">
@@ -29,7 +29,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb small" style="margin-top: 15px;">
                                 <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">User Registration</li>
+                                <li class="breadcrumb-item active" aria-current="page">Accounts</li>
                             </ol>
                         </nav>
 
@@ -52,30 +52,20 @@
                     <div class="container-fluid">
 
                         <!-- Page Heading -->
-                        <div th:fragment="pageHeader">
-                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 class="h3 mb-0 text-gray-800"> User Registration </h1>
-                            </div>
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h3 mb-0 text-gray-800"> Inbox </h1>
                         </div>
 
                         <div class="card">
                             <div class="card-body">
-
-                                <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">User exists</div>
-                                <div class="alert alert-success" th:if="${success}" th:text="${success}">User saved
+                                <div class="alert alert-danger" th:if="${accountFail}" th:text="${accountFail}">Account
+                                    exists</div>
+                                <div class="alert alert-success" th:if="${accountSuccess}" th:text="${accountSuccess}">
+                                    Account saved
                                 </div>
 
-                                <form class="g-3 needs-validation" action="#" th:action="@{/user}"
-                                    th:object="${newUser}" method="post" novalidate>
-
-                                    <!-- User profile form -->
-                                    <div th:insert="fragments/header.html :: profileForm"></div>
-
-                                    <button type="submit" class="btn btn-sm btn-success shadow-sm">Register</button>
-                                </form>
                             </div>
                         </div>
-
                     </div>
                     <!-- /.container-fluid -->
 
@@ -97,30 +87,40 @@
             <i class="fas fa-angle-up"></i>
         </a>
 
+       
+
         <!-- Logout Modal-->
         <div th:insert="fragments/profile.html :: logoutModal"></div>
 
+        <div></div>
+
         <div th:insert="fragments/sidebar.html :: script"></div>
+
         <script type="text/javascript">
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
             (function () {
-                'use strict'
+                "use strict";
 
                 // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.querySelectorAll('.needs-validation')
+                var forms = document.querySelectorAll(".needs-validation");
 
                 // Loop over them and prevent submission
-                Array.prototype.slice.call(forms)
-                    .forEach(function (form) {
-                        form.addEventListener('submit', function (event) {
+                Array.prototype.slice.call(forms).forEach(function (form) {
+                    form.addEventListener(
+                        "submit",
+                        function (event) {
                             if (!form.checkValidity()) {
-                                event.preventDefault()
-                                event.stopPropagation()
+                                event.preventDefault();
+                                event.stopPropagation();
                             }
 
-                            form.classList.add('was-validated')
-                        }, false)
-                    })
-            })()
+                            form.classList.add("was-validated");
+                        },
+                        false
+                    );
+                });
+            })();
+
         </script>
 
     </body>

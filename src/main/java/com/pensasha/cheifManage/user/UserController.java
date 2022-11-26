@@ -2,6 +2,7 @@ package com.pensasha.cheifManage.user;
 
 import java.security.Principal;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,9 @@ import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.pensasha.cheifManage.account.Account;
 import com.pensasha.cheifManage.account.AccountService;
 import com.pensasha.cheifManage.role.Role;
+import com.pensasha.cheifManage.message.Message;
+import com.pensasha.cheifManage.message.MessageService;
+import com.pensasha.cheifManage.message.Status;
 
 @Controller
 public class UserController {
@@ -37,6 +41,9 @@ public class UserController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private MessageService messageService;
 
     @Autowired
     private ServletContext servletContext;
@@ -85,6 +92,14 @@ public class UserController {
 
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("users", userService.getAllUsers());
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        model.addAttribute("messages", messages);
+    
+        int count = 0;
+        for(int i=0; i<messages.size(); i++){
+            count++;
+        }
+        model.addAttribute("messageCount", count);
 
         return "users";
     }
@@ -114,6 +129,14 @@ public class UserController {
         model.addAttribute("genders", gender);
         model.addAttribute("titles", titles);
         model.addAttribute("roles", roles);
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        model.addAttribute("messages", messages);
+    
+        int count = 0;
+        for(int i=0; i<messages.size(); i++){
+            count++;
+        }
+        model.addAttribute("messageCount", count);
 
         return "addUser";
     }
@@ -218,6 +241,14 @@ public class UserController {
         model.addAttribute("genders", gender);
         model.addAttribute("titles", titles);
         model.addAttribute("roles", roles);
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        model.addAttribute("messages", messages);
+    
+        int count = 0;
+        for(int i=0; i<messages.size(); i++){
+            count++;
+        }
+        model.addAttribute("messageCount", count);
 
         return "userProfile"; 
     }

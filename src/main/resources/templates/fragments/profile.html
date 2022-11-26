@@ -32,7 +32,48 @@
 
         <body>
 
+            <div th:fragment="userMessages">
+                <li class="nav-item dropdown no-arrow mx-1">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-envelope fa-fw"></i>
+                        <!-- Counter - Messages -->
+                        <span class="badge badge-danger badge-counter" th:text="${messageCount}">7</span>
+                    </a>
+
+                    <div class="dropdown-list dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                        <h6 class="dropdown-header">
+                            Message Center
+                        </h6>
+                        <th:block th:if="${messages.isEmpty()}">
+                            <div style="text-align: center;" class="p-3">
+                                No messages
+                            </div>
+                        </th:block>
+                        <th:block th:each="message : ${messages}">
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <div class="dropdown-list-image mr-3">
+                                    <img class="rounded-circle" th:src="@{/img/avater.png}" alt="...">
+                                    <div class="status-indicator bg-success"></div>
+                                </div>
+                                <div class="font-weight-bold">
+                                    <div class="text-truncate" th:text="${message.mail}">Hi there! I am wondering if you can help me with
+                                        a
+                                        problem I've been having.</div>
+                                    <div class="small text-gray-500" th:text="${message.sender.firstName + ' ' + message.sender.thirdName}">Emily Fowler · 58m</div>
+                                </div>
+                            </a>
+                        </th:block>
+                    
+                        <a class="dropdown-item text-center small text-gray-500" th:href="@{/users/{idNumber}/recievedMessages(idNumber = ${user.idNumber})}">Read More
+                            Messages</a>
+                    </div>
+                </li>
+
+            </div>
+
             <div th:fragment="userInfo">
+
                 <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -41,7 +82,7 @@
                         <img class="img-profile rounded-circle" th:src="@{/img/avater.png}">
                     </a>
                     <!-- Dropdown - User Information -->
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                    <div class="dropdown-menu dropdown-menu-end shadow animated--grow-in"
                         aria-labelledby="userDropdown">
                         <a class="dropdown-item" th:href="@{/users/{idNumber}(idNumber = ${user.idNumber})}">
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -70,8 +111,8 @@
                             <div class="modal-body">Select "Logout" below if you are ready to end your current session.
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-                                <a class="btn btn-danger" href="/?logout">Logout</a>
+                                <button class="btn btn-sm btn-secondary shadow-sm" type="button" data-bs-dismiss="modal">Cancel</button>
+                                <a class="btn btn-sm btn-danger shadow-sm" href="/logout">Logout</a>
                             </div>
                         </div>
                     </div>

@@ -36,6 +36,8 @@
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
 
+              <div th:insert="fragments/profile.html :: userMessages"></div>
+
               <div class="topbar-divider d-none d-sm-block"></div>
 
               <!-- Nav Item - User Information -->
@@ -52,10 +54,10 @@
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
               <th:block th:if="${user.role.name != 'USER' || user.role.name == 'COUNTY_ADMIN'}">
-                <a th:href="@{/user}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> Add User</a>
+                <a th:href="@{/user}" class="btn btn-sm btn-primary shadow-sm"> Add User</a>
               </th:block>
               <h1 class="h3 mb-0 text-gray-800"> Users </h1>
-              <a th:href="@{/users/pdf}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+              <a th:href="@{/users/pdf}" class="btn btn-sm btn-primary shadow-sm"><i
                   class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
             </div>
 
@@ -64,12 +66,13 @@
               <div class="alert alert-success" th:if="${success}" th:text="${success}">User saved</div>
 
               <div class="card-body">
-                <table id="usersTable" class="table table-responsive-md" style="width:100%">
+                <table id="usersTable" class="table table-sm table-responsive-md" style="width:100%">
                   <thead>
                     <tr>
                       <th>#</th>
                       <th>Name</th>
                       <th>Role</th>
+                      <th>Title</th>
                       <th>Id Number</th>
                       <th>Phone Number</th>
                       <th></th>
@@ -82,19 +85,20 @@
                   <tbody>
                     <tr th:each="u, iter : ${users}">
                       <td th:text="${iter.count}">Counter</td>
-                      <td th:text="${u.firstName + ' ' + u.secondName + ' ' + u.thirdName}">First Name</td>
-                      <td th:text="${u.role}">Title</td>
+                      <td th:text="${u.firstName + ' ' + u.thirdName}">First Name</td>
+                      <td th:text="${u.role}">Role</td>
+                      <td th:text="${u.title}">Title</td>
                       <td th:text="${u.idNumber}">Id Number</td>
                       <td th:text="${'0' + u.phoneNumber}">Phone Number</td>
-                      <td> <a class="btn btn-primary" th:href="@{/users/{idNumber}(idNumber = ${u.idNumber})}"> View
+                      <td> <a class="btn btn-sm btn-primary shadow-sm" th:href="@{/users/{idNumber}(idNumber = ${u.idNumber})}"> View
                         </a>
                       </td>
                       <th:block
                         th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'COUNTY_ADMIN'}">
                         <td>
                           <a data-bs-toggle="modal" href="#" data-bs-target="#deleteUserModal"
-                            th:data-href="@{/user/{idNumber}(idNumber = ${u.idNumber})}" class="btn btn-danger"
-                            th:unless="${u == user}"> <i class="fas fa-fw fa-trash-alt"></i> Delete </a>
+                            th:data-href="@{/user/{idNumber}(idNumber = ${u.idNumber})}" class="btn btn-sm btn-danger shadow-sm"
+                            th:unless="${u == user}"> Delete </a>
                         </td>
                       </th:block>
                       <th:block
@@ -108,6 +112,7 @@
                       <th>#</th>
                       <th>Name</th>
                       <th>Role</th>
+                      <th>Title</th>
                       <th>Id Number</th>
                       <th>Phone Number</th>
                       <th></th>
@@ -156,9 +161,9 @@
               to delete?</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal">No! Don't Delete <i
+            <button type="button" class="btn btn-sm btn-success shadow-sm" data-bs-dismiss="modal">No! Don't Delete <i
                 class="fas fa-fw fa-times"></i></button>
-            <a class="btn btn-danger ok-button">Yes! Delete <i class="fas fa-fw fa-trash-alt"></i></a>
+            <a class="btn btn-sm btn-danger shadow-sm ok-button">Yes! Delete <i class="fas fa-fw fa-trash-alt"></i></a>
           </div>
         </div>
       </div>

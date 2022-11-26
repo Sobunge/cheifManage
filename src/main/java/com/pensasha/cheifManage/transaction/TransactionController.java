@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -31,6 +32,9 @@ import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.pensasha.cheifManage.account.Account;
 import com.pensasha.cheifManage.account.AccountService;
+import com.pensasha.cheifManage.message.Status;
+import com.pensasha.cheifManage.message.Message;
+import com.pensasha.cheifManage.message.MessageService;
 import com.pensasha.cheifManage.month.Month;
 import com.pensasha.cheifManage.user.User;
 import com.pensasha.cheifManage.user.UserService;
@@ -48,6 +52,9 @@ public class TransactionController {
     UserService userService;
     @Autowired
     YearService yearService;
+
+    @Autowired
+    MessageService messageService;
 
     @Autowired
     private ServletContext servletContext;
@@ -71,6 +78,14 @@ public class TransactionController {
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("account", accountService.getAccount(id));
         model.addAttribute("transactions", transactionService.getAllTransactionForAccount(id));
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        model.addAttribute("messages", messages);
+    
+        int count = 0;
+        for(int i=0; i<messages.size(); i++){
+            count++;
+        }
+        model.addAttribute("messageCount", count);
 
         return "transactions";
     }
@@ -231,6 +246,14 @@ public class TransactionController {
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("transaction", transactionService.getTransaction(trans_id));
         model.addAttribute("account", account);
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        model.addAttribute("messages", messages);
+    
+        int count = 0;
+        for(int i=0; i<messages.size(); i++){
+            count++;
+        }
+        model.addAttribute("messageCount", count);
 
         return "transaction";
     }

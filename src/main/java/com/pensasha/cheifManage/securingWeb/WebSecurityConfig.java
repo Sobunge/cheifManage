@@ -39,7 +39,7 @@ public class WebSecurityConfig{
                                 .usernameParameter("username")
                                 .passwordParameter("password").permitAll().successHandler(customSuccessHandler).and()
                                 .logout()
-                                .logoutUrl("/logout").logoutSuccessUrl("/?logout").permitAll().and()
+                                .logoutUrl("/logout").logoutSuccessUrl("/?logout").and()
                                 .exceptionHandling()
                                 .accessDeniedPage("/403").and().csrf().disable();
 
