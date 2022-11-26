@@ -2,134 +2,134 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
   xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap CSS -->
-    <link th:href="@{webjars/bootstrap/5.2.2/css/bootstrap.min.css}" rel="stylesheet" />
-    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/ptarmigan">
+  <!-- Bootstrap CSS -->
+  <link th:href="@{webjars/bootstrap/5.2.2/css/bootstrap.min.css}" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/ptarmigan">
 
-    <title>National Chiefs Forum Of Kenya</title>
+  <title>National Chiefs Forum Of Kenya</title>
 
-    <style>
-      @media (max-width: 767.98px) { 
-        #siteLabel{
-          font-size: 20px;
-        }
+  <style>
+    @media (max-width: 767.98px) {
+      #siteLabel {
+        font-size: 20px;
       }
-    </style>
+    }
+  </style>
+  <link th:href="@{/img/logo.png}" rel="icon" />
+</head>
 
-  </head>
+<body style="background-color:#dadde2;">
 
-  <body style="background-color:#dadde2;">
-
-    <nav class="navbar">
-      <div class="container">
-        <a class="navbar-brand fs-2" href="#" style="font-family:'Ptarmigan', sans-serif; color: #4d4c4a;">
-          <img th:src="@{/img/logo.png}" alt="Logo" width="65" height="50" class="d-inline-block align-text-top">
-           <span id="siteLabel"> National Chiefs Forum Of Kenya </span>
-        </a>
-      </div>
-    </nav>
-    
+  <nav class="navbar">
     <div class="container">
-      <div class="card shadow-lg p-3 mb-3 bg-white rounded mx-auto d-block" style="max-width: 980px">
-        <div class="row g-3 align-items-center">
-          <div class="col-lg-6">
-            <h4> Log in </h4>
-            <p class="lead"> Welcome Back. Please enter your credentials below to start using the app </p>
-            <hr />
-            <div th:if="${param.error}" class="alert alert-danger">Invalid username and password.</div>
-            <div th:if="${param.logout}" class="alert alert-success">You have been logged out successfully.</div>
-            <form class="shadow p-3 mb-5 bg-body rounded" th:action="@{/}" method="post">
-              <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="usernameInput" name="username" placeholder="Username"
-                  aria-describedby="usernameInput" />
-                <div id="usernameHelpBlock" class="form-text">
-                  Enter your id number used during registration.
-                </div>
+      <a class="navbar-brand fs-2" href="#" style="font-family:'Ptarmigan', sans-serif; color: #4d4c4a;">
+        <img th:src="@{/img/logo.png}" alt="Logo" width="65" height="50" class="d-inline-block align-text-top">
+        <span id="siteLabel"> National Chiefs Forum Of Kenya </span>
+      </a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="card shadow-lg p-3 mb-3 bg-white rounded mx-auto d-block" style="max-width: 980px">
+      <div class="row g-3 align-items-center">
+        <div class="col-lg-6">
+          <h4> Log in </h4>
+          <p class="lead"> Welcome Back. Please enter your credentials below to start using the app </p>
+          <hr />
+          <div th:if="${param.error}" class="alert alert-danger">Invalid username and password.</div>
+          <div th:if="${param.logout}" class="alert alert-success">You have been logged out successfully.</div>
+          <form class="shadow p-3 mb-5 bg-body rounded" th:action="@{/}" method="post">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="usernameInput" name="username" placeholder="Username"
+                aria-describedby="usernameInput" />
+              <div id="usernameHelpBlock" class="form-text">
+                Enter your id number used during registration.
               </div>
-              <div class="mb-3">
-                <label for="passwordInput" class="form-label">Password</label>
-                <input type="password" class="form-control" name="password" placeholder="Password" id="passwordInput" />
+            </div>
+            <div class="mb-3">
+              <label for="passwordInput" class="form-label">Password</label>
+              <input type="password" class="form-control" name="password" placeholder="Password" id="passwordInput" />
+            </div>
+            <button type="submit" class="btn btn-sm btn-success shadow-sm">Log in</button>
+          </form>
+        </div>
+        <div class="col-lg-6">
+          <div class="card-body">
+            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                  aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                  aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                  aria-label="Slide 3"></button>
               </div>
-              <button type="submit" class="btn btn-sm btn-success shadow-sm">Log in</button>
-            </form>
-          </div>
-          <div class="col-lg-6">
-            <div class="card-body">
-              <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-                  <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner">
-                  <div class="carousel-item active" data-bs-interval="10000">
-                    <img th:src="@{/img/finance01.jpg}" class="d-block w-100" alt="...">
-                    <div class="carousel-caption">
-                      <h4>Crystal clear cashflow</h4>
-                      <p>Effortlessly track your cashflow and gain insights that’ll help you see easy opportunities to
-                        save.</p>
-                    </div>
-                  </div>
-                  <div class="carousel-item" data-bs-interval="20000">
-                    <img th:src="@{/img/finance02.jpg}" class="d-block w-100" alt="...">
-                    <div class="carousel-caption">
-                      <h4>Your finances, safe and secure</h4>
-                      <p>With 256-bit encryption and multi-factor authentication, we
-                        protect your info as if it’s our own.</p>
-                    </div>
-                  </div>
-                  <div class="carousel-item">
-                    <img th:src="@{/img/finance03.jpg}" class="d-block w-100" alt="...">
-                    <div class="carousel-caption">
-                      <h4>Bills due notifications</h4>
-                      <p>A whole system of reminders will alert you of upcoming bills.</p>
-                    </div>
+              <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="10000">
+                  <img th:src="@{/img/finance01.jpg}" class="d-block w-100" alt="...">
+                  <div class="carousel-caption">
+                    <h4>Crystal clear cashflow</h4>
+                    <p>Effortlessly track your cashflow and gain insights that’ll help you see easy opportunities to
+                      save.</p>
                   </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-                  data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-                  data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
+                <div class="carousel-item" data-bs-interval="20000">
+                  <img th:src="@{/img/finance02.jpg}" class="d-block w-100" alt="...">
+                  <div class="carousel-caption">
+                    <h4>Your finances, safe and secure</h4>
+                    <p>With 256-bit encryption and multi-factor authentication, we
+                      protect your info as if it’s our own.</p>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <img th:src="@{/img/finance03.jpg}" class="d-block w-100" alt="...">
+                  <div class="carousel-caption">
+                    <h4>Bills due notifications</h4>
+                    <p>A whole system of reminders will alert you of upcoming bills.</p>
+                  </div>
+                </div>
               </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Remove the container if you want to extend the Footer to full width. -->
-    <div class="container">
+  <!-- Remove the container if you want to extend the Footer to full width. -->
+  <div class="container">
 
-      <footer class="text-center">
-        <!-- Copyright -->
-        <div class="text-center p-2">
-          © 2022 Copyright:
-          <a href="#">Pensashatech.com</a>
-        </div>
-        <!-- Copyright -->
-      </footer>
+    <footer class="text-center">
+      <!-- Copyright -->
+      <div class="text-center p-2">
+        © 2022 Copyright:
+        <a href="#">Pensashatech.com</a>
+      </div>
+      <!-- Copyright -->
+    </footer>
 
-    </div>
-    <!-- End of .container -->
+  </div>
+  <!-- End of .container -->
 
-    <!-- Jquery -->
-    <script th:src="@{webjars/jquery/3.6.1/jquery.min.js}"></script>
-    <script th:src="@{webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>
-  </body>
+  <!-- Jquery -->
+  <script th:src="@{webjars/jquery/3.6.1/jquery.min.js}"></script>
+  <script th:src="@{webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>
+</body>
 
 </html>

@@ -1,248 +1,248 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-    <!DOCTYPE html>
-    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-        <head th:fragment="header">
+<head th:fragment="header">
 
-            <meta charset="utf-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <meta name="description" content="">
-            <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-            <title> National Chiefs Forum Of Kenya</title>
+    <title> National Chiefs Forum Of Kenya</title>
 
-            <!-- Bootstrap CSS -->
-            <link th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}" rel="stylesheet" />
 
-            <!-- Custom fonts for this template-->
-            <link th:href="@{/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
-            <link
-                href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-                rel="stylesheet">
-            <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/ptarmigan">
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/ptarmigan">
 
-            <!-- Custom styles for this template-->
-            <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
-            <link th:href="@{/datatables/dataTables.bootstrap4.min.css}" rel="stylesheet">
-            <style>
-                #title {
-                    color: whitesmoke;
-                }
+    <!-- Custom styles for this template-->
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+    <link th:href="@{/datatables/dataTables.bootstrap4.min.css}" rel="stylesheet">
+    <style>
+        #title {
+            color: whitesmoke;
+        }
 
-                @media screen and (max-width: 770px) {
-                    #title {
-                        color: transparent;
-                    }
-                }
-            </style>
+        @media screen and (max-width: 770px) {
+            #title {
+                color: transparent;
+            }
+        }
+    </style>
+    <link th:href="@{/img/logo.png}" rel="icon" />
+</head>
 
-        </head>
+<body>
 
-        <body>
+    <div th:fragment="pageHeader">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        </div>
+    </div>
 
-            <div th:fragment="pageHeader">
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    <div th:fragment="profileForm">
+        <div class="row">
+            <div class="mb-3 col-md">
+                <label for="firstName" class="col-form-label col-form-label-sm">First Name</label>
+                <input type="text" th:field="*{firstName}" class="form-control form-control-sm" id="firstNameInput"
+                    placeholder="First Name" minlength="2" required />
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please provide full First Name.</div>
+            </div>
+            <div class="mb-3 col-md">
+                <label for="secondName" class="col-form-label col-form-label-sm">Middle Name</label>
+                <input type="text" th:field="*{secondName}" class="form-control form-control-sm" id="secondNameInput"
+                    placeholder="Second Name" />
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please provide full Middle Name.</div>
+            </div>
+            <div class="mb-3 col-md">
+                <label for="thirdName" class="col-form-label col-form-label-sm">Sir Name</label>
+                <input type="text" th:field="*{thirdName}" class="form-control form-control-sm" id="thirdNameInput"
+                    placeholder="Third Name" minlength="2" required />
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please provide a full Third Name.</div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="idNumber" class="col-form-label col-form-label-sm">Id Number</label>
+            <input type="number" th:field="*{idNumber}" class="form-control form-control-sm" id="idNumberInput"
+                placeholder="Id Number" required min="1000000" />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please provide an id number.</div>
+        </div>
+        <div class="mb-3">
+            <label for="gender" class="col-form-label col-form-label-sm">Gender</label>
+            <select class="form-select  form-select-sm" th:field="*{gender}" id="genderInput" th:name="gender" required>
+                <option selected disabled value="">Choose Gender...</option>
+                <th:block th:each="g : ${genders}">
+                    <option th:value="${g['key']}" th:text="${g['value']}">gender</option>
+                </th:block>
+            </select>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please choose your gender.</div>
+        </div>
+        <div class="mb-3">
+            <label for="residentialAddress" class="col-form-label col-form-label-sm">Residential Address</label>
+            <input type="text" th:field="*{residentialAddress}" class="form-control form-control-sm"
+                id="residentialAddressInput" placeholder="Residential Address" />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please provide your residential address.</div>
+        </div>
+        <div class="mb-3">
+            <label for="title" class="col-form-label col-form-label-sm">Title</label>
+            <select class="form-select form-select-sm" id="titleInput" th:field="*{title}" th:name="title" required>
+                <option selected disabled value="">Choose Title...</option>
+                <th:block th:each="t : ${titles}">
+                    <option th:value="${t['key']}" th:text="${t['value']}">Chief</option>
+                </th:block>
+            </select>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please choose your title.</div>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="col-form-label col-form-label-sm">Email</label>
+            <input type="email" th:field="*{email}" class="form-control form-control-sm" id="emailInput"
+                placeholder="Email" required />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please provide an email.</div>
+        </div>
+        <div class="mb-3">
+            <label for="role" class="col-form-label col-form-label-sm">Roles</label>
+            <select class="form-select form-select-sm" id="roleInput" th:field="*{role}" th:name="role" required>
+                <option selected disabled th:value="${null}">
+                    Choose Role...
+                </option>
+                <th:block th:each="r : ${roles}" th:if="${user.role.name == 'COUNTY_ADMIN'}">
+                    <option th:if="${r['value'] == 'User'}" th:value="${r['key']}" th:text="${r['value']}">
+                        Account Manager</option>
+                </th:block>
+                <th:block th:each="r : ${roles}" th:if="${user.role.name == 'ACCOUNTS_MANAGER'}">
+                    <option th:if="${r['value'] != 'Super Admin'}" th:value="${r['key']}" th:text="${r['value']}">
+                        Account Manager</option>
+                </th:block>
+                <th:block th:each="r : ${roles}" th:if="${user.role.name == 'SUPER_ADMIN'}">
+                    <option th:value="${r['key']}" th:text="${r['value']}">Account Manager</option>
+                </th:block>
+            </select>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please choose a role.</div>
+        </div>
+        <div class="mb-3">
+            <label for="phoneNumber" class="col-form-label col-form-label-sm">Phone Number</label>
+            <input type="number" th:field="*{phoneNumber}" class="form-control form-control-sm" id="phoneNumberInput"
+                placeholder="Phone Number" min="0100000000" max="0799999999" required />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">
+                Please provide a phone number.
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg mb-3">
+                <label for="county" class="col-form-label col-form-label-sm">County</label>
+                <select class="form-select form-select-sm" id="counterInput" th:field="*{county}" th:name="county"
+                    required>
+                    <option selected disabled value="">Choose County...</option>
+                    <option value="Mombasa">1. Mombasa</option>
+                    <option value="Kwale">2. Kwale</option>
+                    <option value="Kilifi">3. Kilifi</option>
+                    <option value="Tana River">4. Tana River</option>
+                    <option value="Lamu">5. Lamu</option>
+                    <option value="Taita/Taveta">6. Taita/Taveta</option>
+                    <option value="Garissa">7. Garissa</option>
+                    <option value="Wajir">8. Wajir</option>
+                    <option value="Mandera">9. Mandera</option>
+                    <option value="Marsabit">10. Marsabit</option>
+                    <option value="Isiolo">11. Isiolo</option>
+                    <option value="Meru">12. Meru</option>
+                    <option value="Tharaka-Nithi">13. Tharaka-Nithi</option>
+                    <option value="Embu">14. Embu</option>
+                    <option value="Kitui">15. Kitui</option>
+                    <option value="Machakos">16. Machakos</option>
+                    <option value="Makueni">17. Makueni</option>
+                    <option value="Nyandarua">18. Nyandarua</option>
+                    <option value="Nyeri">19. Nyeri</option>
+                    <option value="Kirinyaga">20. Kirinyaga</option>
+                    <option value="Murang'a">21. Murang'a</option>
+                    <option value="Kiambu">22. Kiambu</option>
+                    <option value="Turkana">23. Turkana</option>
+                    <option value="West Pokot">24. West Pokot</option>
+                    <option value="Samburu">25. Samburu</option>
+                    <option value="Trans Nzoia">26. Trans Nzoia</option>
+                    <option value="Uasin Gishu">27. Uasin Gishu</option>
+                    <option value="Elgeyo/Marakwet">28. Elgeyo/Marakwet</option>
+                    <option value="Nandi">29. Nandi</option>
+                    <option value="Baringo">30. Baringo</option>
+                    <option value="Laikipia">31. Laikipia</option>
+                    <option value="Nakuru">32. Nakuru</option>
+                    <option value="Narok">33. Narok</option>
+                    <option value="Kajiado">34. Kajiado</option>
+                    <option value="Kericho">35. Kericho</option>
+                    <option value="Bomet">36. Bomet</option>
+                    <option value="Kakamega">37. Kakamega</option>
+                    <option value="Vihiga">38. Vihiga</option>
+                    <option value="Bungoma">39. Bungoma</option>
+                    <option value="Busia">40. Busia</option>
+                    <option value="Siaya">41. Siaya</option>
+                    <option value="Kisumu">42. Kisumu</option>
+                    <option value="Homa Bay">43. Homa Bay</option>
+                    <option value="Migori">44. Migori</option>
+                    <option value="Kisii">45. Kisii</option>
+                    <option value="Nyamira">46. Nyamira</option>
+                    <option value="Nairobi City">47. Nairobi City</option>
+                </select>
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please choose your county.</div>
+            </div>
+            <div class="col-lg mb-3">
+                <label for="division" class="col-form-label col-form-label-sm">Division</label>
+                <input type="text" th:field="*{division}" class="form-control form-control-sm" id="divisionInput"
+                    placeholder="Division" required />
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please choose your division.</div>
+            </div>
+            <div class="col-lg mb-3">
+                <label for="location" class="col-form-label col-form-label-sm">Location</label>
+                <input type="text" th:field="*{location}" class="form-control form-control-sm" id="locationInput"
+                    placeholder="Location" required />
+
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please choose your location.</div>
+            </div>
+            <div class="col-lg mb-3">
+                <label for="subLocation" class="col-form-label col-form-label-sm">Sub Location</label>
+                <input type="text" th:field="*{subLocation}" class="form-control form-control-sm" id="subLocation"
+                    placeholder="Sub Location" required />
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please choose your sub location.</div>
+            </div>
+        </div>
+    </div>
+
+
+    <div th:fragment="footer">
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Your Website 2021</span>
                 </div>
             </div>
+        </footer>
+    </div>
 
-            <div th:fragment="profileForm">
-                <div class="row">
-                    <div class="mb-3 col-md">
-                        <label for="firstName" class="col-form-label col-form-label-sm">First Name</label>
-                        <input type="text" th:field="*{firstName}" class="form-control form-control-sm" id="firstNameInput"
-                            placeholder="First Name" minlength="2" required />
-                        <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">Please provide full First Name.</div>
-                    </div>
-                    <div class="mb-3 col-md">
-                        <label for="secondName" class="col-form-label col-form-label-sm">Middle Name</label>
-                        <input type="text" th:field="*{secondName}" class="form-control form-control-sm" id="secondNameInput"
-                            placeholder="Second Name" />
-                        <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">Please provide full Middle Name.</div>
-                    </div>
-                    <div class="mb-3 col-md">
-                        <label for="thirdName" class="col-form-label col-form-label-sm">Sir Name</label>
-                        <input type="text" th:field="*{thirdName}" class="form-control form-control-sm" id="thirdNameInput"
-                            placeholder="Third Name" minlength="2" required />
-                        <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">Please provide a full Third Name.</div>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="idNumber" class="col-form-label col-form-label-sm">Id Number</label>
-                    <input type="number" th:field="*{idNumber}" class="form-control form-control-sm" id="idNumberInput"
-                        placeholder="Id Number" required min="1000000" />
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please provide an id number.</div>
-                </div>
-                <div class="mb-3">
-                    <label for="gender" class="col-form-label col-form-label-sm">Gender</label>
-                    <select class="form-select  form-select-sm" th:field="*{gender}" id="genderInput" th:name="gender" required>
-                        <option selected disabled value="">Choose Gender...</option>
-                        <th:block th:each="g : ${genders}">
-                            <option th:value="${g['key']}" th:text="${g['value']}">gender</option>
-                        </th:block>
-                    </select>
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please choose your gender.</div>
-                </div>
-                <div class="mb-3">
-                    <label for="residentialAddress" class="col-form-label col-form-label-sm">Residential Address</label>
-                    <input type="text" th:field="*{residentialAddress}" class="form-control form-control-sm" 
-                        id="residentialAddressInput" placeholder="Residential Address" />
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please provide your residential address.</div>
-                </div>
-                <div class="mb-3">
-                    <label for="title" class="col-form-label col-form-label-sm">Title</label>
-                    <select class="form-select form-select-sm" id="titleInput" th:field="*{title}" th:name="title" required>
-                        <option selected disabled value="">Choose Title...</option>
-                        <th:block th:each="t : ${titles}">
-                            <option th:value="${t['key']}" th:text="${t['value']}">Chief</option>
-                        </th:block>
-                    </select>
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please choose your title.</div>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="col-form-label col-form-label-sm">Email</label>
-                    <input type="email" th:field="*{email}" class="form-control form-control-sm" id="emailInput" placeholder="Email"
-                        required />
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please provide an email.</div>
-                </div>
-                <div class="mb-3">
-                    <label for="role" class="col-form-label col-form-label-sm">Roles</label>
-                    <select class="form-select form-select-sm" id="roleInput" th:field="*{role}" th:name="role" required>
-                        <option selected disabled th:value="${null}">
-                            Choose Role...
-                        </option>
-                        <th:block th:each="r : ${roles}" th:if="${user.role.name == 'COUNTY_ADMIN'}">
-                            <option th:if="${r['value'] == 'User'}" th:value="${r['key']}" th:text="${r['value']}">
-                                Account Manager</option>
-                        </th:block>
-                        <th:block th:each="r : ${roles}" th:if="${user.role.name == 'ACCOUNTS_MANAGER'}">
-                            <option th:if="${r['value'] != 'Super Admin'}" th:value="${r['key']}"
-                                th:text="${r['value']}">
-                                Account Manager</option>
-                        </th:block>
-                        <th:block th:each="r : ${roles}" th:if="${user.role.name == 'SUPER_ADMIN'}">
-                            <option th:value="${r['key']}" th:text="${r['value']}">Account Manager</option>
-                        </th:block>
-                    </select>
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please choose a role.</div>
-                </div>
-                <div class="mb-3">
-                    <label for="phoneNumber" class="col-form-label col-form-label-sm">Phone Number</label>
-                    <input type="number" th:field="*{phoneNumber}" class="form-control form-control-sm" id="phoneNumberInput"
-                        placeholder="Phone Number" min="0100000000" max="0799999999" required />
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">
-                        Please provide a phone number.
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg mb-3">
-                        <label for="county" class="col-form-label col-form-label-sm">County</label>
-                        <select class="form-select form-select-sm" id="counterInput" th:field="*{county}" th:name="county" required>
-                            <option selected disabled value="">Choose County...</option>
-                            <option value="Mombasa">1. Mombasa</option>
-                            <option value="Kwale">2. Kwale</option>
-                            <option value="Kilifi">3. Kilifi</option>
-                            <option value="Tana River">4. Tana River</option>
-                            <option value="Lamu">5. Lamu</option>
-                            <option value="Taita/Taveta">6. Taita/Taveta</option>
-                            <option value="Garissa">7. Garissa</option>
-                            <option value="Wajir">8. Wajir</option>
-                            <option value="Mandera">9. Mandera</option>
-                            <option value="Marsabit">10. Marsabit</option>
-                            <option value="Isiolo">11. Isiolo</option>
-                            <option value="Meru">12. Meru</option>
-                            <option value="Tharaka-Nithi">13. Tharaka-Nithi</option>
-                            <option value="Embu">14. Embu</option>
-                            <option value="Kitui">15. Kitui</option>
-                            <option value="Machakos">16. Machakos</option>
-                            <option value="Makueni">17. Makueni</option>
-                            <option value="Nyandarua">18. Nyandarua</option>
-                            <option value="Nyeri">19. Nyeri</option>
-                            <option value="Kirinyaga">20. Kirinyaga</option>
-                            <option value="Murang'a">21. Murang'a</option>
-                            <option value="Kiambu">22. Kiambu</option>
-                            <option value="Turkana">23. Turkana</option>
-                            <option value="West Pokot">24. West Pokot</option>
-                            <option value="Samburu">25. Samburu</option>
-                            <option value="Trans Nzoia">26. Trans Nzoia</option>
-                            <option value="Uasin Gishu">27. Uasin Gishu</option>
-                            <option value="Elgeyo/Marakwet">28. Elgeyo/Marakwet</option>
-                            <option value="Nandi">29. Nandi</option>
-                            <option value="Baringo">30. Baringo</option>
-                            <option value="Laikipia">31. Laikipia</option>
-                            <option value="Nakuru">32. Nakuru</option>
-                            <option value="Narok">33. Narok</option>
-                            <option value="Kajiado">34. Kajiado</option>
-                            <option value="Kericho">35. Kericho</option>
-                            <option value="Bomet">36. Bomet</option>
-                            <option value="Kakamega">37. Kakamega</option>
-                            <option value="Vihiga">38. Vihiga</option>
-                            <option value="Bungoma">39. Bungoma</option>
-                            <option value="Busia">40. Busia</option>
-                            <option value="Siaya">41. Siaya</option>
-                            <option value="Kisumu">42. Kisumu</option>
-                            <option value="Homa Bay">43. Homa Bay</option>
-                            <option value="Migori">44. Migori</option>
-                            <option value="Kisii">45. Kisii</option>
-                            <option value="Nyamira">46. Nyamira</option>
-                            <option value="Nairobi City">47. Nairobi City</option>
-                        </select>
-                        <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">Please choose your county.</div>
-                    </div>
-                    <div class="col-lg mb-3">
-                        <label for="division" class="col-form-label col-form-label-sm">Division</label>
-                        <input type="text" th:field="*{division}" class="form-control form-control-sm" id="divisionInput"
-                            placeholder="Division" required />
-                        <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">Please choose your division.</div>
-                    </div>
-                    <div class="col-lg mb-3">
-                        <label for="location" class="col-form-label col-form-label-sm">Location</label>
-                        <input type="text" th:field="*{location}" class="form-control form-control-sm" id="locationInput"
-                            placeholder="Location" required />
+    <!-- Jquery -->
+    <script th:src="@{/webjars/jquery/3.6.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>
+</body>
 
-                        <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">Please choose your location.</div>
-                    </div>
-                    <div class="col-lg mb-3">
-                        <label for="subLocation" class="col-form-label col-form-label-sm">Sub Location</label>
-                        <input type="text" th:field="*{subLocation}" class="form-control form-control-sm" id="subLocation"
-                            placeholder="Sub Location" required />
-                        <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">Please choose your sub location.</div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div th:fragment="footer">
-                <footer class="sticky-footer bg-white">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; Your Website 2021</span>
-                        </div>
-                    </div>
-                </footer>
-            </div>
-
-            <!-- Jquery -->
-            <script th:src="@{/webjars/jquery/3.6.1/jquery.min.js}"></script>
-            <script th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.min.js}"></script>
-        </body>
-
-    </html>
+</html>

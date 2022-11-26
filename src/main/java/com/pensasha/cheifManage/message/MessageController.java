@@ -91,6 +91,14 @@ public class MessageController {
     public String getMessage(@PathVariable int idNumber, @PathVariable Long id, Model model, Principal principal) {
 
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        model.addAttribute("messages", messages);
+    
+        int count = 0;
+        for(int i=0; i<messages.size(); i++){
+            count++;
+        }
+        model.addAttribute("messageCount", count);
 
         return "message";
     }

@@ -84,11 +84,11 @@
                                             <tr th:each="message, iter : ${messages}"
                                                 th:classappend="${message.status.name == 'UNREAD' && title == 'Inbox'} ? table-secondary">
                                                 <td th:text="${iter.count}">Counter</td>
-                                                <td th:text="${message.subject}">Subject</td>•
+                                                <td th:text="${message.subject}">Subject</td>
                                                 <td th:text="${message.mail}">Message</td>
                                                 <td th:text="${#dates.format(message.date, 'dd-MM-yyyy')}">Date</td>
                                                 <td th:text="${#dates.format(message.date, 'hh:mm:s a')}">Time</td>
-                                                <td> <button class="btn btn-sm btn-primary shadow-sm">View</button>
+                                                <td> <a class="btn btn-sm btn-primary shadow-sm" th:href="@{/users/{idNumber}/messages/{id}(idNumber = ${user.idNumber}, id = ${message.id})}" >View</a>
                                                 </td>
                                                 <td> <a class="btn btn-sm btn-danger shadow-sm" th:href="@{#}">
                                                         Delete </a> </td>
