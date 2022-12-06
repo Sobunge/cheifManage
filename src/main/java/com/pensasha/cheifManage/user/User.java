@@ -66,6 +66,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Enumerated(EnumType.STRING)
+    private Office office;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "recievers", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Collection<Message> messages;

@@ -85,6 +85,15 @@ public class UserController {
             put(Role.USER, "User");
         };
     };
+    private final LinkedHashMap<Office, String> offices = new LinkedHashMap<>(){
+        {
+            put(Office.CHAIRMAN, "Chairman");
+            put(Office.SECRETARY, "Secretary");
+            put(Office.TREASURER, "Treasurer");
+            put(Office.DELEGATES, "Delegates");
+            put(Office.MEMBER, "Member");
+        };
+    };
 
     // Get all user
     @GetMapping("/users")
@@ -129,6 +138,7 @@ public class UserController {
         model.addAttribute("genders", gender);
         model.addAttribute("titles", titles);
         model.addAttribute("roles", roles);
+        model.addAttribute("offices",offices);
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
         model.addAttribute("messages", messages);
     
@@ -241,6 +251,7 @@ public class UserController {
         model.addAttribute("genders", gender);
         model.addAttribute("titles", titles);
         model.addAttribute("roles", roles);
+        model.addAttribute("offices", offices);
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
         model.addAttribute("messages", messages);
     
