@@ -79,7 +79,7 @@
                   <tbody>
                     <tr th:each="ac, iter : ${accounts}">
                       <td th:text="${iter.count}">Counter</td>
-                      <td th:text="${ac.user.firstName + ' ' + ac.user.thirdName}">Account Name</td>
+                      <td th:text="${ac.name}">Account Name</td>
                       <td th:text="${ac.balance}">Balance/td>
                       <td> <a class="btn btn-sm btn-primary shadow-sm" th:href="@{/accounts/{id}(id = ${ac.id})}"> View </a>
                       </td>

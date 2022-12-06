@@ -2,149 +2,158 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <!-- Bootstrap CSS -->
-        <link th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}" rel="stylesheet" />
 
-        <title>user</title>
+    <title>user</title>
 
-    </head>
+</head>
 
-    <body>
+<body>
 
-        <span th:fragment="sidebar">
-            <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
-                style="background-color: #4d4c4a; height: 100%">
+    <span th:fragment="sidebar">
+        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
+            style="background-color: #4d4c4a; height: 100%">
 
-                <!-- Sidebar - Brand -->
-                <th:block th:if="${user.role.name == 'USER'}">
+            <!-- Sidebar - Brand -->
+            <th:block th:if="${user.role.name == 'USER'}">
 
-                    <nav class="navbar">
-                        <div class="container-fluid">
-                            <a class="navbar-brand" th:href="@{/accounts/{id}(id = ${account.id})}" id="title"
-                                style="margin:auto;">
-                                <img th:src="@{/img/logo.png}" alt="Logo" width="40" height="34"
-                                    class="d-inline-block align-text-top">
-                            </a>
-                        </div>
-                    </nav>
-
-                </th:block>
-                <th:block th:if="${user.role.name != 'USER'}">
-
-                    <nav class="navbar">
-                        <div class="container-fluid">
-                            <a class="navbar-brand" th:href="@{/users}" id="title" style="margin:auto;">
-                                <img th:src="@{/img/logo.png}" alt="Logo" width="40" height="34"
-                                    class="d-inline-block align-text-top">
-                            </a>
-                        </div>
-                    </nav>
-
-                </th:block>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider my-0">
-
-                <!-- Nav Item - Dashboard -->
-                <li class="nav-item active">
-                    <th:block th:if="${user.role.name != 'USER'}">
-                        <a class="nav-link" th:href="@{/users}">
-                            <i class="fas fa-fw fa-tachometer-alt"></i>
-                            <span>Dashboard</span></a>
-                    </th:block>
-                    <th:block th:if="${user.role.name == 'USER'}">
-                        <a class="nav-link" th:href="@{/accounts/{id}(id = ${account.id})}">
-                            <i class="fas fa-fw fa-tachometer-alt"></i>
-                            <span>Dashboard</span></a>
-                    </th:block>
-                </li>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider">
-
-                <!-- Heading -->
-                <div class="sidebar-heading">
-                    Interface
-                </div>
-            
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#messagePages"
-                        aria-expanded="true" aria-controls="messagePages">
-                        <i class="fas fa-fw fa-folder"></i>
-                        <span>Messages <span class="badge badge-danger" style="font-size: 10px;" th:text="${messageCount}" th:if="${messageCount > 0}"> 2 </span> </span>
-                    </a>
-                    <div id="messagePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Message Screens:</h6>
-                            <a class="collapse-item" th:href="@{/users/{idNumber}/message(idNumber = ${user.idNumber})}">Compose Message</a>
-                            <a class="collapse-item" th:href="@{/users/{idNumber}/recievedMessages(idNumber = ${user.idNumber})}">Inbox <span class="badge badge-danger badge-counter" style="font-size: 9px;" th:text="${messageCount}" th:if="${messageCount > 0}">7</span> </a>
-                            <a class="collapse-item" th:href="@{/users/{idNumber}/sentMessages(idNumber = ${user.idNumber})}">Sent Messages</a>
-                            <div class="collapse-divider"></div>
-                        </div>
+                <nav class="navbar">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" th:href="@{/accounts/{id}(id = ${account.id})}" id="title"
+                            style="margin:auto;">
+                            <img th:src="@{/img/logo.png}" alt="Logo" width="40" height="34"
+                                class="d-inline-block align-text-top">
+                        </a>
                     </div>
-                </li>
-                <li class="nav-item">
-                    <th:block th:if="${user.role.name != 'USER'}">
-                        <a class="nav-link" th:href="@{/users}">
-                            <i class="fas fa-fw fa-chart-area"></i>
-                            <span>users</span></a>
-                    </th:block>
-                </li>
-                <li class="nav-item">
-                    <th:block th:if="${user.role.name != 'USER'}">
-                        <a class="nav-link" th:href="@{/user}">
-                            <i class="fas fa-fw fa-chart-area"></i>
-                            <span>Add User</span></a>
-                    </th:block>
-                </li>
+                </nav>
 
-                <li class="nav-item">
-                    <th:block th:if="${user.role.name != 'USER'}">
-                        <a class="nav-link" th:href="@{/accounts}">
-                            <i class="fas fa-fw fa-chart-area"></i>
-                            <span>Accounts</span></a>
-                    </th:block>
-                </li>
+            </th:block>
+            <th:block th:if="${user.role.name != 'USER'}">
 
-                <!-- Divider -->
-                <hr class="sidebar-divider">
+                <nav class="navbar">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" th:href="@{/users}" id="title" style="margin:auto;">
+                            <img th:src="@{/img/logo.png}" alt="Logo" width="40" height="34"
+                                class="d-inline-block align-text-top">
+                        </a>
+                    </div>
+                </nav>
 
-                <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
+            </th:block>
 
-                <!-- Sidebar Toggler (Sidebar) -->
-                <div class="text-center d-none d-md-inline">
-                    <button class="rounded-circle border-0" id="sidebarToggle" onclick="smsmss()"></button>
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <th:block th:if="${user.role.name != 'USER'}">
+                    <a class="nav-link" th:href="@{/users}">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
+                </th:block>
+                <th:block th:if="${user.role.name == 'USER'}">
+                    <a class="nav-link" th:href="@{/accounts/{id}(id = ${account.id})}">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
+                </th:block>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Interface
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#messagePages"
+                    aria-expanded="true" aria-controls="messagePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Messages <span class="badge badge-danger" style="font-size: 10px;" th:text="${messageCount}"
+                            th:if="${messageCount > 0}"> 2 </span> </span>
+                </a>
+                <div id="messagePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Message Screens:</h6>
+                        <a class="collapse-item"
+                            th:href="@{/users/{idNumber}/message(idNumber = ${user.idNumber})}">Compose Message</a>
+                        <a class="collapse-item"
+                            th:href="@{/users/{idNumber}/recievedMessages(idNumber = ${user.idNumber})}">Inbox <span
+                                class="badge badge-danger badge-counter" style="font-size: 9px;"
+                                th:text="${messageCount}" th:if="${messageCount > 0}">7</span> </a>
+                        <a class="collapse-item"
+                            th:href="@{/users/{idNumber}/sentMessages(idNumber = ${user.idNumber})}">Sent Messages</a>
+                        <div class="collapse-divider"></div>
+                    </div>
                 </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#usersPages"
+                    aria-expanded="true" aria-controls="usersPages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Users</span>
+                </a>
+                <div id="usersPages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Users Screens:</h6>
+                        <a class="collapse-item" th:href="@{/user}">Add User</a>
+                        <a class="collapse-item" th:href="@{/users}">Users<span class="badge badge-danger badge-counter"
+                                style="font-size: 9px;" th:text="${messageCount}" th:if="${messageCount > 0}">7</span>
+                        </a>
+                        <div class="collapse-divider"></div>
+                    </div>
+                </div>
+            </li>
 
-            </ul>
-        </span>
+            <li class="nav-item">
+                <th:block th:if="${user.role.name != 'USER'}">
+                    <a class="nav-link" th:href="@{/accounts}">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Accounts</span></a>
+                </th:block>
+            </li>
 
-        <!-- End of Sidebar -->
+            <!-- Divider -->
+            <hr class="sidebar-divider">
 
-        <div th:fragment="script">
-            <!-- Jquery -->
-            <script th:src="@{/webjars/jquery/3.6.1/jquery.min.js}"></script>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
 
-            <script th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.bundle.min.js }"></script>
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle" onclick="smsmss()"></button>
+            </div>
 
-            <!-- Custom scripts for all pages-->
-            <script th:src="@{/js/sb-admin-2.min.js}"></script>
+        </ul>
+    </span>
 
-            <!-- Page level plugins -->
-            <script th:src="@{/datatables/jquery.dataTables.min.js}"></script>
-            <script th:src="@{/datatables/dataTables.bootstrap4.min.js}"></script>
+    <!-- End of Sidebar -->
 
-            <!-- Page level custom scripts -->
-            <script th:src="@{/js/datatables-demo.js}"></script>
+    <div th:fragment="script">
+        <!-- Jquery -->
+        <script th:src="@{/webjars/jquery/3.6.1/jquery.min.js}"></script>
 
-        </div>
+        <script th:src="@{/webjars/bootstrap/5.2.2/js/bootstrap.bundle.min.js }"></script>
 
-    </body>
+        <!-- Custom scripts for all pages-->
+        <script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+        <!-- Page level plugins -->
+        <script th:src="@{/datatables/jquery.dataTables.min.js}"></script>
+        <script th:src="@{/datatables/dataTables.bootstrap4.min.js}"></script>
+
+        <!-- Page level custom scripts -->
+        <script th:src="@{/js/datatables-demo.js}"></script>
+
+    </div>
+
+</body>
 
 </html>

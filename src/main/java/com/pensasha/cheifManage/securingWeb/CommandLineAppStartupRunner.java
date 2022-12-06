@@ -5,8 +5,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.pensasha.cheifManage.account.Account;
-import com.pensasha.cheifManage.account.AccountService;
 import com.pensasha.cheifManage.role.Role;
 import com.pensasha.cheifManage.user.Gender;
 import com.pensasha.cheifManage.user.Office;
@@ -21,9 +19,6 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private AccountService accountService;
-
     public void run(String... args) throws Exception {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -37,28 +32,6 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
         userService.addUser(admin);
         userService.addUser(admin1);
-
-        if (accountService.doesAccountExist(admin.getIdNumber()) == true) {
-
-            Account account = new Account();
-            account.setId(admin.getIdNumber());
-            account.setName("32906735");
-            account.setDescription("My saving account");
-
-            account.setUser(admin);
-            accountService.addAccount(account);
-        }
-        if (accountService.doesAccountExist(admin1.getIdNumber()) == false) {
-
-            Account account = new Account();
-            account.setId(admin1.getIdNumber());
-            account.setName("Jack Madiwa");
-            account.setDescription("My saving account");
-
-            account.setUser(admin1);
-            accountService.addAccount(account);
-        }
-
 
     }
 }
