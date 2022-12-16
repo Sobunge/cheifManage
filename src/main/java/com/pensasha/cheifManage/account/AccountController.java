@@ -1,6 +1,8 @@
 package com.pensasha.cheifManage.account;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -95,7 +97,7 @@ public class AccountController {
 
     // Get an account
     @GetMapping("/accounts/{id}")
-    public String getAnAccount(@PathVariable Integer id, Model model, Principal principal) {
+    public String getAnAccount(@PathVariable String id, Model model, Principal principal) {
 
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("transaction", new Transaction());
@@ -127,21 +129,26 @@ public class AccountController {
     @PostMapping("/account")
     public RedirectView addAnAccount(@ModelAttribute Account account, RedirectAttributes redit) {
 
-        if (accountService.doesAccountExist(account.getId())) {
-            redit.addFlashAttribute("accountFail", "Account already exists");
-        } else {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy-HHmmss");
+        account.setId("ACC-" + sdf.format(date));
 
-            accountService.addAccount(account);
-
-            redit.addFlashAttribute("accountSuccess", "Account successfully created");
+        List<User> users = (List<User>) userService.getAllUsers();
+        if (!users.isEmpty()) {
+            account.setUsers(users);
         }
 
+        accountService.addAccount(account);
+
+        redit.addFlashAttribute("accountSuccess", "Account successfully created");
+
         return new RedirectView("/accounts", true);
+
     }
 
     // Update an account
     @PostMapping("/accounts/{id}")
-    public RedirectView updateAnAccount(@ModelAttribute Account account, @PathVariable int id,
+    public RedirectView updateAnAccount(@ModelAttribute Account account, @PathVariable String id,
             RedirectAttributes redit) {
 
         if (accountService.doesAccountExist(id)) {
@@ -160,7 +167,7 @@ public class AccountController {
 
     // Delete an Account
     @GetMapping("/account/{id}")
-    public RedirectView deleteAnAccount(@PathVariable Integer id, RedirectAttributes redit) {
+    public RedirectView deleteAnAccount(@PathVariable String id, RedirectAttributes redit) {
 
         accountService.deleteAccount(id);
 

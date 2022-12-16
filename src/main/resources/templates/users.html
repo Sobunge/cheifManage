@@ -26,7 +26,7 @@
               <i class="fa fa-bars"></i>
             </button>
 
-            <nav aria-label="breadcrumb">
+            <nav aria-label="breadcrumb" class="d-none d-md-block">
               <ol class="breadcrumb small" style="margin-top: 15px;">
                 <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">users</li>
@@ -52,13 +52,12 @@
           <div class="container-fluid">
 
             <!-- Page Heading -->
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
               <th:block th:if="${user.role.name != 'USER' || user.role.name == 'COUNTY_ADMIN'}">
-                <a th:href="@{/user}" class="btn btn-sm btn-primary shadow-sm"> Add User</a>
+                <a th:href="@{/user}" class="btn btn-sm btn-primary shadow-sm"><i class="fa fa-user-plus fa-fw fa-sm text-white-70" aria-hidden="true"></i>&nbsp; <span class="iconLabel">Add User</span></a>
               </th:block>
               <h1 class="h3 mb-0 text-gray-800"> Users </h1>
-              <a th:href="@{/users/pdf}" class="btn btn-sm btn-primary shadow-sm"><i
-                  class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+              <a th:href="@{/users/pdf}" class="btn btn-sm btn-primary shadow-sm"><i class="fa fa-print fa-fw fa-sm text-white-70" aria-hidden="true"></i>&nbsp; <span class="iconLabel"> Users List</span></a>
             </div>
 
             <div class="card">
@@ -66,63 +65,65 @@
               <div class="alert alert-success" th:if="${success}" th:text="${success}">User saved</div>
 
               <div class="card-body">
-                <table id="usersTable" class="table table-sm table-responsive-md" style="width:100%">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      <th>Role</th>
-                      <th>Title</th>
-                      <th>Id Number</th>
-                      <th>Phone Number</th>
-                      <th></th>
-                      <th:block
-                        th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER'}">
-                        <th></th>
-                      </th:block>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr th:each="u, iter : ${users}">
-                      <td th:text="${iter.count}">Counter</td>
-                      <td th:text="${u.firstName + ' ' + u.thirdName}">First Name</td>
-                      <td th:text="${u.role}">Role</td>
-                      <td th:text="${u.title}">Title</td>
-                      <td th:text="${u.idNumber}">Id Number</td>
-                      <td th:text="${'0' + u.phoneNumber}">Phone Number</td>
-                      <td> <a class="btn btn-sm btn-primary shadow-sm" th:href="@{/users/{idNumber}(idNumber = ${u.idNumber})}"> View
-                        </a>
-                      </td>
-                      <th:block
-                        th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'COUNTY_ADMIN'}">
-                        <td>
-                          <a data-bs-toggle="modal" href="#" data-bs-target="#deleteUserModal"
-                            th:data-href="@{/user/{idNumber}(idNumber = ${u.idNumber})}" class="btn btn-sm btn-danger shadow-sm"
-                            th:unless="${u == user}"> Delete </a>
+                <div class="table-responsive">
+                  <table id="usersTable" class="table table-sm" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th style="min-width: 150px;">Name</th>
+                        <th style="min-width: 180px;">Role</th>
+                        <th style="min-width: 150px;">Title</th>
+                        <th style="min-width: 80px;">Id Number</th>
+                        <th style="min-width: 120px;">Phone Number</th>
+                        <th style="min-width: 60px;">View</th>
+                        <th:block
+                          th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER'}">
+                          <th style="min-width: 60px;">Delete</th>
+                        </th:block>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="u, iter : ${users}">
+                        <td th:text="${iter.count}">Counter</td>
+                        <td th:text="${u.firstName + ' ' + u.thirdName}">First Name</td>
+                        <td th:text="${u.role}">Role</td>
+                        <td th:text="${u.title}">Title</td>
+                        <td th:text="${u.idNumber}">Id Number</td>
+                        <td th:text="${'0' + u.phoneNumber}">Phone Number</td>
+                        <td> <a class="btn btn-sm btn-primary shadow-sm" th:href="@{/users/{idNumber}(idNumber = ${u.idNumber})}"><i class="fa fa-folder-open fs-sm" aria-hidden="true"></i> <span class="iconLabel">View</span>
+                          </a>
                         </td>
-                      </th:block>
-                      <th:block
-                        th:unless="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'COUNTY_ADMIN'}">
-                        <td>
-                      </th:block>
-                    </tr>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      <th>Role</th>
-                      <th>Title</th>
-                      <th>Id Number</th>
-                      <th>Phone Number</th>
-                      <th></th>
-                      <th:block
-                        th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER'}">
+                        <th:block
+                          th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'COUNTY_ADMIN'}">
+                          <td>
+                            <a data-bs-toggle="modal" href="#" data-bs-target="#deleteUserModal"
+                              th:data-href="@{/user/{idNumber}(idNumber = ${u.idNumber})}" class="btn btn-sm btn-danger shadow-sm"
+                              th:unless="${u == user}"><i class="fa fa-trash-alt fa-sm" aria-hidden="true"></i> <span class="iconLabel">Delete</span></a>
+                          </td>
+                        </th:block>
+                        <th:block
+                          th:unless="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'COUNTY_ADMIN'}">
+                          <td>
+                        </th:block>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Title</th>
+                        <th>Id Number</th>
+                        <th>Phone Number</th>
                         <th></th>
-                      </th:block>
-                    </tr>
-                  </tfoot>
-                </table>
+                        <th:block
+                          th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER'}">
+                          <th></th>
+                        </th:block>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
               </div>
             </div>
           </div>

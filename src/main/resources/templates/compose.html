@@ -2,171 +2,185 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-    <head th:insert="fragments/header.html :: header"></head>
+<head th:insert="fragments/header.html :: header"></head>
 
-    <body id="page-top">
+<body id="page-top">
 
-        <!-- Page Wrapper -->
-        <div id="wrapper">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
-            <!-- Sidebar -->
-            <div th:insert="fragments/sidebar.html :: sidebar"></div>
+        <!-- Sidebar -->
+        <div th:insert="fragments/sidebar.html :: sidebar"></div>
 
-            <!-- Content Wrapper -->
-            <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
 
-                <!-- Main Content -->
-                <div id="content">
+            <!-- Main Content -->
+            <div id="content">
 
-                    <!-- Topbar -->
-                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                        <!-- Sidebar Toggle (Topbar) -->
-                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                            <i class="fa fa-bars"></i>
-                        </button>
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
 
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb small" style="margin-top: 15px;">
-                                <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
-                                <li class="breadcrumb-item"><a
-                                        th:href="@{/users/{idNumber}/recievedMessages(idNumber = ${user.idNumber})}">Messages</a>
-                                </li>
-                                <li class="breadcrumb-item active" aria-current="page">Compose Message</li>
-                            </ol>
-                        </nav>
-
-                        <!-- Topbar Navbar -->
-                        <ul class="navbar-nav ml-auto">
-
-                            <div th:insert="fragments/profile.html :: userMessages"></div>
-
-                            <div class="topbar-divider d-none d-sm-block"></div>
-
-                            <!-- Nav Item - User Information -->
-                            <div th:insert="fragments/profile.html :: userInfo"></div>
-
-                        </ul>
-
+                    <nav aria-label="breadcrumb" class="d-none d-md-block">
+                        <ol class="breadcrumb small" style="margin-top: 15px;">
+                            <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
+                            <li class="breadcrumb-item"><a
+                                    th:href="@{/users/{idNumber}/recievedMessages(idNumber = ${user.idNumber})}">Messages</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Compose Message</li>
+                        </ol>
                     </nav>
-                    <!-- End of Topbar -->
 
-                    <!-- Begin Page Content -->
-                    <div class="container-fluid">
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
 
-                        <!-- Page Heading -->
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800"> Compose Message</h1>
-                        </div>
+                        <div th:insert="fragments/profile.html :: userMessages"></div>
 
-                        <div class="card shadow">
-                            <div class="card-body">
-                                <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Account
-                                    exists</div>
-                                <div class="alert alert-success" th:if="${success}" th:text="${success}">
-                                    Account saved
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <div th:insert="fragments/profile.html :: userInfo"></div>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800"><i class="fa fa-pen-fancy fa-fw" aria-hidden="true"></i>
+                            Compose Message</h1>
+                    </div>
+
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Account
+                                exists</div>
+                            <div class="alert alert-success" th:if="${success}" th:text="${success}">
+                                Account saved
+                            </div>
+
+                            <form class="g-3 needs-validation" action="#"
+                                th:action="@{/users/{idNumber}/message(idNumber = ${user.idNumber})}"
+                                th:object="${mail}" method="post" novalidate>
+                                <div class="mb-2">
+                                    <label for="disabledSenderInput" class="form-label"><i
+                                            class="fa fa-paper-plane fs-sm" aria-hidden="true"></i> From:</label>
+                                    <input type="text" id="disabledSenderInput" class="form-control"
+                                        th:placeholder="${user.firstName + ' ' + user.thirdName + ' '}"
+                                        th:value="${user.firstName + ' ' + user.thirdName + ' '}" disabled>
                                 </div>
 
-                                <form class="g-3 needs-validation" action="#"
-                                    th:action="@{/users/{idNumber}/message(idNumber = ${user.idNumber})}"
-                                    th:object="${mail}" method="post" novalidate>
-                                    <div class="mb-2">
-                                        <label for="disabledSenderInput" class="form-label">From:</label>
-                                        <input type="text" id="disabledSenderInput" class="form-control"
-                                            th:placeholder="${user.firstName + ' ' + user.thirdName + ' '}"
-                                            th:value="${user.firstName + ' ' + user.thirdName + ' '}" disabled>
-                                    </div>
+                                <div class="mb-1">
+                                    <label class="form-check-label"><i class="fa fa-paper-plane fs-sm"
+                                            aria-hidden="true"></i> To: </label>
+                                </div>
+                                <div class="mb-2">
+                                    <th:block th:each="title : ${titles}" class="mb-3">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox"
+                                                th:value="${title['key']}" th:name="${title['key'] + 'Input'}">
+                                            <label class="form-check-label" for="inlineCheckbox"
+                                                th:text="${title['value']}">Chiefs</label>
+                                        </div>
+                                    </th:block>
+                                </div>
 
-                                    <div class="mb-1">
-                                        <label class="form-check-label">To: </label>
-                                    </div>
-                                    <div class="mb-2">
-                                        <th:block th:each="title : ${titles}" class="mb-3">
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox"
-                                                    th:value="${title['key']}" th:name="${title['key'] + 'Input'}">
-                                                <label class="form-check-label" for="inlineCheckbox"
-                                                    th:text="${title['value']}">Chiefs</label>
-                                            </div>
-                                        </th:block>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="disabledTextInput" class="form-label">Subject</label>
-                                        <input type="text" id="disabledTextInput" class="form-control"
-                                            placeholder="subject" th:field="*{subject}" >
-                                    </div>
-                                    <div>
-                                        <label> Message </label>
-                                        <div class="form-floating mb-3">
-                                            <textarea class="form-control" placeholder="Leave a comment here"
-                                                id="floatingTextarea2" style="height: 100px" th:field="*{mail}" maxlength="400"></textarea>
-                                            <label for="floatingTextarea2">Write message ... </label>
+                                <div class="mb-3">
+                                    <label for="disabledTextInput" class="form-label"><i class="fa fa-comment fs-sm"
+                                            aria-hidden="true"></i> Subject</label>
+                                    <input type="text" id="disabledTextInput" class="form-control" placeholder="subject"
+                                        th:field="*{subject}" required>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">
+                                            Please write message subject.
+                                        </div>
+                                </div>
+                                <div>
+                                    <label><i class="fa fa-comments fs-sm" aria-hidden="true"></i> Message </label>
+                                    <div class="form-floating mb-3">
+                                        <textarea class="form-control" placeholder="Leave a comment here"
+                                            id="floatingTextarea2" style="height: 100px" th:field="*{mail}"
+                                            maxlength="400" required></textarea>
+                                        <label for="floatingTextarea2">Write message ... </label>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">
+                                            Please write your message.
                                         </div>
                                     </div>
+                                </div>
 
-                                    <button type="submit" class="btn btn-sm btn-success shadow-sm">Send Message</button>
-                                </form>
+                                <button type="submit" class="btn btn-sm btn-success shadow-sm"><i
+                                        class="fa fa-paper-plane fs-sm" aria-hidden="true"></i> Send Message</button>
+                            </form>
 
-                            </div>
                         </div>
                     </div>
-                    <!-- /.container-fluid -->
-
                 </div>
-                <!-- End of Main Content -->
-
-                <!-- Footer -->
-                <div th:insert="fragments/header.html :: footer"></div>
-                <!-- End of Footer -->
+                <!-- /.container-fluid -->
 
             </div>
-            <!-- End of Content Wrapper -->
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <div th:insert="fragments/header.html :: footer"></div>
+            <!-- End of Footer -->
 
         </div>
-        <!-- End of Page Wrapper -->
+        <!-- End of Content Wrapper -->
 
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
+    </div>
+    <!-- End of Page Wrapper -->
 
-       
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
-        <!-- Logout Modal-->
-        <div th:insert="fragments/profile.html :: logoutModal"></div>
 
-        <div></div>
 
-        <div th:insert="fragments/sidebar.html :: script"></div>
+    <!-- Logout Modal-->
+    <div th:insert="fragments/profile.html :: logoutModal"></div>
 
-        <script type="text/javascript">
-            // Example starter JavaScript for disabling form submissions if there are invalid fields
-            (function () {
-                "use strict";
+    <div></div>
 
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.querySelectorAll(".needs-validation");
+    <div th:insert="fragments/sidebar.html :: script"></div>
 
-                // Loop over them and prevent submission
-                Array.prototype.slice.call(forms).forEach(function (form) {
-                    form.addEventListener(
-                        "submit",
-                        function (event) {
-                            if (!form.checkValidity()) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
+    <script type="text/javascript">
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            "use strict";
 
-                            form.classList.add("was-validated");
-                        },
-                        false
-                    );
-                });
-            })();
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll(".needs-validation");
 
-        </script>
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener(
+                    "submit",
+                    function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
 
-    </body>
+                        form.classList.add("was-validated");
+                    },
+                    false
+                );
+            });
+        })();
+
+    </script>
+
+</body>
 
 </html>

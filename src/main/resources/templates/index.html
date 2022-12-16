@@ -10,6 +10,7 @@
   <!-- Bootstrap CSS -->
   <link th:href="@{webjars/bootstrap/5.2.2/css/bootstrap.min.css}" rel="stylesheet" />
   <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/ptarmigan">
+  <link th:href="@{/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
 
   <title>National Chiefs Forum Of Kenya</title>
 
@@ -19,11 +20,17 @@
         font-size: 20px;
       }
     }
+
+    @media (min-width: 420px) {
+      #siteLabel {
+        font-size: 17px;
+      }
+    }
   </style>
   <link th:href="@{/img/logo.png}" rel="icon" />
 </head>
 
-<body style="background-color:#dadde2;">
+<body style="background-color:#dadde2; min-width: 420px;">
 
   <nav class="navbar">
     <div class="container">
@@ -56,7 +63,7 @@
               <label for="passwordInput" class="form-label">Password</label>
               <input type="password" class="form-control" name="password" placeholder="Password" id="passwordInput" />
             </div>
-            <button type="submit" class="btn btn-sm btn-success shadow-sm">Log in</button>
+            <button type="submit" class="btn btn-sm btn-success shadow-sm"><i class="fa fa-sign-in-alt fa-fw" aria-hidden="true"></i> Log in</button>
           </form>
         </div>
         <div class="col-lg-6">

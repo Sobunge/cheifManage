@@ -26,7 +26,7 @@
                             <i class="fa fa-bars"></i>
                         </button>
 
-                        <nav aria-label="breadcrumb">
+                        <nav aria-label="breadcrumb" class="d-none d-md-block">
                             <ol class="breadcrumb small" style="margin-top: 15px;">
                                 <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">User Registration</li>
@@ -54,7 +54,7 @@
                         <!-- Page Heading -->
                         <div th:fragment="pageHeader">
                             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 class="h3 mb-0 text-gray-800"> User Registration </h1>
+                                <h1 class="h3 mb-0 text-gray-800"><i class="fa fa-user-plus" aria-hidden="true"></i> User Registration </h1>
                             </div>
                         </div>
 
@@ -71,7 +71,7 @@
                                     <!-- User profile form -->
                                     <div th:insert="fragments/header.html :: profileForm"></div>
 
-                                    <button type="submit" class="btn btn-sm btn-success shadow-sm">Register</button>
+                                    <button type="submit" class="btn btn-sm btn-success shadow-sm"><i class="fa fa-user-plus fs-sm fa-fw" aria-hidden="true"></i> Register</button>
                                 </form>
                             </div>
                         </div>

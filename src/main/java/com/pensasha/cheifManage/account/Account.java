@@ -1,13 +1,17 @@
 package com.pensasha.cheifManage.account;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.OrderColumn;
+import javax.persistence.JoinColumn;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -27,7 +31,8 @@ public class Account {
     
     @Id
     @NotNull
-    private int id;
+    @Column(length = 19)
+    private String id;
 
     @Column(length = 15)
     @Size(min = 2, max = 15)
@@ -45,7 +50,10 @@ public class Account {
     @JsonIgnore
     private Collection<Transaction> transactions;
 
-    @OneToOne
-    private User user;
+    @JsonIgnore
+    @OrderColumn
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "user_accounts", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "id_number"))
+    private List<User> users;
     
 }

@@ -17,8 +17,8 @@
 <body>
 
     <span th:fragment="sidebar">
-        <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar"
-            style="background-color: #4d4c4a; height: 100%">
+        <ul class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="accordionSidebar"
+            style="height: 100%">
 
             <!-- Sidebar - Brand -->
             <th:block th:if="${user.role.name == 'USER'}">
@@ -75,7 +75,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#messagePages"
                     aria-expanded="true" aria-controls="messagePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fa fa-comments" aria-hidden="true"></i>
                     <span>Messages <span class="badge badge-danger" style="font-size: 10px;" th:text="${messageCount}"
                             th:if="${messageCount > 0}"> 2 </span> </span>
                 </a>
@@ -83,13 +83,13 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Message Screens:</h6>
                         <a class="collapse-item"
-                            th:href="@{/users/{idNumber}/message(idNumber = ${user.idNumber})}">Compose Message</a>
+                            th:href="@{/users/{idNumber}/message(idNumber = ${user.idNumber})}"><i class="fa fa-pen-fancy fa-fw fs-sm" aria-hidden="true"></i>&nbsp;  Compose Message</a>
                         <a class="collapse-item"
-                            th:href="@{/users/{idNumber}/recievedMessages(idNumber = ${user.idNumber})}">Inbox <span
+                            th:href="@{/users/{idNumber}/recievedMessages(idNumber = ${user.idNumber})}"><i class="fa fa-inbox fa-fw fs-sm" aria-hidden="true"></i>&nbsp;  Inbox <span
                                 class="badge badge-danger badge-counter" style="font-size: 9px;"
                                 th:text="${messageCount}" th:if="${messageCount > 0}">7</span> </a>
                         <a class="collapse-item"
-                            th:href="@{/users/{idNumber}/sentMessages(idNumber = ${user.idNumber})}">Sent Messages</a>
+                            th:href="@{/users/{idNumber}/sentMessages(idNumber = ${user.idNumber})}"><i class="fa fa-paper-plane fa-fw fs-sm" aria-hidden="true"></i>&nbsp;  Sent Messages</a>
                         <div class="collapse-divider"></div>
                     </div>
                 </div>
@@ -97,14 +97,14 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#usersPages"
                     aria-expanded="true" aria-controls="usersPages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fa fa-users" aria-hidden="true"></i>
                     <span>Users</span>
                 </a>
                 <div id="usersPages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Users Screens:</h6>
-                        <a class="collapse-item" th:href="@{/user}">Add User</a>
-                        <a class="collapse-item" th:href="@{/users}">Users<span class="badge badge-danger badge-counter"
+                        <a class="collapse-item" th:href="@{/user}"><i class="fa fa-user-plus fa-fw fs-sm" aria-hidden="true"></i>&nbsp; Add User</a>
+                        <a class="collapse-item" th:href="@{/users}"> <i class="fa fa-users fa-fw fs-sm" aria-hidden="true"></i>&nbsp; Users<span class="badge badge-danger badge-counter"
                                 style="font-size: 9px;" th:text="${messageCount}" th:if="${messageCount > 0}">7</span>
                         </a>
                         <div class="collapse-divider"></div>
@@ -115,7 +115,7 @@
             <li class="nav-item">
                 <th:block th:if="${user.role.name != 'USER'}">
                     <a class="nav-link" th:href="@{/accounts}">
-                        <i class="fas fa-fw fa-chart-area"></i>
+                        <i class="fa fa-briefcase" aria-hidden="true"></i>
                         <span>Accounts</span></a>
                 </th:block>
             </li>

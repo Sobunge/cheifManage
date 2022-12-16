@@ -52,15 +52,16 @@ public class MessageController {
 
         model.addAttribute("title", "Sent Messages");
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));
-        
+
         List<Message> sentMessages = messageService.getMySentMessages(idNumber);
         model.addAttribute("sentMessages", sentMessages);
 
-        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+                Status.UNREAD);
         model.addAttribute("messages", messages);
-    
+
         int count = 0;
-        for(int i=0; i<messages.size(); i++){
+        for (int i = 0; i < messages.size(); i++) {
             count++;
         }
         model.addAttribute("messageCount", count);
@@ -74,11 +75,12 @@ public class MessageController {
 
         model.addAttribute("title", "Inbox");
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));
-        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+                Status.UNREAD);
         model.addAttribute("messages", messages);
-    
+
         int count = 0;
-        for(int i=0; i<messages.size(); i++){
+        for (int i = 0; i < messages.size(); i++) {
             count++;
         }
         model.addAttribute("messageCount", count);
@@ -91,11 +93,12 @@ public class MessageController {
     public String getMessage(@PathVariable int idNumber, @PathVariable Long id, Model model, Principal principal) {
 
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));
-        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+                Status.UNREAD);
         model.addAttribute("messages", messages);
-    
+
         int count = 0;
-        for(int i=0; i<messages.size(); i++){
+        for (int i = 0; i < messages.size(); i++) {
             count++;
         }
         model.addAttribute("messageCount", count);
@@ -109,11 +112,12 @@ public class MessageController {
         model.addAttribute("titles", titles);
         model.addAttribute("mail", new Message());
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));
-        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+                Status.UNREAD);
         model.addAttribute("messages", messages);
-    
+
         int count = 0;
-        for(int i=0; i<messages.size(); i++){
+        for (int i = 0; i < messages.size(); i++) {
             count++;
         }
         model.addAttribute("messageCount", count);
@@ -123,29 +127,47 @@ public class MessageController {
 
     // send a message
     @PostMapping("/users/{idNumber}/message")
-    public RedirectView sendMessage(HttpServletRequest request, @PathVariable int idNumber, @ModelAttribute Message mail,
+    public RedirectView sendMessage(HttpServletRequest request, @PathVariable int idNumber,
+            @ModelAttribute Message mail,
             RedirectAttributes redit, Principal principal) {
 
-        mail.setStatus(Status.UNREAD);
-        mail.setSender(userService.getUserByIdNumber(idNumber));
-
-        Date date = new Date();
-        mail.setDate(date);
+        String output;
 
         List<User> users = new ArrayList<>();
         for (Title t : Title.values()) {
             if (request.getParameter(t.name() + "Input") != null) {
-                    users.addAll(userService.usersWithTitle(t));
-                    users.remove(userService.getUserByIdNumber(idNumber));
+                users.addAll(userService.usersWithTitle(t));
+                users.remove(userService.getUserByIdNumber(idNumber));
             }
         }
-        mail.setRecievers(users);
 
-        messageService.sendMessage(mail);
-        
-        redit.addFlashAttribute("success", "Your message was successfully sent");
+        if (users.isEmpty()) {
 
-        return new RedirectView("/users/" + idNumber + "/recievedMessages", true);
+            redit.addFlashAttribute("fail", "Your message should have a recipient");
+            output = "/users/" + idNumber + "/message";
+        } else {
+            if (mail.getMail().isEmpty()) {
+                redit.addFlashAttribute("fail", "Your message must not be empty");
+                output = "/users/" + idNumber + "/message";
+            } else {
+
+                Date date = new Date();
+
+                mail.setStatus(Status.UNREAD);
+                mail.setSender(userService.getUserByIdNumber(idNumber));
+                mail.setDate(date);
+                mail.setRecievers(users);
+
+                messageService.sendMessage(mail);
+
+                redit.addFlashAttribute("success", "Your message was successfully sent");
+
+                output = "/users/" + idNumber + "/sentMessages";
+            }
+        }
+
+        return new RedirectView(output, true);
+
     }
 
     // delete a message

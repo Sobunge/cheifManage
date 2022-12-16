@@ -25,15 +25,17 @@ public class UserService {
 
     // Updating user details
     public User updateUserDetails(User user, int idNumber) {
-    
-        User existingUser = userRepository.findById(idNumber).get();
 
-        Account account = accountService.getAccountByUserIdNumber(idNumber);
+        User existingUser = userRepository.findById(idNumber).get();
 
         user.setPassword(existingUser.getPassword());
         userRepository.save(user);
 
-        accountService.addAccount(account);
+        if (accountService.getAccountByUserIdNumber(idNumber) != null) {
+
+            Account account = accountService.getAccountByUserIdNumber(idNumber);
+            accountService.addAccount(account);
+        }
 
         return user;
     }
@@ -59,8 +61,8 @@ public class UserService {
         return userRepository.existsById(idNumber);
     }
 
-    //User with a title
-    public List<User> usersWithTitle(Title title){
+    // User with a title
+    public List<User> usersWithTitle(Title title) {
         return userRepository.findAllByTitle(title);
     }
 

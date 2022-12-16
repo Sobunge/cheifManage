@@ -1,6 +1,7 @@
 package com.pensasha.cheifManage.user;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pensasha.cheifManage.account.Account;
 import com.pensasha.cheifManage.message.Message;
 import com.pensasha.cheifManage.role.Role;
 
@@ -71,6 +73,10 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Account> accounts; 
 
     @JsonIgnore
     @ManyToMany(mappedBy = "recievers", cascade = {CascadeType.PERSIST, CascadeType.MERGE})

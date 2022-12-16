@@ -70,7 +70,7 @@ public class TransactionController {
 
     //Getting account transactions
     @GetMapping("/accounts/{id}/transactions")
-    public String getAccountTransactions(@PathVariable int id, Principal principal, Model model){
+    public String getAccountTransactions(@PathVariable String id, Principal principal, Model model){
 
         User user = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
 
@@ -92,7 +92,7 @@ public class TransactionController {
 
     //Getting transactions pdf
     @GetMapping("/accounts/{id}/transactions/pdf")
-    public ResponseEntity<?> getTransactionsPdf(@PathVariable int id, HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<?> getTransactionsPdf(@PathVariable String id, HttpServletRequest request, HttpServletResponse response){
 
         WebContext context = new WebContext(request, response, this.servletContext);
         context.setVariable("transactions", transactionService.getAllTransactionForAccount(id));
@@ -110,7 +110,7 @@ public class TransactionController {
 
     // Adding a transaction
     @PostMapping("/accounts/{id}/transaction")
-    public RedirectView addTransaction(@PathVariable Integer id, @ModelAttribute Transaction transaction,
+    public RedirectView addTransaction(@PathVariable String id, @ModelAttribute Transaction transaction,
             HttpServletRequest request, Principal principal, RedirectAttributes redit) {
 
         if (transactionService.doesTransactionExist(transaction.getId())) {
@@ -120,7 +120,8 @@ public class TransactionController {
             Account account = accountService.getAccount(id);
             account.setBalance(account.getBalance() + transaction.getAmount());
 
-            User accountUser = account.getUser();
+            //Change to account user... maybe the link
+            User accountUser = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
 
             Date date = new Date();
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Nairobi/Kenya"));
@@ -212,7 +213,7 @@ public class TransactionController {
 
     // Deleting a transaction
     @GetMapping("/accounts/{id}/transactions/{trans_id}")
-    public RedirectView deleteTransactionFromAccount(@PathVariable Integer id, @PathVariable Long trans_id,
+    public RedirectView deleteTransactionFromAccount(@PathVariable String id, @PathVariable Long trans_id,
             RedirectAttributes redit) {
 
         if (transactionService.doesTransactionExist(trans_id)) {
@@ -237,7 +238,7 @@ public class TransactionController {
 
     // Getting a transaction
     @GetMapping("/accounts/{id}/transaction/{trans_id}")
-    public String getTransaction(@PathVariable Integer id, @PathVariable Long trans_id, Model model,
+    public String getTransaction(@PathVariable String id, @PathVariable Long trans_id, Model model,
             Principal principal) {
 
         Account account = accountService.getAccount(id);
@@ -260,7 +261,7 @@ public class TransactionController {
 
     //Getting a transaction pdf
     @GetMapping("/accounts/{id}/transaction/{trans_id}/pdf")
-    public ResponseEntity<?>getTransactionReciept(@PathVariable int id, @PathVariable Long trans_id, HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<?>getTransactionReciept(@PathVariable String id, @PathVariable Long trans_id, HttpServletRequest request, HttpServletResponse response){
 
         WebContext context = new WebContext(request, response, this.servletContext);
         context.setVariable("transactions", transactionService.getAllTransactionForAccount(id));
@@ -279,7 +280,7 @@ public class TransactionController {
 
     // Update a transaction
     @PostMapping("/accounts/{id}/transaction/{trans_id}")
-    public RedirectView updateTransaction(@ModelAttribute Transaction transaction, @PathVariable Integer id,
+    public RedirectView updateTransaction(@ModelAttribute Transaction transaction, @PathVariable String id,
             @PathVariable Long trans_id, @RequestParam String userInput, RedirectAttributes redit) {
 
         if (transactionService.doesTransactionExist(trans_id)) {

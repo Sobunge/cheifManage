@@ -2,81 +2,83 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-    <head th:insert="fragments/header.html :: header"></head>
+<head th:insert="fragments/header.html :: header"></head>
 
-    <body id="page-top">
+<body id="page-top">
 
-        <!-- Page Wrapper -->
-        <div id="wrapper">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
-            <!-- Sidebar -->
-            <div th:insert="fragments/sidebar.html :: sidebar"></div>
+        <!-- Sidebar -->
+        <div th:insert="fragments/sidebar.html :: sidebar"></div>
 
-            <!-- Content Wrapper -->
-            <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
 
-                <!-- Main Content -->
-                <div id="content">
+            <!-- Main Content -->
+            <div id="content">
 
-                    <!-- Topbar -->
-                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                        <!-- Sidebar Toggle (Topbar) -->
-                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                            <i class="fa fa-bars"></i>
-                        </button>
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
 
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb small" style="margin-top: 15px;">
-                                <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page" th:text="${title}">Inbox</li>
-                            </ol>
-                        </nav>
-
-                        <!-- Topbar Navbar -->
-                        <ul class="navbar-nav ml-auto">
-
-                            <div th:insert="fragments/profile.html :: userMessages"></div>
-
-                            <div class="topbar-divider d-none d-sm-block"></div>
-
-                            <!-- Nav Item - User Information -->
-                            <div th:insert="fragments/profile.html :: userInfo"></div>
-
-                        </ul>
-
+                    <nav aria-label="breadcrumb" class="d-none d-md-block">
+                        <ol class="breadcrumb small" style="margin-top: 15px;">
+                            <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page" th:text="${title}">Inbox</li>
+                        </ol>
                     </nav>
-                    <!-- End of Topbar -->
 
-                    <!-- Begin Page Content -->
-                    <div class="container-fluid">
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
 
-                        <!-- Page Heading -->
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800" th:text="${title}"> Messages </h1>
-                            <a th:href="@{/users/{idNumber}/message(idNumber = ${user.idNumber})}"
-                                class="btn btn-sm btn-primary shadow-sm"><i
-                                    class="fas fa-download fa-sm text-white-50"></i> Compose Message</a>
-                        </div>
+                        <div th:insert="fragments/profile.html :: userMessages"></div>
 
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Account
-                                    exists</div>
-                                <div class="alert alert-success" th:if="${success}" th:text="${success}">
-                                    Account saved
-                                </div>
+                        <div class="topbar-divider d-none d-sm-block"></div>
 
-                                <table id="messagesTable" class="table table-sm table-responsive-md" style="width:100%">
+                        <!-- Nav Item - User Information -->
+                        <div th:insert="fragments/profile.html :: userInfo"></div>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h4 mb-0 text-gray-800"><i class="fa fa-inbox fa-fw fs-sm" aria-hidden="true"></i>
+                            <span th:text="${title}">Messages</span> </h1>
+                        <a th:href="@{/users/{idNumber}/message(idNumber = ${user.idNumber})}"
+                            class="btn btn-sm btn-primary shadow-sm"><i class="fa fa-pen-fancy fs-sm fa-fw"
+                                aria-hidden="true"></i>&nbsp;
+                            <span class="iconLabel">Compose Message</span></a>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="alert alert-danger" th:if="${fail}" th:text="${fail}">Account
+                                exists</div>
+                            <div class="alert alert-success" th:if="${success}" th:text="${success}">
+                                Account saved
+                            </div>
+                            <div class="table-responsive">
+                                <table id="messagesTable" class="table table-sm" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>#</th>
                                             <th>Subject</th>
-                                            <th>Message</th>
-                                            <th>Date</th>
-                                            <th>Time</th>
-                                            <th></th>
-                                            <th th:if="${title == 'Inbox'}"></th>
+                                            <th style="max-width: 200px; min-width: 100px;">Message</th>
+                                            <th style="min-width: 100px;">Date</th>
+                                            <th style="min-width: 100px;">Time</th>
+                                            <th style="min-width: 60px;"></th>
+                                            <th style="min-width: 60px;" th:if="${title == 'Inbox'}"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -85,24 +87,50 @@
                                                 th:classappend="${message.status.name == 'UNREAD' && title == 'Inbox'} ? table-secondary">
                                                 <td th:text="${iter.count}">Counter</td>
                                                 <td th:text="${message.subject}">Subject</td>
-                                                <td th:text="${message.mail}">Message</td>
-                                                <td th:text="${#dates.format(message.date, 'dd-MM-yyyy')}">Date</td>
-                                                <td th:text="${#dates.format(message.date, 'hh:mm:s a')}">Time</td>
-                                                <td> <a class="btn btn-sm btn-primary shadow-sm" th:href="@{/users/{idNumber}/messages/{id}(idNumber = ${user.idNumber}, id = ${message.id})}" >View</a>
+                                                <td style="max-width: 200px; min-width: 100px;"><span
+                                                        class="d-inline-block text-truncate" style="max-width: 120px;"
+                                                        th:text="${message.mail}">message</span></td>
+                                                <td style="min-width: 100px;"
+                                                    th:text="${#dates.format(message.date, 'dd-MM-yyyy')}">Date</td>
+                                                <td style="min-width: 100px;"
+                                                    th:text="${#dates.format(message.date, 'hh:mm:s a')}">Time</td>
+                                                <td><button type="button" class="btn btn-sm btn-primary shadow-sm"
+                                                        data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                        th:data-bs-time="${#dates.format(message.date, 'dd-MM-yyyy') +', '+  #dates.format(message.date, 'hh:mm:s a')}"
+                                                        th:data-bs-subject="${message.subject}"
+                                                        th:data-bs-message="${message.mail}"
+                                                        th:data-bs-sender="${message.sender.title + ', ' + message.sender.firstName + ' ' + message.sender.thirdName}"><i
+                                                            class="fa fa-folder-open fs-sm fa-fw"
+                                                            aria-hidden="true"></i><span class="iconLabel">
+                                                            View</span></button>
                                                 </td>
                                                 <td> <a class="btn btn-sm btn-danger shadow-sm" th:href="@{#}">
-                                                        Delete </a> </td>
+                                                        <i class="fa fa-trash-alt fa-sm" aria-hidden="true"></i> <span
+                                                            class="iconLabel">Delete</span> </a> </td>
                                             </tr>
                                         </th:block>
                                         <th:block th:unless="${title == 'Inbox'}">
                                             <tr th:each="message, iter : ${sentMessages}"
                                                 th:classappend="${message.status.name == 'UNREAD' && title == 'Inbox'} ? table-secondary">
                                                 <td th:text="${iter.count}">Counter</td>
-                                                <td th:text="${message.subject}">Subject</td>•
-                                                <td th:text="${message.mail}">Message</td>
-                                                <td th:text="${#dates.format(message.date, 'dd-MM-yyyy')}">Date</td>
-                                                <td th:text="${#dates.format(message.date, 'hh:mm:s a')}">Time</td>
-                                                <td> <button class="btn btn-sm btn-primary shadow-sm">View</button>
+                                                <td th:text="${message.subject}">Subject</td>
+                                                <td style="max-width: 200px; min-width: 100px;"
+                                                    class="d-inline-block text-truncate" th:text="${message.mail}">
+                                                    Message
+                                                </td>
+                                                <td style="min-width: 100px;"
+                                                    th:text="${#dates.format(message.date, 'dd-MM-yyyy')}">Date</td>
+                                                <td style="min-width: 100px;"
+                                                    th:text="${#dates.format(message.date, 'hh:mm:s a')}">Time</td>
+                                                <td><button type="button" class="btn btn-sm btn-primary shadow-sm"
+                                                        data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                        th:data-bs-time="${#dates.format(message.date, 'dd-MM-yyyy') +', '+  #dates.format(message.date, 'hh:mm:s a')}"
+                                                        th:data-bs-subject="${message.subject}"
+                                                        th:data-bs-message="${message.mail}"
+                                                        th:data-bs-sender="${message.sender.title + ', ' + message.sender.firstName + ' ' + message.sender.thirdName}"><i
+                                                            class="fa fa-folder-open fs-sm fa-fw"
+                                                            aria-hidden="true"></i><span
+                                                            class="iconLabel">View</span></button>
                                                 </td>
                                             </tr>
                                         </th:block>
@@ -111,9 +139,9 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Subject</th>
-                                            <th>Message</th>
-                                            <th>Date</th>
-                                            <th>Time</th>
+                                            <th style="max-width: 200px; min-width: 100px;">Message</th>
+                                            <th style="min-width: 100px;">Date</th>
+                                            <th style="min-width: 100px;">Time</th>
                                             <th></th>
                                             <th th:if="${title == 'Inbox'}"></th>
                                         </tr>
@@ -122,92 +150,153 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /.container-fluid -->
-
                 </div>
-                <!-- End of Main Content -->
-
-                <!-- Footer -->
-                <div th:insert="fragments/header.html :: footer"></div>
-                <!-- End of Footer -->
+                <!-- /.container-fluid -->
 
             </div>
-            <!-- End of Content Wrapper -->
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <div th:insert="fragments/header.html :: footer"></div>
+            <!-- End of Footer -->
 
         </div>
-        <!-- End of Page Wrapper -->
+        <!-- End of Content Wrapper -->
 
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
+    </div>
+    <!-- End of Page Wrapper -->
 
-        <!-- Delete a message model -->
-        <div class="modal fade" id="deleteMessageModal" tabindex="-1" aria-labelledby="deleteMessageModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title text-danger" id="deleteMessageModalLabel">Delete Message</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p class="text-danger">This message will be deleted and will not be recovered. Are you sure you want
-                            to delete?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-success shadow-sm" data-bs-dismiss="modal">No! Don't Delete <i
-                                class="fas fa-fw fa-times"></i></button>
-                        <a class="btn btn-sm btn-danger shadow-sm ok-button">Yes! Delete <i class="fas fa-fw fa-trash-alt"></i></a>
-                    </div>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Viewing message modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label col-form-label-sm"><i
+                                    class="fa fa-comment fs-sm" aria-hidden="true"></i> Subject:</label>
+                            <input type="text" class="form-control form-control-sm" id="recipient-name">
+                        </div>
+                        <div class="mb-1">
+                            <label for="message-text" class="col-form-label col-form-label-sm"><i
+                                    class="fa fa-comments fs-sm" aria-hidden="true"></i> Message:</label>
+                            <textarea class="form-control form-control-sm" id="message-text"></textarea>
+                        </div>
+                        <div style="text-align: right;">
+                            <label for="message-send-time" class="col-form-label col-form-label-sm"><i
+                                    class="fa fa-clock fs-sm" aria-hidden="true"></i> <span
+                                    id="sent-time">time</span></label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary shadow-sm" data-bs-dismiss="modal"><i
+                            class="fa fa-times fs-sm" aria-hidden="true"></i> Close</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Logout Modal-->
-        <div th:insert="fragments/profile.html :: logoutModal"></div>
+    <!-- Delete a message model -->
+    <div class="modal fade" id="deleteMessageModal" tabindex="-1" aria-labelledby="deleteMessageModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="deleteMessageModalLabel">Delete Message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-danger">This message will be deleted and will not be recovered. Are you sure you want
+                        to delete?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-success shadow-sm" data-bs-dismiss="modal">No! Don't
+                        Delete <i class="fas fa-fw fa-times"></i></button>
+                    <a class="btn btn-sm btn-danger shadow-sm ok-button">Yes! Delete <i
+                            class="fas fa-fw fa-trash-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <div></div>
+    <!-- Logout Modal-->
+    <div th:insert="fragments/profile.html :: logoutModal"></div>
 
-        <div th:insert="fragments/sidebar.html :: script"></div>
+    <div></div>
 
-        <script type="text/javascript">
-            // Example starter JavaScript for disabling form submissions if there are invalid fields
-            (function () {
-                "use strict";
+    <div th:insert="fragments/sidebar.html :: script"></div>
 
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.querySelectorAll(".needs-validation");
+    <script type="text/javascript">
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            "use strict";
 
-                // Loop over them and prevent submission
-                Array.prototype.slice.call(forms).forEach(function (form) {
-                    form.addEventListener(
-                        "submit",
-                        function (event) {
-                            if (!form.checkValidity()) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll(".needs-validation");
 
-                            form.classList.add("was-validated");
-                        },
-                        false
-                    );
-                });
-            })();
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener(
+                    "submit",
+                    function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
 
-            $("#deleteMessageModal").on("show.bs.modal", function (e) {
-                $(this)
-                    .find(".ok-button")
-                    .attr("href", $(e.relatedTarget).data("href"));
+                        form.classList.add("was-validated");
+                    },
+                    false
+                );
             });
+        })();
 
-            $(document).ready(function () {
-                $('#messagesTable').DataTable();
-            });
+        $("#deleteMessageModal").on("show.bs.modal", function (e) {
+            $(this)
+                .find(".ok-button")
+                .attr("href", $(e.relatedTarget).data("href"));
+        });
 
-        </script>
+        $(document).ready(function () {
+            $('#messagesTable').DataTable();
+        });
 
-    </body>
+        const exampleModal = document.getElementById('exampleModal')
+        exampleModal.addEventListener('show.bs.modal', event => {
+            // Button that triggered the modal
+            const button = event.relatedTarget
+            // Extract info from data-bs-* attributes
+            const sender = button.getAttribute('data-bs-sender')
+            const subject = button.getAttribute('data-bs-subject')
+            const message = button.getAttribute('data-bs-message')
+            const time = button.getAttribute('data-bs-time')
+            // If necessary, you could initiate an AJAX request here
+            // and then do the updating in a callback.
+            //
+            // Update the modal's content.
+            const modalTitle = exampleModal.querySelector('.modal-title')
+            const modalBodyInput = exampleModal.querySelector('.modal-body input')
+            const modalBodyTextarea = exampleModal.querySelector('.modal-body textarea')
+            const modalTime = exampleModal.querySelector('#sent-time')
+
+            modalTitle.textContent = `Message from: ${sender}`
+            modalBodyInput.value = subject
+            modalBodyTextarea.value = message
+            modalTime.textContent = time
+        })
+
+    </script>
+
+</body>
 
 </html>

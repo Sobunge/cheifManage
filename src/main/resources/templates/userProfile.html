@@ -21,7 +21,7 @@
             <i class="fa fa-bars"></i>
           </button>
 
-          <nav aria-label="breadcrumb">
+          <nav aria-label="breadcrumb" class="d-none d-md-block">
             <ol class="breadcrumb small" style="margin-top: 15px">
               <th:block th:if="${user.role.name == 'USER'}">
                 <li class="breadcrumb-item">
@@ -109,9 +109,9 @@
                 <th:block
                   th:if="${user == newUser || user.role.name == 'SUPER_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'COUNTY_ADMIN' || user.role.name == 'COUNTY_ADMIN' && newUser.role.name == 'USER'}">
                   <div class="mb-3">
-                    <button type="button" class="btn btn-link btn-sm" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
                       data-bs-target="#exampleModal">
-                      Change password
+                      <i class="fa fa-window-restore fa-fw fa-sm" aria-hidden="true"></i>&nbsp; Change password
                     </button>
                   </div>
                 </th:block>
@@ -316,14 +316,14 @@
                 </div>
 
                 <button id="changeDetails" type="submit" class="btn btn-sm btn-success shadow-sm" style="display: none">
-                  Save Changes
+                  <i class="fa fa-save fa-sm fa-fw" aria-hidden="true"></i> Save Changes
                 </button>
               </form>
 
               <th:block
                 th:if="${user.idNumber == newUser.idNumber || user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && newUser.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'COUNTY_ADMIN'}">
                 <button class="btn btn-sm btn-primary shadow-sm" onClick="toggleEdit()" id="editDetails">
-                  Edit Profile
+                  <i class="fa fa-pen-fancy fa-sm fa-fw" aria-hidden="true"></i> Edit Profile
                 </button>
               </th:block>
             </div>
@@ -344,7 +344,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="exampleModalLabel">
-                Password Reset
+                <i class="fa fa-window-restore fa-fw fa-sm" aria-hidden="true"></i>&nbsp; Password Reset
               </h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -353,8 +353,8 @@
               <form action="#" th:action="@{/user/{idNumber}/changePassword(idNumber = ${newUser.idNumber})}"
                 class="g-3 needs-validation" method="post" novalidate>
                 <div class="mb-3">
-                  <label for="currentPassword" class="form-label"> Current Password </label>
-                  <input type="text" class="form-control" id="currentPasswordInput" name="currentPass"
+                  <label for="currentPassword" class="col-form-label col-form-label-sm"><i class="fa fa-key fs-sm" aria-hidden="true"></i> Current Password </label>
+                  <input type="password" class="form-control form-control-sm" id="currentPasswordInput" name="currentPass"
                     placeholder="Current Password" minlength="8" required>
                   <div class="valid-feedback">
                     Looks good!
@@ -364,8 +364,8 @@
                   </div>
                 </div>
                 <div class="mb-3">
-                  <label for="newPassword" class="form-label"> New Password </label>
-                  <input type="text" class="form-control" id="newPasswordInput" name="newPass"
+                  <label for="newPassword" class="col-form-label col-form-label-sm"><i class="fa fa-key fs-sm" aria-hidden="true"></i> New Password </label>
+                  <input type="password" class="form-control form-control-sm" id="newPasswordInput" name="newPass"
                     placeholder="New Password" minlength="8" required>
                   <div class="valid-feedback">
                     Looks good!
@@ -375,14 +375,14 @@
                   </div>
                 </div>
 
-                <button type="submit" class="btn btn-sm btn-success shadow-sm">Change Password</button>
+                <button type="submit" class="btn btn-sm btn-success shadow-sm"><i class="fa fa-save fa-sm fa-fw" aria-hidden="true"></i> Change Password</button>
 
               </form>
 
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-sm btn-danger shadow-sm" data-bs-dismiss="modal">
-                Close
+                <i class="fa fa-times fs-sm fa-fw" aria-hidden="true"></i>Close
               </button>
             </div>
           </div>

@@ -12,7 +12,7 @@ public class TransactionService {
     private TransactionRepository transactionRepository;
 
     //Getting all transaction for an account
-    public List<Transaction> getAllTransactionForAccount(Integer accountId){
+    public List<Transaction> getAllTransactionForAccount(String accountId){
         return transactionRepository.findAllByAccountId(accountId);
     }
 
