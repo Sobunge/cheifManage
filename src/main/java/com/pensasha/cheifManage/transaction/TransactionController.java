@@ -59,30 +59,34 @@ public class TransactionController {
     @Autowired
     private ServletContext servletContext;
 
-    //private final String baseUrl = "http://localhost:8081/";
+    // private final String baseUrl = "http://localhost:8081/";
     private final String baseUrl = "https://analytica-school.herokuapp.com/";
 
     private final TemplateEngine templateEngine;
-    
+
     public TransactionController(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
 
-    //Getting account transactions
+    // Getting account transactions
     @GetMapping("/accounts/{id}/transactions")
-    public String getAccountTransactions(@PathVariable String id, Principal principal, Model model){
+    public String getAccountTransactions(@PathVariable String id, Principal principal, Model model) {
 
         User user = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
 
+        Account account = accountService.getAccount(id);
+
+        model.addAttribute("users", account.getUsers());
         model.addAttribute("user", user);
         model.addAttribute("transaction", new Transaction());
-        model.addAttribute("account", accountService.getAccount(id));
+        model.addAttribute("account", account);
         model.addAttribute("transactions", transactionService.getAllTransactionForAccount(id));
-        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+                Status.UNREAD);
         model.addAttribute("messages", messages);
-    
+
         int count = 0;
-        for(int i=0; i<messages.size(); i++){
+        for (int i = 0; i < messages.size(); i++) {
             count++;
         }
         model.addAttribute("messageCount", count);
@@ -90,9 +94,10 @@ public class TransactionController {
         return "transactions";
     }
 
-    //Getting transactions pdf
+    // Getting transactions pdf
     @GetMapping("/accounts/{id}/transactions/pdf")
-    public ResponseEntity<?> getTransactionsPdf(@PathVariable String id, HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<?> getTransactionsPdf(@PathVariable String id, HttpServletRequest request,
+            HttpServletResponse response) {
 
         WebContext context = new WebContext(request, response, this.servletContext);
         context.setVariable("transactions", transactionService.getAllTransactionForAccount(id));
@@ -105,23 +110,21 @@ public class TransactionController {
         HtmlConverter.convertToPdf(accountsHtml, target, converterProperties);
         byte[] bytes = target.toByteArray();
 
-        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes); 
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes);
     }
 
     // Adding a transaction
-    @PostMapping("/accounts/{id}/transaction")
-    public RedirectView addTransaction(@PathVariable String id, @ModelAttribute Transaction transaction,
-            HttpServletRequest request, Principal principal, RedirectAttributes redit) {
+    @PostMapping("/accounts/{accountId}/transaction")
+    public RedirectView addTransaction(@PathVariable String accountId, @ModelAttribute Transaction transaction,
+            HttpServletRequest request, Principal principal, RedirectAttributes redit,
+            @RequestParam int idNumberInput) {
 
-        if (transactionService.doesTransactionExist(transaction.getId())) {
-            redit.addFlashAttribute("transactionFail", "Transaction already exists");
+        if (transactionService.doesTransactionWithReferenceNumberExist(transaction.getReferenceNumber())) {
+            redit.addFlashAttribute("transactionFail", "Transaction with a similer reference number already exists");
         } else {
 
-            Account account = accountService.getAccount(id);
+            Account account = accountService.getAccount(accountId);
             account.setBalance(account.getBalance() + transaction.getAmount());
-
-            //Change to account user... maybe the link
-            User accountUser = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
 
             Date date = new Date();
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Nairobi/Kenya"));
@@ -189,15 +192,15 @@ public class TransactionController {
                     transaction.setMonth(Month.NOVEMBER);
                     break;
                 default:
-                    months.add(Month.DECEMBER); 
+                    months.add(Month.DECEMBER);
                     transaction.setMonth(Month.DECEMBER);
             }
 
             year.setMonths(months);
             yearService.saveYear(year);
 
+            transaction.setUser(userService.getUserByIdNumber(idNumberInput));
             transaction.setAccount(account);
-            transaction.setUser(accountUser);
             transaction.setYear(year);
             transaction.setDate(dFormat.format(date));
             transaction.setTime(tFormat.format(date));
@@ -207,7 +210,7 @@ public class TransactionController {
             redit.addFlashAttribute("transactionSuccess", "Transaction successfully recorded");
         }
 
-        return new RedirectView("/accounts/" + id + "/transactions", true);
+        return new RedirectView("/accounts/" + accountId + "/transactions", true);
 
     }
 
@@ -247,11 +250,12 @@ public class TransactionController {
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("transaction", transactionService.getTransaction(trans_id));
         model.addAttribute("account", account);
-        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+                Status.UNREAD);
         model.addAttribute("messages", messages);
-    
+
         int count = 0;
-        for(int i=0; i<messages.size(); i++){
+        for (int i = 0; i < messages.size(); i++) {
             count++;
         }
         model.addAttribute("messageCount", count);
@@ -259,9 +263,10 @@ public class TransactionController {
         return "transaction";
     }
 
-    //Getting a transaction pdf
+    // Getting a transaction pdf
     @GetMapping("/accounts/{id}/transaction/{trans_id}/pdf")
-    public ResponseEntity<?>getTransactionReciept(@PathVariable String id, @PathVariable Long trans_id, HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<?> getTransactionReciept(@PathVariable String id, @PathVariable Long trans_id,
+            HttpServletRequest request, HttpServletResponse response) {
 
         WebContext context = new WebContext(request, response, this.servletContext);
         context.setVariable("transactions", transactionService.getAllTransactionForAccount(id));
@@ -275,7 +280,7 @@ public class TransactionController {
         HtmlConverter.convertToPdf(transactionHtml, target, converterProperties);
         byte[] bytes = target.toByteArray();
 
-        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes); 
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes);
     }
 
     // Update a transaction
@@ -309,4 +314,4 @@ public class TransactionController {
         return new RedirectView("/accounts/" + id + "/transactions", true);
 
     }
-}   
+}

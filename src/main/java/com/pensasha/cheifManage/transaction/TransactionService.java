@@ -44,4 +44,9 @@ public class TransactionService {
     public Boolean doesTransactionExist(Long id){
         return transactionRepository.existsById(id);
     }
+
+    //Does an account with a similer reference number exist
+    public Boolean doesTransactionWithReferenceNumberExist(String refNumber){
+        return transactionRepository.existsByReferenceNumber(refNumber);
+    }
 }

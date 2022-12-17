@@ -92,14 +92,14 @@
                             <table id="transactionTable" class="table table-sm table-responsive-md" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">reference Number</th>
-                                        <th scope="col">Amount</th>
-                                        <th scope="col">Time</th>
-                                        <th scope="col">Date</th>
-                                        <th></th>
+                                        <th style="min-width: 30px; max-width: 80px;" scope="col">#</th>
+                                        <th style="min-width: 150px;" scope="col">reference Number</th>
+                                        <th style="min-width: 80px;" scope="col">Amount</th>
+                                        <th style="min-width: 90px;" scope="col">Time</th>
+                                        <th style="min-width: 100px;" scope="col">Date</th>
+                                        <th style="min-width: 80px;"></th>
                                         <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
-                                            <th></th>
+                                            <th style="min-width: 80px;"></th>
                                         </th:block>
                                     </tr>
                                 </thead>
@@ -112,13 +112,13 @@
                                             <td th:text="${transaction.time}"></td>
                                             <td th:text="${transaction.date}"></td>
                                             <td><a class="btn btn-sm btn-primary shadow-sm"
-                                                    th:href="@{/accounts/{id}/transaction/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}">View</a>
+                                                    th:href="@{/accounts/{id}/transaction/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}"><i class="fa fa-folder-open fs-sm" aria-hidden="true"></i> <span class="iconLabel">View</span></a>
                                             </td>
                                             <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
                                                 <td><a data-bs-toggle="modal" href="#"
                                                         data-bs-target="#deleteTransactionModal"
                                                         th:data-href="@{/accounts/{id}/transactions/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}"
-                                                        class="btn btn-sm btn-danger shadow-sm"> Delete </a></td>
+                                                        class="btn btn-sm btn-danger shadow-sm"><i class="fa fa-trash-alt fa-sm" aria-hidden="true"></i> <span class="iconLabel">Delete</span> </a></td>
                                             </th:block>
                                         </tr>
                                     </th:block>
@@ -136,19 +136,38 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="addTransactionModalLabel">
-                                    Add Contribution</h5>
+                                    <i class="fa fa-plus" aria-hidden="true"></i>&nbsp; Add Contribution
+                                </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <form class="g-3 needs-validation" action="#"
-                                    th:action="@{/accounts/{id}/transaction(id = ${account.id})}"
+                                    th:action="@{/accounts/{accountId}/transaction(accountId = ${account.id})}"
                                     th:object="${transaction}" method="post" novalidate>
                                     <input type="text" id="typeInput" name="typeInput" value="Saving" hidden>
-                                    <div class="mb-3">
-                                        <label for="amount" class="form-label"> Amount </label>
-                                        <input type="number" th:field="*{amount}" class="form-control" id="amountInput"
-                                            placeholder="Amount" min="1" required>
+                                    <div class="form-floating mb-3">
+                                        <select name="idNumberInput" class="form-select form-select-sm" aria-label="userIdNumber"
+                                            autocomplete="on">
+                                            <th:block th:each="user : ${users}">
+                                                <option th:text="${user.idNumber}" th:value="${user.idNumber }">One
+                                                </option>
+                                            </th:block>
+                                        </select>
+                                        <label class="col-form-label col-form-label-sm" for="idNumberInput"><i
+                                                class="fa fa-id-card fa-sm fa-fw" aria-hidden="true"></i>&nbsp; Id
+                                            Number</label>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">
+                                            Please provide an Id Number.
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="number" th:field="*{amount}" class="form-control form-control-sm"
+                                            id="amountInput" placeholder="Amount" min="1" required>
+                                        <label for="amount" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-money-bill-alt fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                            Amount </label>
                                         <div class="valid-feedback">
                                             Looks good!
                                         </div>
@@ -156,10 +175,13 @@
                                             Please enter amount.
                                         </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="referenceNumber" class="form-label"> Reference Number </label>
-                                        <input type="text" th:field="*{referenceNumber}" class="form-control"
-                                            id="referenceNumberInput" placeholder="Reference Number" required>
+                                    <div class="form-floating mb-3">
+                                        <input type="text" th:field="*{referenceNumber}"
+                                            class="form-control form-control-sm" id="referenceNumberInput"
+                                            placeholder="Reference Number" required>
+                                        <label for="referenceNumber" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-key fa-sm fs-fw" aria-hidden="true"></i>&nbsp; Reference
+                                            Number </label>
                                         <div class="valid-feedback">
                                             Looks good!
                                         </div>
@@ -167,13 +189,13 @@
                                             Please enter reference number.
                                         </div>
                                     </div>
-                                    <br />
-                                    <button type="submit" class="btn btn-sm btn-success shadow-sm">Contribute</button>
+                                    <button type="submit" class="btn btn-sm btn-success shadow-sm"><i
+                                            class="fa fa-save fa-sm fa-fw" aria-hidden="true"></i> Contribute</button>
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-sm btn-danger shadow-sm"
-                                    data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-sm btn-danger shadow-sm" data-bs-dismiss="modal"><i
+                                        class="fa fa-times fa-sm fa-fw" aria-hidden="true"></i> Close</button>
                             </div>
                         </div>
                     </div>
