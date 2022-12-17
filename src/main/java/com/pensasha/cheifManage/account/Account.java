@@ -34,8 +34,8 @@ public class Account {
     @Column(length = 19)
     private String id;
 
-    @Column(length = 15)
-    @Size(min = 2, max = 15)
+    @Column(length = 70)
+    @Size(min = 2, max = 70)
     @NotNull
     private String name;
 

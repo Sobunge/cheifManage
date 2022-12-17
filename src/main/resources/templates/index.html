@@ -122,14 +122,15 @@
   <!-- Remove the container if you want to extend the Footer to full width. -->
   <div class="container">
 
-    <footer class="text-center">
-      <!-- Copyright -->
-      <div class="text-center p-2">
-        © 2022 Copyright:
-        <a href="#">Pensashatech.com</a>
-      </div>
-      <!-- Copyright -->
-    </footer>
+    <div th:fragment="footer" class="mb-2" style="margin-top: 30px;">
+      <footer class="sticky-footer ">
+          <div class="container my-auto">
+              <div class="copyright text-center my-auto">
+                  <span>Copyright &copy; Pensasha 2022</span>
+              </div>
+          </div>
+      </footer>
+  </div>
 
   </div>
   <!-- End of .container -->
