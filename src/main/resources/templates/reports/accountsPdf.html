@@ -2,66 +2,67 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-    <head th:insert="fragments/header.html :: header"></head>
+<head th:insert="fragments/header.html :: header"></head>
 
-    <body id="page-top">
+<body id="page-top">
 
-        <!-- Page Wrapper -->
-        <div id="wrapper">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
-            <!-- Content Wrapper -->
-            <div id="content-wrapper" class="d-flex flex-column" style="background-color: white;">
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column" style="background-color: white;">
 
-                <!-- Main Content -->
-                <div id="content">
+            <!-- Main Content -->
+            <div id="content">
 
-                    <!-- Begin Page Content -->
+                <!-- Begin Page Content -->
 
-                    <div class="d-flex flex-column mb-4" style="text-align:center;">
+                <div class="d-flex flex-column mb-4" style="text-align:center;">
 
-                        <div class="row d-flex justify-content-center">
-                            <h3 style="font-weight:bold;">Kenya National Chief</h3>
-                        </div>
-                        <div class="row d-flex justify-content-center">
-                            <h4 style="font-weight:700;">Accounts</h4>
-                        </div>
-
+                    <div class="row d-flex justify-content-center">
+                        <h3 style="font-weight:bold;">Kenya National Chief</h3>
+                    </div>
+                    <div class="row d-flex justify-content-center">
+                        <h4 style="font-weight:700;">Accounts</h4>
                     </div>
 
-                    <table class="table" style="text-align:center;">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Title</th>
-                                <th>Name</th>
-                                <th>Balance</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="ac, iter : ${accounts}">
-                                <td th:text="${iter.count}">Counter</td>
-                                <th:block>
-                                    <td th:if="${ac.user.title.name == 'CHIEF'}">Chief</td>
-                                    <td th:if="${ac.user.title.name == 'ASSISTANT_CHIEF'}">Assistant Chief</td>
-                                </th:block>
-                                <td th:text="${ac.user.firstName + ' ' + ac.user.secondName + ' ' + ac.user.thirdName}">
-                                    Account Name</td>•
-                                <td th:text="${ac.balance}">Balance/td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <!-- container-fluid -->
-
                 </div>
-                <!-- End of Main Content -->
+
+                <table class="table" style="text-align:center;">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ac, iter : ${accounts}">
+                            <td th:text="${iter.count}">Counter</td>
+                            <td th:text="${ac.name}">Account Name</td>
+                            <td th:text="${ac.balance}">Balance/td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Balance</th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <!-- container-fluid -->
 
             </div>
-            <!-- End of Content Wrapper -->
+            <!-- End of Main Content -->
 
         </div>
-        <!-- End of Page Wrapper -->
+        <!-- End of Content Wrapper -->
 
-    </body>
+    </div>
+    <!-- End of Page Wrapper -->
+
+</body>
 
 </html>

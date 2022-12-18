@@ -2,68 +2,76 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-    <head th:insert="fragments/header.html :: header"></head>
+<head th:insert="fragments/header.html :: header"></head>
 
-    <body id="page-top">
+<body id="page-top">
 
-        <!-- Page Wrapper -->
-        <div id="wrapper">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
-            <!-- Content Wrapper -->
-            <div id="content-wrapper" class="d-flex flex-column" style="background-color: white;">
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column" style="background-color: white;">
 
-                <!-- Main Content -->
-                <div id="content">
+            <!-- Main Content -->
+            <div id="content">
 
-                    <!-- Begin Page Content -->
+                <!-- Begin Page Content -->
 
-                    <div class="d-flex flex-column mb-4" style="text-align:center;">
+                <div class="d-flex flex-column mb-4" style="text-align:center;">
 
-                        <div class="row d-flex justify-content-center">
-                            <h3 style="font-weight:bold;">Kenya National Chief</h3>
-                        </div>
-                        <div class="row d-flex justify-content-center">
-                            <h6 style="font-weight:700;"
-                                th:text="${account.user.firstName + ' ' + account.user.thirdName + ' Statements'}">
-                                Statements</h6>
-                        </div>
-
+                    <div class="row d-flex justify-content-center">
+                        <h3 style="font-weight:bold;">Kenya National Chief</h3>
+                    </div>
+                    <div class="row d-flex justify-content-center">
+                        <h6 style="font-weight:700;" th:text="${account.name + ' Statements'}">
+                            Statements</h6>
                     </div>
 
-                    <table class="table" style="text-align:center;">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Reference Number</th>
-                                <th scope="col">Amount</th>
-                                <th scope="col">Time</th>
-                                <th scope="col">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <th:block>
-                                <tr th:each="transaction, itr : ${transactions}">
-                                    <th scope="row" th:text="${itr.count}">1</th>
-                                    <th scope="row" th:text="${transaction.referenceNumber}"></th>
-                                    <td th:text="${transaction.amount}"></td>
-                                    <td th:text="${transaction.time}"></td>
-                                    <td th:text="${transaction.date}"></td>
-                                </tr>
-                            </th:block>
-                        </tbody>
-                    </table>
-
-                    <!-- container-fluid -->
-
                 </div>
-                <!-- End of Main Content -->
+
+                <table class="table" style="text-align:center;">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <th:block>
+                            <tr th:each="transaction, itr : ${transactions}">
+                                <th scope="row" th:text="${itr.count}">1</th>
+                                <th th:text="${transaction.user.firstName + ' ' + transaction.user.thirdName}"></th>
+                                <td th:text="${transaction.amount}"></td>
+                                <td th:text="${transaction.date}"></td>
+                                <td th:text="${transaction.time}"></td>
+                            </tr>
+                        </th:block>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <!-- container-fluid -->
 
             </div>
-            <!-- End of Content Wrapper -->
+            <!-- End of Main Content -->
 
         </div>
-        <!-- End of Page Wrapper -->
+        <!-- End of Content Wrapper -->
 
-    </body>
+    </div>
+    <!-- End of Page Wrapper -->
+
+</body>
 
 </html>
