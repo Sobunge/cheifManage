@@ -59,16 +59,20 @@
                 <div class="container-fluid" style="padding-bottom: 20px;">
 
                     <!-- Page Heading -->
+                    <div style="text-align: center;">
+                        <h1 class="h4 mb-2 text-gray-800" th:text="${account.name}" id="transactionTitle">
+                            Transactions </h1>
+                    </div>
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <button type="button" class="btn btn-sm btn-success shadow-sm" data-bs-toggle="modal"
                             data-bs-target="#addTransactionModal">
                             <i class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i> <span class="iconLabel">Add
                                 Contribution</span>
                         </button>
-                        <h1 class="h3 mb-0 text-gray-800"> Account </h1>
                         <a th:href="@{/accounts/{id}/transactions(id = ${account.id})}"
-                            class="btn btn-sm btn-primary shadow-sm"><i class="fa fa-file-invoice-dollar fa-sm fa-fw"
-                                aria-hidden="true"></i> <span class="iconLabel">View Contributions</span></a>
+                            class="btn btn-sm btn-primary shadow-sm"><i
+                            class="fa fa-folder-open" aria-hidden="true"></i> <span
+                            class="iconLabel">View Contributions</span></a>
                     </div>
 
                     <div class="card">

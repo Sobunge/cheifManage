@@ -60,10 +60,9 @@
                         <!-- Page Heading -->
                         <div th:fragment="pageHeader">
                             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 class="h3 mb-0 text-gray-800">Contribution</h1>
+                                <h1 class="h4 mb-0 text-gray-800"><span th:text="${user.firstName + ' ' + user.thirdName}">Name</span>'s Contribution</h1>
                                 <a th:href="@{/accounts/{id}/transaction/{trans_id}/pdf(id = ${account.id}, trans_id = ${transaction.id})}"
-                                    class="btn btn-sm btn-primary shadow-sm"><i
-                                        class="fas fa-download fa-sm text-white-50"></i> Print Receipt </a>
+                                    class="btn btn-sm btn-primary shadow-sm"><i class="fa fa-print fa-fw fa-sm text-white-70" aria-hidden="true"></i> Print Receipt </a>
                             </div>
                         </div>
 
@@ -74,7 +73,7 @@
                                 th:text="${transactionSuccess}">User saved</div>
 
                             <div class="card-header"
-                                th:text="${' Acc Bal: ' + account.balance + ' - ' + account.user.firstName +  ' ' + account.user.thirdName + ' Contribution '}">
+                                th:text="${' Acc Bal: ' + account.balance}">
                             </div>
                             <div class="card-body">
                                 <form action="#" class="g-3 needs-validation" novalidate
@@ -82,7 +81,7 @@
                                     th:object="${transaction}" method="post">
                                     <div class="row">
                                         <div class="mb-3 col-6">
-                                            <label for="id" class="form-label">Contribution Identifier</label>
+                                            <label for="id" class="form-label">Reference Number</label>
                                             <input type="text" th:field="*{referenceNumber}" class="form-control"
                                                 id="idInput" placeholder="id" disabled>
                                         </div>
@@ -130,12 +129,12 @@
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-sm btn-success shadow-sm" id="changeDetails"
-                                        style="display: none;">Change
+                                        style="display: none;"><i class="fa fa-save fa-sm fa-fw" aria-hidden="true"></i> Change
                                         Details</button>
                                 </form>
 
                                 <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
-                                    <button class="btn btn-sm btn-primary shadow-sm" id="editDetails">Edit Details</button>
+                                    <button class="btn btn-sm btn-primary shadow-sm" id="editDetails"><i class="fa fa-pen-fancy fa-sm fa-fw" aria-hidden="true"></i> Edit Details</button>
                                 </th:block>
 
                             </div>
