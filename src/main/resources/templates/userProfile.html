@@ -118,10 +118,10 @@
                 <div class="mb-3">
                   <label for="idNumber" class="form-label">Id Number</label>
                   <input type="number" th:field="*{idNumber}" class="form-control form-control-sm" id="idNumberInput"
-                    placeholder="Id Number" disabled required min="1000000" />
+                    placeholder="Id Number" disabled required min="1000000" max="99999999" />
                   <div class="valid-feedback">Looks good!</div>
                   <div class="invalid-feedback">
-                    Please provide an id number.
+                    Please provide a valid id number.
                   </div>
                 </div>
                 <div class="mb-3">
@@ -156,7 +156,7 @@
                     required />
                   <div class="valid-feedback">Looks good!</div>
                   <div class="invalid-feedback">
-                    Please provide a phone number.
+                    Please provide a valid phone number.
                   </div>
                 </div>
                 <div class="row">
@@ -353,9 +353,10 @@
               <form action="#" th:action="@{/user/{idNumber}/changePassword(idNumber = ${newUser.idNumber})}"
                 class="g-3 needs-validation" method="post" novalidate>
                 <div class="mb-3">
-                  <label for="currentPassword" class="col-form-label col-form-label-sm"><i class="fa fa-key fs-sm" aria-hidden="true"></i> Current Password </label>
-                  <input type="password" class="form-control form-control-sm" id="currentPasswordInput" name="currentPass"
-                    placeholder="Current Password" minlength="8" required>
+                  <label for="currentPassword" class="col-form-label col-form-label-sm"><i class="fa fa-key fs-sm"
+                      aria-hidden="true"></i> Current Password </label>
+                  <input type="password" class="form-control form-control-sm" id="currentPasswordInput"
+                    name="currentPass" placeholder="Current Password" minlength="8" required>
                   <div class="valid-feedback">
                     Looks good!
                   </div>
@@ -364,7 +365,8 @@
                   </div>
                 </div>
                 <div class="mb-3">
-                  <label for="newPassword" class="col-form-label col-form-label-sm"><i class="fa fa-key fs-sm" aria-hidden="true"></i> New Password </label>
+                  <label for="newPassword" class="col-form-label col-form-label-sm"><i class="fa fa-key fs-sm"
+                      aria-hidden="true"></i> New Password </label>
                   <input type="password" class="form-control form-control-sm" id="newPasswordInput" name="newPass"
                     placeholder="New Password" minlength="8" required>
                   <div class="valid-feedback">
@@ -375,7 +377,8 @@
                   </div>
                 </div>
 
-                <button type="submit" class="btn btn-sm btn-success shadow-sm"><i class="fa fa-save fa-sm fa-fw" aria-hidden="true"></i> Change Password</button>
+                <button type="submit" class="btn btn-sm btn-success shadow-sm"><i class="fa fa-save fa-sm fa-fw"
+                    aria-hidden="true"></i> Change Password</button>
 
               </form>
 

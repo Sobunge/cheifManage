@@ -85,9 +85,9 @@
         <div class="mb-3">
             <label for="idNumber" class="col-form-label col-form-label-sm">Id Number</label>
             <input type="number" th:field="*{idNumber}" class="form-control form-control-sm" id="idNumberInput"
-                placeholder="Id Number" required min="1000000" />
+                placeholder="Id Number" required min="1000000" max="99999999"/>
             <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Please provide an id number.</div>
+            <div class="invalid-feedback">Please provide a valid id number.</div>
         </div>
         <div class="mb-3">
             <label for="gender" class="col-form-label col-form-label-sm">Gender</label>
@@ -113,7 +113,7 @@
                 placeholder="Phone Number" min="0100000000" max="0799999999" required />
             <div class="valid-feedback">Looks good!</div>
             <div class="invalid-feedback">
-                Please provide a phone number.
+                Please provide a valid phone number.
             </div>
         </div>
         <div class="row">

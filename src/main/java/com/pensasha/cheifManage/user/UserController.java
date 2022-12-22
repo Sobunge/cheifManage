@@ -88,7 +88,7 @@ public class UserController {
             put(Role.USER, "User");
         };
     };
-    private final LinkedHashMap<Office, String> offices = new LinkedHashMap<>(){
+    private final LinkedHashMap<Office, String> offices = new LinkedHashMap<>() {
         {
             put(Office.CHAIRMAN, "Chairman");
             put(Office.SECRETARY, "Secretary");
@@ -104,11 +104,12 @@ public class UserController {
 
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("users", userService.getAllUsers());
-        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+                Status.UNREAD);
         model.addAttribute("messages", messages);
-    
+
         int count = 0;
-        for(int i=0; i<messages.size(); i++){
+        for (int i = 0; i < messages.size(); i++) {
             count++;
         }
         model.addAttribute("messageCount", count);
@@ -133,20 +134,21 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public String addUserGet(Model model, Principal principal) {
+    public String addUserGet(Model model, Principal principal, @ModelAttribute("newUser") User newUser) {
 
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("account", accountService.getAccountByUserIdNumber(Integer.parseInt(principal.getName())));
-        model.addAttribute("newUser", new User());
+        model.addAttribute("newUser", newUser);
         model.addAttribute("genders", gender);
         model.addAttribute("titles", titles);
         model.addAttribute("roles", roles);
-        model.addAttribute("offices",offices);
-        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        model.addAttribute("offices", offices);
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+                Status.UNREAD);
         model.addAttribute("messages", messages);
-    
+
         int count = 0;
-        for(int i=0; i<messages.size(); i++){
+        for (int i = 0; i < messages.size(); i++) {
             count++;
         }
         model.addAttribute("messageCount", count);
@@ -180,31 +182,49 @@ public class UserController {
             redit.addFlashAttribute("newUser", newUser);
             redirectView = new RedirectView("/user", true);
         } else {
+            if (newUser.getOffice().equals(Office.CHAIRMAN) & userService.doesUserWithOfficeExist(Office.CHAIRMAN)) {
+                redit.addFlashAttribute("fail", "A Chairman already exists");
+                redit.addFlashAttribute("newUser", newUser);
+                redirectView = new RedirectView("/user", true);
+            } else if (newUser.getOffice().equals(Office.SECRETARY)
+                    & userService.doesUserWithOfficeExist(Office.SECRETARY)) {
+                redit.addFlashAttribute("fail", "A Secretary already exists");
+                redit.addFlashAttribute("newUser", newUser);
+                redirectView = new RedirectView("/user", true);
+            } else if (newUser.getOffice().equals(Office.TREASURER)
+                    & userService.doesUserWithOfficeExist(Office.TREASURER)) {
+                redit.addFlashAttribute("fail", "A Treasurer already exists");
+                redit.addFlashAttribute("newUser", newUser);
+                redirectView = new RedirectView("/user", true);
+            } else {
 
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            newUser.setPassword(encoder.encode(String.valueOf(newUser.getIdNumber())));
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                newUser.setPassword(encoder.encode(String.valueOf(newUser.getIdNumber())));
 
-            Account account = new Account();
-            Date date = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy-HHmmss");
-            account.setId("ACC-" + sdf.format(date));
-            account.setName(String.valueOf(newUser.getIdNumber()));
-            account.setDescription("My saving account");
+                Account account = new Account();
+                Date date = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy-HHmmss");
+                account.setId("ACC-" + sdf.format(date));
+                account.setName(String.valueOf(newUser.getIdNumber()));
+                account.setDescription("My saving account");
 
-            List<User> users = new ArrayList<>(){
-                {
-                    add(newUser);
+                List<User> users = new ArrayList<>() {
+                    {
+                        add(newUser);
+                    };
                 };
-            };
 
-            account.setUsers(users);
+                account.setUsers(users);
 
-            userService.addUser(newUser);
-            accountService.addAccount(account);
+                userService.addUser(newUser);
+                accountService.addAccount(account);
 
-            redit.addFlashAttribute("success",
-                    newUser.getFirstName() + " " + newUser.getThirdName() + " successfully added");
-            redirectView = new RedirectView("/users", true);
+                redit.addFlashAttribute("success",
+                        newUser.getFirstName() + " " + newUser.getThirdName() +
+                                " successfully added");
+                redirectView = new RedirectView("/users", true);
+            }
+
         }
 
         return redirectView;
@@ -219,13 +239,13 @@ public class UserController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User user = userService.getUserByIdNumber(idNumber);
 
-        if(encoder.matches(currentPass, user.getPassword())){
+        if (encoder.matches(currentPass, user.getPassword())) {
 
             user.setPassword(encoder.encode(newPass));
             userService.addUser(user);
 
             redit.addFlashAttribute("success", "Password successfully changed");
-        }else{
+        } else {
             redit.addFlashAttribute("fail", "Password entered does not match current password");
         }
 
@@ -264,16 +284,17 @@ public class UserController {
         model.addAttribute("titles", titles);
         model.addAttribute("roles", roles);
         model.addAttribute("offices", offices);
-        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()), Status.UNREAD);
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+                Status.UNREAD);
         model.addAttribute("messages", messages);
-    
+
         int count = 0;
-        for(int i=0; i<messages.size(); i++){
+        for (int i = 0; i < messages.size(); i++) {
             count++;
         }
         model.addAttribute("messageCount", count);
 
-        return "userProfile"; 
+        return "userProfile";
     }
 
     // Updating user details

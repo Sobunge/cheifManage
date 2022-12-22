@@ -66,4 +66,8 @@ public class UserService {
         return userRepository.findAllByTitle(title);
     }
 
+    //Does a user with the office exist
+    public Boolean doesUserWithOfficeExist(Office office){
+        return userRepository.existsByOffice(office);
+    }
 }

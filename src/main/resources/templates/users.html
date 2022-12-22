@@ -71,8 +71,9 @@
                       <tr>
                         <th>#</th>
                         <th style="min-width: 150px;">Name</th>
-                        <th style="min-width: 180px;">Role</th>
-                        <th style="min-width: 150px;">Title</th>
+                        <th style="min-width: 150px;">Role</th>
+                        <th style="min-width: 100px;">Title</th>
+                        <th style="min-width: 100px;">Office</th>
                         <th style="min-width: 80px;">Id Number</th>
                         <th style="min-width: 120px;">Phone Number</th>
                         <th style="min-width: 60px;">View</th>
@@ -88,6 +89,7 @@
                         <td th:text="${u.firstName + ' ' + u.thirdName}">First Name</td>
                         <td th:text="${u.role}">Role</td>
                         <td th:text="${u.title}">Title</td>
+                        <td th:text="${u.office}">Office</td>
                         <td th:text="${u.idNumber}">Id Number</td>
                         <td th:text="${'0' + u.phoneNumber}">Phone Number</td>
                         <td> <a class="btn btn-sm btn-primary shadow-sm" th:href="@{/users/{idNumber}(idNumber = ${u.idNumber})}"><i class="fa fa-folder-open fs-sm" aria-hidden="true"></i> <span class="iconLabel">View</span>
@@ -113,6 +115,7 @@
                         <th>Name</th>
                         <th>Role</th>
                         <th>Title</th>
+                        <th>Office</th>
                         <th>Id Number</th>
                         <th>Phone Number</th>
                         <th></th>
