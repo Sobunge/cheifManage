@@ -45,6 +45,11 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    //Get all active users
+    public List<User> getAllActiveUsers(Status status){
+        return userRepository.findAllByStatus(status);
+    }
+
     // Getting a user by id number
     public User getUserByIdNumber(int idNumber) {
         return userRepository.findById(idNumber).get();

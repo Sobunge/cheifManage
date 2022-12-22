@@ -11,6 +11,11 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
+    //Getting all transaction for a user
+    public List<Transaction> getAllUserTransaction(int idNumber){
+        return transactionRepository.findAllByUserIdNumber(idNumber);
+    }
+
     //Getting all transaction for an account
     public List<Transaction> getAllTransactionForAccount(String accountId){
         return transactionRepository.findAllByAccountId(accountId);

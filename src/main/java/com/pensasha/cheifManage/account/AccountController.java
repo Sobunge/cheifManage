@@ -2,6 +2,7 @@ package com.pensasha.cheifManage.account;
 
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -103,6 +104,18 @@ public class AccountController {
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("account", accountService.getAccount(id));
         model.addAttribute("transactions", transactionService.getAllTransactionForAccount(id));
+        
+        List<User> missingUsers = new ArrayList<>();
+        List<User> users = userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE);
+        
+        for(int i = 0; i <users.size(); i++){
+            if(!accountService.getAccount(id).getUsers().contains(users.get(i))){
+                missingUsers.add(users.get(i));
+            }
+        }
+
+        model.addAttribute("missingUsers", missingUsers);
+
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
                 Status.UNREAD);
         model.addAttribute("messages", messages);

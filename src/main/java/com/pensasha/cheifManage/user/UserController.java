@@ -29,6 +29,8 @@ import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.pensasha.cheifManage.account.Account;
 import com.pensasha.cheifManage.account.AccountService;
 import com.pensasha.cheifManage.role.Role;
+import com.pensasha.cheifManage.transaction.Transaction;
+import com.pensasha.cheifManage.transaction.TransactionService;
 import com.pensasha.cheifManage.message.Message;
 import com.pensasha.cheifManage.message.MessageService;
 import com.pensasha.cheifManage.message.Status;
@@ -41,6 +43,9 @@ public class UserController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private TransactionService transactionService;
 
     @Autowired
     private MessageService messageService;
@@ -197,6 +202,7 @@ public class UserController {
 
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 newUser.setPassword(encoder.encode(String.valueOf(newUser.getIdNumber())));
+                newUser.setStatus(com.pensasha.cheifManage.user.Status.ACTIVE);
 
                 userService.addUser(newUser);
 
@@ -242,9 +248,15 @@ public class UserController {
         } else {
 
             User user = userService.getUserByIdNumber(idNumber);
-
             Account account = accountService.getAccountByUserIdNumber(idNumber);
-            accountService.deleteAccount(account.getId());
+            if (account != null) {
+                account.getUsers().remove(user);
+                List<Transaction> transactions = transactionService.getAllUserTransaction(idNumber);
+                for (Transaction transaction : transactions) {
+                    transactionService.deleteTransaction(transaction.getId());
+                }
+                accountService.addAccount(account);
+            }
 
             userService.deleteUserDetails(idNumber);
             redit.addFlashAttribute("success",
