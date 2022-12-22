@@ -1,9 +1,6 @@
 package com.pensasha.cheifManage.user;
 
 import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -201,23 +198,7 @@ public class UserController {
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 newUser.setPassword(encoder.encode(String.valueOf(newUser.getIdNumber())));
 
-                Account account = new Account();
-                Date date = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy-HHmmss");
-                account.setId("ACC-" + sdf.format(date));
-                account.setName(String.valueOf(newUser.getIdNumber()));
-                account.setDescription("My saving account");
-
-                List<User> users = new ArrayList<>() {
-                    {
-                        add(newUser);
-                    };
-                };
-
-                account.setUsers(users);
-
                 userService.addUser(newUser);
-                accountService.addAccount(account);
 
                 redit.addFlashAttribute("success",
                         newUser.getFirstName() + " " + newUser.getThirdName() +

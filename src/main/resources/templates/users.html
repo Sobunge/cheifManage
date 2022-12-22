@@ -87,9 +87,9 @@
                       <tr th:each="u, iter : ${users}">
                         <td th:text="${iter.count}">Counter</td>
                         <td th:text="${u.firstName + ' ' + u.thirdName}">First Name</td>
-                        <td th:text="${u.role}">Role</td>
-                        <td th:text="${u.title}">Title</td>
-                        <td th:text="${u.office}">Office</td>
+                        <td th:text="${#strings.replace(#strings.capitalize(#strings.toLowerCase(u.role)), '_',' ')}">Role</td>
+                        <td th:text="${#strings.replace(#strings.capitalize(#strings.toLowerCase(u.title)), '_',' ')}">Title</td>
+                        <td th:text="${#strings.replace(#strings.capitalize(#strings.toLowerCase(u.office)), '_',' ')}">Office</td>
                         <td th:text="${u.idNumber}">Id Number</td>
                         <td th:text="${'0' + u.phoneNumber}">Phone Number</td>
                         <td> <a class="btn btn-sm btn-primary shadow-sm" th:href="@{/users/{idNumber}(idNumber = ${u.idNumber})}"><i class="fa fa-folder-open fs-sm" aria-hidden="true"></i> <span class="iconLabel">View</span>
