@@ -221,12 +221,14 @@
                                             <input class="form-check-input" type="checkbox" value=""
                                                 id="flexCheckDefault">
                                             <label class="form-check-label" for="flexCheckDefault">
-                                                <span th:text="${'Name: ' + user.firstName + ' ' + user.thirdName + ', ID: ' + user.idNumber}"> Name - Id Number </span> 
+                                                <span
+                                                    th:text="${'Name: ' + user.firstName + ' ' + user.thirdName + ', ID: ' + user.idNumber}">
+                                                    Name - Id Number </span>
                                             </label>
                                         </div>
                                     </th:block>
 
-                                    <button type="submit" class="btn btn-sm btn-success shadow-sm">Submit</button>
+                                    <button type="submit" class="btn btn-sm btn-success shadow-sm"><i class="fa fa-user-plus fs-sm fa-fw" aria-hidden="true"></i>  Add Users</button>
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -353,6 +355,10 @@
             e.preventDefault();
             $("#editDetails").show();
             $("#changeDetails").hide();
+        });
+
+        $(document).ready(function () {
+            $('#usersTable').DataTable();
         });
 
     </script>
