@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import org.thymeleaf.TemplateEngine;
@@ -59,8 +60,8 @@ public class TransactionController {
     @Autowired
     private ServletContext servletContext;
 
-    private final String baseUrl = "http://localhost:8081/";
-    //private final String baseUrl = "https://analytica-school.herokuapp.com/";
+    // private final String baseUrl = "http://localhost:8081/";
+    private final String baseUrl = "https://analytica-school.herokuapp.com/";
 
     private final TemplateEngine templateEngine;
 
@@ -241,10 +242,13 @@ public class TransactionController {
 
     // Getting a transaction
     @GetMapping("/accounts/{id}/transaction/{trans_id}")
+    @ResponseBody
     public String getTransaction(@PathVariable String id, @PathVariable Long trans_id, Model model,
             Principal principal) {
 
-        Account account = accountService.getAccount(id);
+                return "Hello World";
+/*
+                Account account = accountService.getAccount(id);
 
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("users", userService.getAllUsers());
@@ -261,6 +265,8 @@ public class TransactionController {
         model.addAttribute("messageCount", count);
 
         return "transaction";
+ */
+        
     }
 
     // Getting a transaction pdf

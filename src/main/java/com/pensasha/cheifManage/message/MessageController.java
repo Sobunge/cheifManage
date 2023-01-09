@@ -152,9 +152,11 @@ public class MessageController {
             } else {
 
                 Date date = new Date();
+                User sender = userService.getUserByIdNumber(idNumber);
 
+                mail.setSendersName(sender.getTitle().name() + ", " + sender.getFirstName() + ' ' + sender.getThirdName());
                 mail.setStatus(Status.UNREAD);
-                mail.setSender(userService.getUserByIdNumber(idNumber));
+                mail.setSender(sender);
                 mail.setDate(date);
                 mail.setRecievers(users);
 

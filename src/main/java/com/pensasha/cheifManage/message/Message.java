@@ -34,6 +34,8 @@ public class Message {
     @JoinColumn(name = "message_sender")
     private User sender;
 
+    private String sendersName;
+
     @JsonIgnore
     @OrderColumn
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
