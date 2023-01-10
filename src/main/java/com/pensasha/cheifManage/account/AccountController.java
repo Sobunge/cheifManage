@@ -50,8 +50,8 @@ public class AccountController {
     @Autowired
     private ServletContext servletContext;
 
-    // private final String baseUrl = "http://localhost:8081/";
-    private final String baseUrl = "https://analytica-school.herokuapp.com/";
+    private final String baseUrl = "http://localhost:8081/";
+    // private final String baseUrl = "https://analytica-school.herokuapp.com/";
 
     private final TemplateEngine templateEngine;
 
@@ -81,10 +81,13 @@ public class AccountController {
     }
 
     @GetMapping("/accounts/pdf")
-    public ResponseEntity<?> getAccountsPdf(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> getAccountsPdf(HttpServletRequest request, HttpServletResponse response,
+            Principal principal) {
 
         WebContext context = new WebContext(request, response, this.servletContext);
         context.setVariable("accounts", accountService.allAccount());
+        context.setVariable("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
+        context.setVariable("account", new Account());
 
         String accountsHtml = this.templateEngine.process("reports/accountsPdf", context);
         ByteArrayOutputStream target = new ByteArrayOutputStream();
@@ -129,16 +132,18 @@ public class AccountController {
         return "account";
     }
 
-    /* 
-    @GetMapping("/usersHome")
-    public String getHomePage(Principal principal) {
-
-        User user = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
-        Account account = accountService.getAccountByUserIdNumber(user.getIdNumber());
-
-        return "redirect:/accounts/" + account.getId();
-    }
-    */
+    /*
+     * @GetMapping("/usersHome")
+     * public String getHomePage(Principal principal) {
+     * 
+     * User user =
+     * userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
+     * Account account =
+     * accountService.getAccountByUserIdNumber(user.getIdNumber());
+     * 
+     * return "redirect:/accounts/" + account.getId();
+     * }
+     */
 
     // Save an account
     @PostMapping("/account")
@@ -172,8 +177,10 @@ public class AccountController {
     public RedirectView updateAnAccount(@ModelAttribute Account account, @PathVariable String id,
             RedirectAttributes redit) {
 
+        Account acc = accountService.getAccount(id);
+
         if (accountService.doesAccountExist(id)) {
-            if (!accountService.doesAccountExistByName("Monthly Contribution")) {
+            if (!acc.getName().equals("Monthly Contribution")) {
                 redit.addFlashAttribute("accountSuccess", "Account successfully created");
 
                 Account existingAccount = accountService.getAccount(id);

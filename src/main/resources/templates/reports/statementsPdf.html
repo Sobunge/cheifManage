@@ -19,39 +19,68 @@
 
                 <div class="d-flex flex-column mb-4" style="text-align:center;">
 
-                        <div class="row d-flex justify-content-center">
-                            <h3 style="font-weight:bold;">Kenya National Chief</h3>
-                        </div>
-                        <div class="row d-flex justify-content-center">
-                            <h6 style="font-weight:700;"
-                                th:text="${account.user.firstName + ' ' + account.user.thirdName + ' Statements'}">
-                                Statements</h6>
-                        </div>
+                    <div class="row d-flex justify-content-center">
+                        <h3 style="font-weight:bold;">Kenya National Chief</h3>
+                    </div>
+                    <div style="text-align: center;">
+                        <h1 class="h4 text-gray-800" th:text="${account.name}" id="transactionTitle">
+                            Transactions </h1>
+                        <h5> Contributions </h5>
+                    </div>
 
                 </div>
 
-                    <table class="table" style="text-align:center;">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Reference Number</th>
-                                <th scope="col">Amount</th>
-                                <th scope="col">Time</th>
-                                <th scope="col">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <th:block>
-                                <tr th:each="transaction, itr : ${transactions}">
-                                    <th scope="row" th:text="${itr.count}">1</th>
-                                    <th scope="row" th:text="${transaction.referenceNumber}"></th>
-                                    <td th:text="${transaction.amount}"></td>
-                                    <td th:text="${transaction.time}"></td>
-                                    <td th:text="${transaction.date}"></td>
-                                </tr>
+                <table class="table" style="text-align:center;">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 30px; max-width: 80px;" scope="col">#</th>
+                            <th style="min-width: 150px;">Name</th>
+                            <th style="min-width: 80px;" scope="col">Amount</th>
+                            <th style="min-width: 90px;" scope="col">Time</th>
+                            <th style="min-width: 100px;" scope="col">Date</th>
+                            <th style="min-width: 80px;"></th>
+                            <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
+                                <th style="min-width: 80px;"></th>
                             </th:block>
-                        </tbody>
-                    </table>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <th:block>
+                            <tr th:each="transaction, itr : ${transactions}">
+                                <th scope="row" th:text="${itr.count}">1</th>
+                                <th scope="row"
+                                    th:text="${transaction.user.firstName + ' ' + transaction.user.thirdName}"></th>
+                                <td th:text="${transaction.amount}"></td>
+                                <td th:text="${transaction.time}"></td>
+                                <td th:text="${transaction.date}"></td>
+                                <td><a class="btn btn-sm btn-primary shadow-sm"
+                                        th:href="@{/accounts/{id}/transaction/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}"><i
+                                            class="fa fa-folder-open fs-sm" aria-hidden="true"></i> <span
+                                            class="iconLabel">View</span></a>
+                                </td>
+                                <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
+                                    <td><a data-bs-toggle="modal" href="#" data-bs-target="#deleteTransactionModal"
+                                            th:data-href="@{/accounts/{id}/transactions/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}"
+                                            class="btn btn-sm btn-danger shadow-sm"><i class="fa fa-trash-alt fa-sm"
+                                                aria-hidden="true"></i> <span class="iconLabel">Delete</span> </a></td>
+                                </th:block>
+                            </tr>
+                        </th:block>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th style="min-width: 30px; max-width: 80px;" scope="col">#</th>
+                            <th style="min-width: 150px;">Name</th>
+                            <th style="min-width: 80px;" scope="col">Amount</th>
+                            <th style="min-width: 90px;" scope="col">Time</th>
+                            <th style="min-width: 100px;" scope="col">Date</th>
+                            <th style="min-width: 80px;"></th>
+                            <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
+                                <th style="min-width: 80px;"></th>
+                            </th:block>
+                        </tr>
+                    </tfoot>
+                </table>
 
                 <!-- container-fluid -->
 

@@ -90,14 +90,16 @@
                         class="d-inline-block text-truncate">Account Name</td>
                       <td th:text="${ac.balance}">Balance/td>
                       <td> <a class="btn btn-sm btn-primary shadow-sm" th:href="@{/accounts/{id}(id = ${ac.id})}"> <i
-                            class="fa fa-folder-open fs-sm" aria-hidden="true"></i> <span class="iconLabel"> View</span>
+                            class="fa fa-folder-open fa-sm" aria-hidden="true"></i> <span class="iconLabel"> View</span>
                         </a>
                       </td>
                       <th:block th:if="${user.role.name == 'ACCOUNTS_MANAGER' || user.role.name == 'SUPER_ADMIN'}">
-                        <td th:unless="${ac.name == 'Monthly Contribution'}"> <a class="btn btn-sm btn-danger shadow-sm" th:href="@{/account/{id}(id = ${ac.id})}"
-                            th:unless="${u == user}">
-                            <i class="fa fa-trash-alt fa-sm" aria-hidden="true"></i> <span class="iconLabel">
-                              Delete</span> </a> </td>
+                        <td th:unless="${ac.name == 'Monthly Contribution'}">
+                          <a data-bs-toggle="modal" href="#" data-bs-target="#deleteAccountModal"
+                            th:data-href="@{/account/{id}(id = ${ac.id})}" class="btn btn-sm btn-danger shadow-sm"
+                            th:unless="${u == user}"><i class="fa fa-trash-alt fa-sm" aria-hidden="true"></i> <span
+                              class="iconLabel">Delete</span></a>
+                        </td>
                         <td th:if="${ac.name == 'Monthly Contribution'}"></td>
                       </th:block>
                     </tr>

@@ -60,8 +60,8 @@ public class TransactionController {
     @Autowired
     private ServletContext servletContext;
 
-    // private final String baseUrl = "http://localhost:8081/";
-    private final String baseUrl = "https://analytica-school.herokuapp.com/";
+    private final String baseUrl = "http://localhost:8081/";
+    //private final String baseUrl = "https://analytica-school.herokuapp.com/";
 
     private final TemplateEngine templateEngine;
 
@@ -98,9 +98,16 @@ public class TransactionController {
     // Getting transactions pdf
     @GetMapping("/accounts/{id}/transactions/pdf")
     public ResponseEntity<?> getTransactionsPdf(@PathVariable String id, HttpServletRequest request,
-            HttpServletResponse response) {
+            HttpServletResponse response, Principal principal) {
 
         WebContext context = new WebContext(request, response, this.servletContext);
+
+        User user = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
+        Account account = accountService.getAccount(id);
+
+        context.setVariable("users", account.getUsers());
+        context.setVariable("user", user);
+        context.setVariable("transaction", new Transaction());
         context.setVariable("transactions", transactionService.getAllTransactionForAccount(id));
         context.setVariable("account", accountService.getAccount(id));
 
@@ -246,27 +253,30 @@ public class TransactionController {
     public String getTransaction(@PathVariable String id, @PathVariable Long trans_id, Model model,
             Principal principal) {
 
-                return "Hello World";
-/*
-                Account account = accountService.getAccount(id);
+        return "Hello World";
+        /*
+         * Account account = accountService.getAccount(id);
+         * 
+         * model.addAttribute("user",
+         * userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
+         * model.addAttribute("users", userService.getAllUsers());
+         * model.addAttribute("transaction",
+         * transactionService.getTransaction(trans_id));
+         * model.addAttribute("account", account);
+         * List<Message> messages =
+         * messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+         * Status.UNREAD);
+         * model.addAttribute("messages", messages);
+         * 
+         * int count = 0;
+         * for (int i = 0; i < messages.size(); i++) {
+         * count++;
+         * }
+         * model.addAttribute("messageCount", count);
+         * 
+         * return "transaction";
+         */
 
-        model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
-        model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("transaction", transactionService.getTransaction(trans_id));
-        model.addAttribute("account", account);
-        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
-                Status.UNREAD);
-        model.addAttribute("messages", messages);
-
-        int count = 0;
-        for (int i = 0; i < messages.size(); i++) {
-            count++;
-        }
-        model.addAttribute("messageCount", count);
-
-        return "transaction";
- */
-        
     }
 
     // Getting a transaction pdf
