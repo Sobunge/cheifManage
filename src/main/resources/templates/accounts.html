@@ -86,16 +86,19 @@
                   <tbody>
                     <tr th:each="ac, iter : ${accounts}">
                       <td th:text="${iter.count}">Counter</td>
-                      <td style="min-width: 150px; max-width: 250px;" th:text="${ac.name}" class="d-inline-block text-truncate">Account Name</td>
+                      <td style="min-width: 150px; max-width: 250px;" th:text="${ac.name}"
+                        class="d-inline-block text-truncate">Account Name</td>
                       <td th:text="${ac.balance}">Balance/td>
                       <td> <a class="btn btn-sm btn-primary shadow-sm" th:href="@{/accounts/{id}(id = ${ac.id})}"> <i
                             class="fa fa-folder-open fs-sm" aria-hidden="true"></i> <span class="iconLabel"> View</span>
                         </a>
                       </td>
                       <th:block th:if="${user.role.name == 'ACCOUNTS_MANAGER' || user.role.name == 'SUPER_ADMIN'}">
-                        <td> <a class="btn btn-sm btn-danger shadow-sm" th:href="@{/account/{id}(id = ${ac.id})}"
+                        <td th:unless="${ac.name == 'Monthly Contribution'}"> <a class="btn btn-sm btn-danger shadow-sm" th:href="@{/account/{id}(id = ${ac.id})}"
                             th:unless="${u == user}">
-                            <i class="fa fa-trash-alt fa-sm" aria-hidden="true"></i> <span class="iconLabel"> Delete</span> </a> </td>
+                            <i class="fa fa-trash-alt fa-sm" aria-hidden="true"></i> <span class="iconLabel">
+                              Delete</span> </a> </td>
+                        <td th:if="${ac.name == 'Monthly Contribution'}"></td>
                       </th:block>
                     </tr>
                   </tbody>
@@ -141,8 +144,8 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel"><i class="fa fa-plus fs-fw fa-sm text-white-70" aria-hidden="true"></i>&nbsp; <span
-            class="iconLabel"> Create Account</h1>
+          <h1 class="modal-title fs-5" id="staticBackdropLabel"><i class="fa fa-plus fs-fw fa-sm text-white-70"
+              aria-hidden="true"></i>&nbsp; <span class="iconLabel"> Create Account</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -166,11 +169,13 @@
                 Please provide an Account Description.
               </div>
             </div>
-            <button type="submit" class="btn btn-sm btn-success shadow-sm"><i class="fa fa-save fa-sm fa-fw" aria-hidden="true"></i>  Create</button>
+            <button type="submit" class="btn btn-sm btn-success shadow-sm"><i class="fa fa-save fa-sm fa-fw"
+                aria-hidden="true"></i> Create</button>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-danger shadow-sm" data-bs-dismiss="modal"><i class="fa fa-times fa-sm fa-fw" aria-hidden="true"></i> Close</button>
+          <button type="button" class="btn btn-sm btn-danger shadow-sm" data-bs-dismiss="modal"><i
+              class="fa fa-times fa-sm fa-fw" aria-hidden="true"></i> Close</button>
         </div>
       </div>
     </div>

@@ -5,17 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pensasha.cheifManage.account.Account;
-import com.pensasha.cheifManage.account.AccountService;
-
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private AccountService accountService;
 
     // Adding a user
     public User addUser(User user) {
@@ -30,12 +24,6 @@ public class UserService {
 
         user.setPassword(existingUser.getPassword());
         userRepository.save(user);
-
-        if (accountService.getAccountByUserIdNumber(idNumber) != null) {
-
-            Account account = accountService.getAccountByUserIdNumber(idNumber);
-            accountService.addAccount(account);
-        }
 
         return user;
     }

@@ -54,7 +54,7 @@ public class UserController {
     private ServletContext servletContext;
 
     private final String baseUrl = "http://localhost:8081/";
-    //private final String baseUrl = "https://analytica-school.herokuapp.com/";
+    // private final String baseUrl = "https://analytica-school.herokuapp.com/";
 
     private final TemplateEngine templateEngine;
 
@@ -139,7 +139,6 @@ public class UserController {
     public String addUserGet(Model model, Principal principal, @ModelAttribute("newUser") User newUser) {
 
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
-        model.addAttribute("account", accountService.getAccountByUserIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("newUser", newUser);
         model.addAttribute("genders", gender);
         model.addAttribute("titles", titles);
@@ -206,6 +205,12 @@ public class UserController {
 
                 userService.addUser(newUser);
 
+                Account account = accountService.getAccountByName("Monthly Contribution");
+                List<User> users = account.getUsers();
+                users.add(newUser);
+                account.setUsers(users);
+                accountService.addAccount(account);
+
                 redit.addFlashAttribute("success",
                         newUser.getFirstName() + " " + newUser.getThirdName() +
                                 " successfully added");
@@ -248,14 +253,19 @@ public class UserController {
         } else {
 
             User user = userService.getUserByIdNumber(idNumber);
-            Account account = accountService.getAccountByUserIdNumber(idNumber);
-            if (account != null) {
-                account.getUsers().remove(user);
-                List<Transaction> transactions = transactionService.getAllUserTransaction(idNumber);
-                for (Transaction transaction : transactions) {
-                    transactionService.deleteTransaction(transaction.getId());
+            List<Account> accounts = accountService.getUsersAccounts(idNumber);
+            if (!accounts.isEmpty()) {
+                for(Account account : accounts){
+                    
+                    account.getUsers().remove(user);
+                    List<Transaction> transactions = transactionService.getAllUserTransaction(idNumber);
+                    for (Transaction transaction : transactions) {
+                        transactionService.deleteTransaction(transaction.getId());
+                    }
+
+                    accountService.addAccount(account);
                 }
-                accountService.addAccount(account);
+                
             }
 
             userService.deleteUserDetails(idNumber);
@@ -271,12 +281,12 @@ public class UserController {
     public String viewUser(@PathVariable int idNumber, Model model, Principal principal) {
 
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
-        model.addAttribute("account", accountService.getAccountByUserIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("newUser", userService.getUserByIdNumber(idNumber));
         model.addAttribute("genders", gender);
         model.addAttribute("titles", titles);
         model.addAttribute("roles", roles);
         model.addAttribute("offices", offices);
+
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
                 Status.UNREAD);
         model.addAttribute("messages", messages);
@@ -288,6 +298,7 @@ public class UserController {
         model.addAttribute("messageCount", count);
 
         return "userProfile";
+
     }
 
     // Updating user details

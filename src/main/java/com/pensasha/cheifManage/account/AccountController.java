@@ -104,12 +104,12 @@ public class AccountController {
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("account", accountService.getAccount(id));
         model.addAttribute("transactions", transactionService.getAllTransactionForAccount(id));
-        
+
         List<User> missingUsers = new ArrayList<>();
         List<User> users = userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE);
-        
-        for(int i = 0; i <users.size(); i++){
-            if(!accountService.getAccount(id).getUsers().contains(users.get(i))){
+
+        for (int i = 0; i < users.size(); i++) {
+            if (!accountService.getAccount(id).getUsers().contains(users.get(i))) {
                 missingUsers.add(users.get(i));
             }
         }
@@ -129,6 +129,7 @@ public class AccountController {
         return "account";
     }
 
+    /* 
     @GetMapping("/usersHome")
     public String getHomePage(Principal principal) {
 
@@ -137,23 +138,30 @@ public class AccountController {
 
         return "redirect:/accounts/" + account.getId();
     }
+    */
 
     // Save an account
     @PostMapping("/account")
     public RedirectView addAnAccount(@ModelAttribute Account account, RedirectAttributes redit) {
 
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy-HHmmss");
-        account.setId("ACC-" + sdf.format(date));
+        if (!account.getName().equals("Monthly Contribution")) {
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy-HHmmss");
+            account.setId("ACC-" + sdf.format(date));
 
-        List<User> users = (List<User>) userService.getAllUsers();
-        if (!users.isEmpty()) {
-            account.setUsers(users);
+            List<User> users = (List<User>) userService.getAllUsers();
+            if (!users.isEmpty()) {
+                account.setUsers(users);
+            }
+
+            accountService.addAccount(account);
+
+            redit.addFlashAttribute("accountSuccess", "Account successfully created");
+
+        } else {
+
+            redit.addFlashAttribute("accountFail", "Monthly contribution already exists");
         }
-
-        accountService.addAccount(account);
-
-        redit.addFlashAttribute("accountSuccess", "Account successfully created");
 
         return new RedirectView("/accounts", true);
 
@@ -165,12 +173,17 @@ public class AccountController {
             RedirectAttributes redit) {
 
         if (accountService.doesAccountExist(id)) {
-            redit.addFlashAttribute("accountSuccess", "Account successfully created");
+            if (!accountService.doesAccountExistByName("Monthly Contribution")) {
+                redit.addFlashAttribute("accountSuccess", "Account successfully created");
 
-            Account existingAccount = accountService.getAccount(id);
-            existingAccount.setDescription(account.getDescription());
+                Account existingAccount = accountService.getAccount(id);
+                existingAccount.setDescription(account.getDescription());
 
-            accountService.updateAccount(existingAccount);
+                accountService.updateAccount(existingAccount);
+            } else {
+                redit.addFlashAttribute("accountFail", "Account Name already exists");
+            }
+
         } else {
             redit.addFlashAttribute("accountFail", "Account does not exist.");
         }

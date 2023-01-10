@@ -70,9 +70,8 @@
                                 Contribution</span>
                         </button>
                         <a th:href="@{/accounts/{id}/transactions(id = ${account.id})}"
-                            class="btn btn-sm btn-primary shadow-sm"><i
-                            class="fa fa-folder-open" aria-hidden="true"></i> <span
-                            class="iconLabel">View Contributions</span></a>
+                            class="btn btn-sm btn-primary shadow-sm"><i class="fa fa-folder-open"
+                                aria-hidden="true"></i> <span class="iconLabel">View Contributions</span></a>
                     </div>
 
                     <div class="card">
@@ -147,9 +146,11 @@
                                             <th style="min-width: 80px;">Id Number</th>
                                             <th style="min-width: 120px;">Phone Number</th>
                                             <th style="min-width: 60px;">View</th>
-                                            <th:block
-                                                th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER'}">
-                                                <th style="min-width: 60px;">Delete</th>
+                                            <th:block th:if="${account.name != 'Monthly Contribution'}">
+                                                <th:block
+                                                    th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER'}">
+                                                    <th style="min-width: 60px;">Delete</th>
+                                                </th:block>
                                             </th:block>
                                         </tr>
                                     </thead>
@@ -168,16 +169,19 @@
                                                         class="iconLabel">View</span>
                                                 </a>
                                             </td>
-                                            <th:block
-                                                th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'COUNTY_ADMIN'}">
-                                                <td>
-                                                    <a data-bs-toggle="modal" href="#" data-bs-target="#deleteUserModal"
-                                                        th:data-href="@{/user/{idNumber}(idNumber = ${u.idNumber})}"
-                                                        class="btn btn-sm btn-danger shadow-sm"
-                                                        th:unless="${u == user}"><i class="fa fa-trash-alt fa-sm"
-                                                            aria-hidden="true"></i> <span
-                                                            class="iconLabel">Delete</span></a>
-                                                </td>
+                                            <th:block th:if="${account.name != 'Monthly Contribution'}">
+                                                <th:block
+                                                    th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'COUNTY_ADMIN'}">
+                                                    <td>
+                                                        <a data-bs-toggle="modal" href="#"
+                                                            data-bs-target="#deleteUserModal"
+                                                            th:data-href="@{/user/{idNumber}(idNumber = ${u.idNumber})}"
+                                                            class="btn btn-sm btn-danger shadow-sm"
+                                                            th:unless="${u == user}"><i class="fa fa-trash-alt fa-sm"
+                                                                aria-hidden="true"></i> <span
+                                                                class="iconLabel">Delete</span></a>
+                                                    </td>
+                                                </th:block>
                                             </th:block>
                                             <th:block
                                                 th:unless="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'COUNTY_ADMIN'}">
@@ -193,9 +197,11 @@
                                             <th>Id Number</th>
                                             <th>Phone Number</th>
                                             <th></th>
-                                            <th:block
-                                                th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER'}">
-                                                <th></th>
+                                            <th:block th:if="${account.name != 'Monthly Contribution'}">
+                                                <th:block
+                                                    th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER'}">
+                                                    <th></th>
+                                                </th:block>
                                             </th:block>
                                         </tr>
                                     </tfoot>
@@ -232,7 +238,9 @@
                                         </div>
                                     </th:block>
 
-                                    <button type="submit" class="btn btn-sm btn-success shadow-sm"><i class="fa fa-user-plus fs-sm fa-fw" aria-hidden="true"></i>  Add Users</button>
+                                    <button type="submit" class="btn btn-sm btn-success shadow-sm"><i
+                                            class="fa fa-user-plus fs-sm fa-fw" aria-hidden="true"></i> Add
+                                        Users</button>
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -260,70 +268,70 @@
                                     th:action="@{/accounts/{accountId}/transaction(id = ${account.id})}"
                                     th:object="${transaction}" method="post" novalidate>
                                     <input type="text" id="typeInput" name="typeInput" value="Saving" hidden>
-<<<<<<< HEAD
                                     <div class="mb-3">
                                         <label for="amount" class="col-form-label col-form-label-sm"><i
                                                 class="fa fa-money-check-alt fa-sm fa-fw" aria-hidden="true"></i>&nbsp;
                                             Amount </label>
                                         <input type="number" th:field="*{amount}" class="form-control form-control-sm"
                                             id="amountInput" placeholder="Amount" min="1" required>
-=======
-                                    <div class="form-floating mb-3">
-                                        <select name="idNumberInput" class="form-select form-select-sm"
-                                            aria-label="userIdNumber" autocomplete="on">
-                                            <th:block th:each="user : ${users}">
-                                                <option th:text="${user.idNumber}" th:value="${user.idNumber }">One
-                                                </option>
-                                            </th:block>
-                                        </select>
-                                        <label class="col-form-label col-form-label-sm" for="idNumberInput"><i
-                                                class="fa fa-id-card fa-sm fa-fw" aria-hidden="true"></i>&nbsp; Id
-                                            Number</label>
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">
-                                            Please provide an Id Number.
+                                        <div class="form-floating mb-3">
+                                            <select name="idNumberInput" class="form-select form-select-sm"
+                                                aria-label="userIdNumber" autocomplete="on">
+                                                <th:block th:each="user : ${users}">
+                                                    <option th:text="${user.idNumber}" th:value="${user.idNumber }">One
+                                                    </option>
+                                                </th:block>
+                                            </select>
+                                            <label class="col-form-label col-form-label-sm" for="idNumberInput"><i
+                                                    class="fa fa-id-card fa-sm fa-fw" aria-hidden="true"></i>&nbsp; Id
+                                                Number</label>
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">
+                                                Please provide an Id Number.
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="number" th:field="*{amount}" class="form-control form-control-sm"
-                                            id="amountInput" placeholder="Amount" min="1" required>
-                                        <label for="amount" class="col-form-label col-form-label-sm"><i
-                                                class="fa fa-money-bill-alt fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
-                                            Amount </label>
->>>>>>> c69ba84 (Updating adding transcation via the account page)
-                                        <div class="valid-feedback">
-                                            Looks good!
+                                        <div class="form-floating mb-3">
+                                            <input type="number" th:field="*{amount}"
+                                                class="form-control form-control-sm" id="amountInput"
+                                                placeholder="Amount" min="1" required>
+                                            <label for="amount" class="col-form-label col-form-label-sm"><i
+                                                    class="fa fa-money-bill-alt fa-sm fs-fw"
+                                                    aria-hidden="true"></i>&nbsp;
+                                                Amount </label>
+                                            >>>>>>> c69ba84 (Updating adding transcation via the account page)
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter amount.
+                                            </div>
                                         </div>
-                                        <div class="invalid-feedback">
-                                            Please enter amount.
-                                        </div>
-                                    </div>
-<<<<<<< HEAD
-                                    <div class="mb-3">
-                                        <label for="referenceNumber" class="col-form-label col-form-label-sm"><i
-                                                class="fa fa-key fa-sm fa-fw" aria-hidden="true"></i>&nbsp; Reference
-                                            Number </label>
-                                        <input type="text" th:field="*{referenceNumber}"
-                                            class="form-control form-control-sm" id="referenceNumberInput"
-                                            placeholder="Reference Number" required>
-=======
-                                    <div class="form-floating mb-3">
-                                        <input type="text" th:field="*{referenceNumber}"
-                                            class="form-control form-control-sm" id="referenceNumberInput"
-                                            placeholder="Reference Number" required>
-                                        <label for="referenceNumber" class="col-form-label col-form-label-sm"><i
-                                                class="fa fa-key fa-sm fs-fw" aria-hidden="true"></i>&nbsp; Reference
-                                            Number </label>
->>>>>>> c69ba84 (Updating adding transcation via the account page)
-                                        <div class="valid-feedback">
-                                            Looks good!
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            Please enter reference number.
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-sm btn-success shadow-sm"><i
-                                            class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i> Contribute</button>
+                                        <div class="mb-3">
+                                            <label for="referenceNumber" class="col-form-label col-form-label-sm"><i
+                                                    class="fa fa-key fa-sm fa-fw" aria-hidden="true"></i>&nbsp;
+                                                Reference
+                                                Number </label>
+                                            <input type="text" th:field="*{referenceNumber}"
+                                                class="form-control form-control-sm" id="referenceNumberInput"
+                                                placeholder="Reference Number" required>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" th:field="*{referenceNumber}"
+                                                    class="form-control form-control-sm" id="referenceNumberInput"
+                                                    placeholder="Reference Number" required>
+                                                <label for="referenceNumber" class="col-form-label col-form-label-sm"><i
+                                                        class="fa fa-key fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                                    Reference
+                                                    Number </label>
+                                                <div class="valid-feedback">
+                                                    Looks good!
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    Please enter reference number.
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-sm btn-success shadow-sm"><i
+                                                    class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i>
+                                                Contribute</button>
                                 </form>
                             </div>
                             <div class="modal-footer">
