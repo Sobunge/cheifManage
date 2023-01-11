@@ -265,7 +265,7 @@
                             </div>
                             <div class="modal-body">
                                 <form class="g-3 needs-validation" action="#"
-                                    th:action="@{/accounts/{accountId}/transaction(id = ${account.id})}"
+                                    th:action="@{/accounts/{accountId}/transaction(accountId = ${account.id})}"
                                     th:object="${transaction}" method="post" novalidate>
                                     <input type="text" id="typeInput" name="typeInput" value="Saving" hidden>
                                     <div class="form-floating mb-3">

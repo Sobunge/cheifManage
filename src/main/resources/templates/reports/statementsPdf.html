@@ -34,36 +34,21 @@
                     <thead>
                         <tr>
                             <th style="min-width: 30px; max-width: 80px;" scope="col">#</th>
-                            <th style="min-width: 150px;">Name</th>
+                            <th style="min-width: 150px;" scop="col">Name</th>
                             <th style="min-width: 80px;" scope="col">Amount</th>
                             <th style="min-width: 90px;" scope="col">Time</th>
                             <th style="min-width: 100px;" scope="col">Date</th>
-                            <th style="min-width: 80px;"></th>
-                            <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
-                                <th style="min-width: 80px;"></th>
-                            </th:block>
                         </tr>
                     </thead>
                     <tbody>
                         <th:block>
                             <tr th:each="transaction, itr : ${transactions}">
-                                <th scope="row" th:text="${itr.count}">1</th>
-                                <th scope="row"
-                                    th:text="${transaction.user.firstName + ' ' + transaction.user.thirdName}"></th>
+                                <td scope="row" th:text="${itr.count}">1</td>
+                                <td scope="row"
+                                    th:text="${transaction.user.firstName + ' ' + transaction.user.thirdName}"></td>
                                 <td th:text="${transaction.amount}"></td>
                                 <td th:text="${transaction.time}"></td>
                                 <td th:text="${transaction.date}"></td>
-                                <td><a class="btn btn-sm btn-primary shadow-sm"
-                                        th:href="@{/accounts/{id}/transaction/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}"><i
-                                            class="fa fa-folder-open fs-sm" aria-hidden="true"></i> <span
-                                            class="iconLabel">View</span></a>
-                                </td>
-                                <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
-                                    <td><a data-bs-toggle="modal" href="#" data-bs-target="#deleteTransactionModal"
-                                            th:data-href="@{/accounts/{id}/transactions/{trans_id}(id = ${account.id}, trans_id = ${transaction.id})}"
-                                            class="btn btn-sm btn-danger shadow-sm"><i class="fa fa-trash-alt fa-sm"
-                                                aria-hidden="true"></i> <span class="iconLabel">Delete</span> </a></td>
-                                </th:block>
                             </tr>
                         </th:block>
                     </tbody>
@@ -74,10 +59,6 @@
                             <th style="min-width: 80px;" scope="col">Amount</th>
                             <th style="min-width: 90px;" scope="col">Time</th>
                             <th style="min-width: 100px;" scope="col">Date</th>
-                            <th style="min-width: 80px;"></th>
-                            <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
-                                <th style="min-width: 80px;"></th>
-                            </th:block>
                         </tr>
                     </tfoot>
                 </table>
