@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.pensasha.cheifManage.account.AccountService;
+import com.pensasha.cheifManage.month.Month;
 import com.pensasha.cheifManage.user.Title;
 import com.pensasha.cheifManage.user.UserService;
+import com.pensasha.cheifManage.year.YearService;
 import com.pensasha.cheifManage.user.User;
 
 @Controller
@@ -27,9 +30,15 @@ public class MessageController {
 
     @Autowired
     private MessageService messageService;
-
+    
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private AccountService accountService;
+
+    @Autowired
+    private YearService yearService;
 
     private final LinkedHashMap<Title, String> titles = new LinkedHashMap<Title, String>() {
         {
@@ -50,6 +59,9 @@ public class MessageController {
     @GetMapping("/users/{idNumber}/sentMessages")
     public String getMySentMessages(@PathVariable int idNumber, Principal principal, Model model) {
 
+        model.addAttribute("months", Month.values());
+        model.addAttribute("years", yearService.getAllYears());
+        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("title", "Sent Messages");
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));
 
@@ -73,6 +85,9 @@ public class MessageController {
     @GetMapping("/users/{idNumber}/recievedMessages")
     public String getMyRecievedMessages(@PathVariable int idNumber, Principal principal, Model model) {
 
+        model.addAttribute("months", Month.values());
+        model.addAttribute("years", yearService.getAllYears());
+        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("title", "Inbox");
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
@@ -92,6 +107,9 @@ public class MessageController {
     @GetMapping("/users/{idNumber}/messages/{id}")
     public String getMessage(@PathVariable int idNumber, @PathVariable Long id, Model model, Principal principal) {
 
+        model.addAttribute("months", Month.values());
+        model.addAttribute("years", yearService.getAllYears());
+        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
                 Status.UNREAD);
@@ -109,6 +127,9 @@ public class MessageController {
     @GetMapping("/users/{idNumber}/message")
     public String composeMessage(@PathVariable int idNumber, Model model, Principal principal) {
 
+        model.addAttribute("months", Month.values());
+        model.addAttribute("years", yearService.getAllYears());
+        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("titles", titles);
         model.addAttribute("mail", new Message());
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));

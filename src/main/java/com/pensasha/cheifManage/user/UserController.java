@@ -31,9 +31,11 @@ import com.pensasha.cheifManage.account.AccountService;
 import com.pensasha.cheifManage.role.Role;
 import com.pensasha.cheifManage.transaction.Transaction;
 import com.pensasha.cheifManage.transaction.TransactionService;
+import com.pensasha.cheifManage.year.YearService;
 import com.pensasha.cheifManage.message.Message;
 import com.pensasha.cheifManage.message.MessageService;
 import com.pensasha.cheifManage.message.Status;
+import com.pensasha.cheifManage.month.Month;
 
 @Controller
 public class UserController {
@@ -49,6 +51,9 @@ public class UserController {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private YearService yearService;
 
     @Autowired
     private ServletContext servletContext;
@@ -104,6 +109,9 @@ public class UserController {
     @GetMapping("/users")
     public String gettingAllUsers(Model model, Principal principal) {
 
+        model.addAttribute("months", Month.values());
+        model.addAttribute("years", yearService.getAllYears());
+        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("users", userService.getAllUsers());
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
@@ -138,6 +146,9 @@ public class UserController {
     @GetMapping("/user")
     public String addUserGet(Model model, Principal principal, @ModelAttribute("newUser") User newUser) {
 
+        model.addAttribute("months", Month.values());
+        model.addAttribute("years", yearService.getAllYears());
+        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("newUser", newUser);
         model.addAttribute("genders", gender);
@@ -280,6 +291,9 @@ public class UserController {
     @GetMapping("/users/{idNumber}")
     public String viewUser(@PathVariable int idNumber, Model model, Principal principal) {
 
+        model.addAttribute("months", Month.values());
+        model.addAttribute("years", yearService.getAllYears());
+        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("newUser", userService.getUserByIdNumber(idNumber));
         model.addAttribute("genders", gender);

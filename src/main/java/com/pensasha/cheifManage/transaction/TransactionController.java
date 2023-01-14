@@ -77,10 +77,13 @@ public class TransactionController {
 
         Account account = accountService.getAccount(id);
 
+        model.addAttribute("months", Month.values());
+        model.addAttribute("years", yearService.getAllYears());
         model.addAttribute("users", account.getUsers());
         model.addAttribute("user", user);
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("account", account);
+        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("transactions", transactionService.getAllTransactionForAccount(id));
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
                 Status.UNREAD);

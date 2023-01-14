@@ -158,11 +158,64 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            ...
+                            <form class="g-3 needs-validation" action="#" method="post" novalidate>
+                                <!-- Account Name -->
+                                <div class="form-floating mb-3">
+                                    <select class="form-select form-control" aria-label="Default select example"
+                                        required onChange="contributionReport()" id="accountName">
+                                        <option value="">...</option>
+                                        <th:block th:each="account : ${accounts}">
+                                            <option th:value="${account.name}" th:text="${account.name}"></option>
+                                        </th:block>
+                                    </select>
+                                    <label for="accountNameInput">Account Name</label>
+                                    <div class="valid-feedback">Looks good!</div>
+                                    <div class="invalid-feedback">
+                                        Please provide an Account Name.
+                                    </div>
+                                </div>
+
+                                <div id="toggleContr" style="display: none;">
+                                    <!-- Year -->
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select form-control" aria-label="Default select example"
+                                            required>
+                                            <option value="">...</option>
+                                            <th:block th:each="year : ${years}">
+                                                <option th:value="${year.year}" th:text="${year.year}"></option>
+                                            </th:block>
+                                        </select>
+                                        <label for="accountNameInput">Year</label>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">
+                                            Please select Year.
+                                        </div>
+                                    </div>
+
+                                    <!-- Month -->
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select form-control" aria-label="Default select example"
+                                            required>
+                                            <option value="">...</option>
+                                            <th:block th:each="month : ${months}">
+                                                <option th:value="${month}"
+                                                    th:text="${#strings.capitalize(#strings.toLowerCase(month.name))}">
+                                                </option>
+                                            </th:block>
+                                        </select>
+                                        <label for="accountNameInput">Month</label>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">
+                                            Please provide a Month.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary"> View </button>
+                            </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary"> View Contributions </button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -185,6 +238,16 @@
     <!-- End of Sidebar -->
 
     <div th:fragment="script">
+        <script>
+            function contributionReport() {
+                var x = document.getElementById("#toggleContr");
+                if ($("#accountName").val() == "Monthly Contribution") {
+                    $("#toggleContr").show();
+                } else {
+                    $("#toggleContr").hide();
+                }
+            }
+        </script>
         <!-- Jquery -->
         <script th:src="@{/webjars/jquery/3.6.1/jquery.min.js}"></script>
 

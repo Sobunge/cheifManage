@@ -29,11 +29,13 @@ import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.pensasha.cheifManage.message.Message;
 import com.pensasha.cheifManage.message.Status;
+import com.pensasha.cheifManage.month.Month;
 import com.pensasha.cheifManage.message.MessageService;
 import com.pensasha.cheifManage.transaction.Transaction;
 import com.pensasha.cheifManage.transaction.TransactionService;
 import com.pensasha.cheifManage.user.User;
 import com.pensasha.cheifManage.user.UserService;
+import com.pensasha.cheifManage.year.YearService;
 
 @Controller
 public class AccountController {
@@ -46,7 +48,8 @@ public class AccountController {
     UserService userService;
     @Autowired
     MessageService messageService;
-
+    @Autowired
+    YearService yearService;
     @Autowired
     private ServletContext servletContext;
 
@@ -63,6 +66,8 @@ public class AccountController {
     @GetMapping("/accounts")
     public String getAccounts(Model model, Principal principal) {
 
+        model.addAttribute("months", Month.values());
+        model.addAttribute("years", yearService.getAllYears());
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("account", new Account());
         model.addAttribute("accounts", accountService.allAccount());
@@ -103,6 +108,9 @@ public class AccountController {
     @GetMapping("/accounts/{id}")
     public String getAnAccount(@PathVariable String id, Model model, Principal principal) {
 
+        model.addAttribute("months", Month.values());
+        model.addAttribute("years", yearService.getAllYears());
+        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("account", accountService.getAccount(id));

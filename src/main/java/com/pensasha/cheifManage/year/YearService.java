@@ -1,5 +1,7 @@
 package com.pensasha.cheifManage.year;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,11 @@ public class YearService {
     //Does Year exist
     public Boolean doesYearExist(Short y){
         return yearRepository.existsById(y);
+    }
+
+    //Getting all years
+    public List<Year> getAllYears(){
+        return yearRepository.findAll();
     }
 
 }
