@@ -1,6 +1,7 @@
 package com.pensasha.cheifManage.user;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -105,10 +106,31 @@ public class UserController {
         };
     };
 
+    private List<User> activeUsers(List<User> users) {
+
+        List<User> activeUsers = new ArrayList<>();
+
+        for (User user : users) {
+            for (Account account : user.getAccounts()) {
+                if (!account.getName().equals("Monthly Contribution")) {
+                    for (Transaction transaction : account.getTransactions()) {
+                        if (transaction.getUser().equals(user)) {
+                            activeUsers.add(user);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return activeUsers;
+    }
+
     // Get all user
     @GetMapping("/users")
     public String gettingAllUsers(Model model, Principal principal) {
 
+        model.addAttribute("title", "Users");
         model.addAttribute("months", Month.values());
         model.addAttribute("years", yearService.getAllYears());
         model.addAttribute("accounts", accountService.allAccount());
@@ -127,11 +149,115 @@ public class UserController {
         return "users";
     }
 
+    // Getting all active users
+    @GetMapping("/activeUsers")
+    public String getAllActiveUsers(Model model, Principal principal) {
+
+        List<User> users = userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE);
+
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+                Status.UNREAD);
+        int count = 0;
+        for (int i = 0; i < messages.size(); i++) {
+            count++;
+        }
+
+        model.addAttribute("messages", messages);
+        model.addAttribute("users", activeUsers(users));
+        model.addAttribute("messageCount", count);
+        model.addAttribute("title", "Active Users");
+        model.addAttribute("months", Month.values());
+        model.addAttribute("years", yearService.getAllYears());
+        model.addAttribute("accounts", accountService.allAccount());
+        model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
+
+        return "users";
+    }
+
+    // Getting all inactive users
+    @GetMapping("/inActiveUsers")
+    public String getAllInActiveUsers(Model model, Principal principal) {
+
+        List<User> inactiveUsers = new ArrayList<>();
+        List<User> users = userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE);
+
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+                Status.UNREAD);
+        int count = 0;
+        for (int i = 0; i < messages.size(); i++) {
+            count++;
+        }
+
+        for (User user : users) {
+            if (!activeUsers(users).contains(user)) {
+                inactiveUsers.add(user);
+            }
+        }
+
+        model.addAttribute("messages", messages);
+        model.addAttribute("users", inactiveUsers);
+        model.addAttribute("messageCount", count);
+        model.addAttribute("title", "Inactive Users");
+        model.addAttribute("months", Month.values());
+        model.addAttribute("years", yearService.getAllYears());
+        model.addAttribute("accounts", accountService.allAccount());
+        model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
+
+        return "users";
+    }
+
     @GetMapping("/users/pdf")
     public ResponseEntity<?> getUsersReport(HttpServletRequest request, HttpServletResponse response) {
 
         WebContext context = new WebContext(request, response, this.servletContext);
+
+        context.setVariable("title", "Users");
         context.setVariable("users", userService.getAllUsers());
+
+        String usersListHtml = this.templateEngine.process("reports/usersListPdf", context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri(baseUrl);
+        HtmlConverter.convertToPdf(usersListHtml, target, converterProperties);
+        byte[] bytes = target.toByteArray();
+
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes);
+    }
+
+    @GetMapping("/activeUsers/pdf")
+    public ResponseEntity<?> getActiveUsersReport(HttpServletRequest request, HttpServletResponse response) {
+
+        WebContext context = new WebContext(request, response, this.servletContext);
+        List<User> users = userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE);
+
+        context.setVariable("title", "Active Users");
+        context.setVariable("users", activeUsers(users));
+
+        String usersListHtml = this.templateEngine.process("reports/usersListPdf", context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri(baseUrl);
+        HtmlConverter.convertToPdf(usersListHtml, target, converterProperties);
+        byte[] bytes = target.toByteArray();
+
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes);
+    }
+
+    @GetMapping("/inActiveUsers/pdf")
+    public ResponseEntity<?> getInActiveUsersReport(HttpServletRequest request, HttpServletResponse response) {
+
+        WebContext context = new WebContext(request, response, this.servletContext);
+        List<User> inactiveUsers = new ArrayList<>();
+        List<User> users = userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE);
+
+        for (User user : users) {
+            if (!activeUsers(users).contains(user)) {
+                inactiveUsers.add(user);
+            }
+        }
+
+        context.setVariable("title", "Inactive Users");
+        context.setVariable("users", inactiveUsers);
 
         String usersListHtml = this.templateEngine.process("reports/usersListPdf", context);
         ByteArrayOutputStream target = new ByteArrayOutputStream();
@@ -266,8 +392,8 @@ public class UserController {
             User user = userService.getUserByIdNumber(idNumber);
             List<Account> accounts = accountService.getUsersAccounts(idNumber);
             if (!accounts.isEmpty()) {
-                for(Account account : accounts){
-                    
+                for (Account account : accounts) {
+
                     account.getUsers().remove(user);
                     List<Transaction> transactions = transactionService.getAllUserTransaction(idNumber);
                     for (Transaction transaction : transactions) {
@@ -276,7 +402,7 @@ public class UserController {
 
                     accountService.addAccount(account);
                 }
-                
+
             }
 
             userService.deleteUserDetails(idNumber);

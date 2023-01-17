@@ -110,6 +110,10 @@
                                 aria-hidden="true"></i>&nbsp; Users<span class="badge badge-danger badge-counter"
                                 style="font-size: 9px;" th:text="${messageCount}" th:if="${messageCount > 0}">7</span>
                         </a>
+                        <a class="collapse-item" th:href="@{/activeUsers}"><i class="fa fa-users fa-fw fa-sm"
+                                aria-hidden="true"></i>&nbsp; Active Users </a>
+                        <a class="collapse-item" th:href="@{/inActiveUsers}"><i class="fa fa-users fa-fw fa-sm"
+                                aria-hidden="true"></i>&nbsp; Inactive Users </a>
                         <div class="collapse-divider"></div>
                     </div>
                 </div>
@@ -134,14 +138,14 @@
                         <h6 class="collapse-header">Report Screens:</h6>
                         <a class="collapse-item" th:href="@{/users/pdf}"> <i class="fa fa-users fa-fw fa-sm"
                                 aria-hidden="true"></i>&nbsp; Users </a>
-                        <a class="collapse-item" th:href="@{#}"><i class="fa fa-user-plus fa-fw fs-sm"
+                        <a class="collapse-item" th:href="@{/activeUsers/pdf}"><i class="fa fa-users fa-fw fa-sm"
                                 aria-hidden="true"></i>&nbsp; Active Users </a>
-                        <a class="collapse-item" th:href="@{#}"><i class="fa fa-user-plus fa-fw fs-sm"
+                        <a class="collapse-item" th:href="@{/inActiveUsers/pdf}"><i class="fa fa-users fa-fw fa-sm"
                                 aria-hidden="true"></i>&nbsp; Inactive Users </a>
-                        <a class="collapse-item" th:href="@{/accounts/pdf}"><i class="fa fa-user-plus fa-fw fa-sm"
+                        <a class="collapse-item" th:href="@{/accounts/pdf}"><i class="fa fa-briefcase"
                                 aria-hidden="true"></i>&nbsp; Accounts </a>
                         <a class="collapse-item" th:href="@{#}" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i class="fa fa-user-plus fa-fw fs-sm" aria-hidden="true"></i>&nbsp; Contributions
+                            <i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp; Contributions
                         </a>
                         <div class="collapse-divider"></div>
                     </div>
