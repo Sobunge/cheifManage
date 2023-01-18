@@ -158,18 +158,22 @@ public class AccountController {
     public RedirectView addAnAccount(@ModelAttribute Account account, RedirectAttributes redit) {
 
         if (!account.getName().equals("Monthly Contribution")) {
-            Date date = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy-HHmmss");
-            account.setId("ACC-" + sdf.format(date));
+            if (!accountService.doesAccountExist(account.getId())) {
+                Date date = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy-HHmmss");
+                account.setId("ACC-" + sdf.format(date));
 
-            List<User> users = (List<User>) userService.getAllUsers();
-            if (!users.isEmpty()) {
-                account.setUsers(users);
+                List<User> users = (List<User>) userService.getAllUsers();
+                if (!users.isEmpty()) {
+                    account.setUsers(users);
+                }
+
+                accountService.addAccount(account);
+
+                redit.addFlashAttribute("accountSuccess", "Account successfully created");
+            } else {
+                redit.addFlashAttribute("accountFail", account.getName() + " already exists");
             }
-
-            accountService.addAccount(account);
-
-            redit.addFlashAttribute("accountSuccess", "Account successfully created");
 
         } else {
 

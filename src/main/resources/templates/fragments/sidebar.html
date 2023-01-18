@@ -162,11 +162,12 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="g-3 needs-validation" action="#" method="post" novalidate>
+                            <form class="g-3 needs-validation" action="#" th:action="@{/transactions}" method="post"
+                                novalidate>
                                 <!-- Account Name -->
                                 <div class="form-floating mb-3">
                                     <select class="form-select form-control" aria-label="Default select example"
-                                        required onChange="contributionReport()" id="accountName">
+                                        required onChange="contributionReport()" id="accountName" name="accountName">
                                         <option value="">...</option>
                                         <th:block th:each="account : ${accounts}">
                                             <option th:value="${account.name}" th:text="${account.name}"></option>
@@ -182,8 +183,7 @@
                                 <div id="toggleContr" style="display: none;">
                                     <!-- Year -->
                                     <div class="form-floating mb-3">
-                                        <select class="form-select form-control" aria-label="Default select example"
-                                            required>
+                                        <select class="form-select form-control" aria-label="Default select example" name="accountYear">
                                             <option value="">...</option>
                                             <th:block th:each="year : ${years}">
                                                 <option th:value="${year.year}" th:text="${year.year}"></option>
@@ -198,8 +198,7 @@
 
                                     <!-- Month -->
                                     <div class="form-floating mb-3">
-                                        <select class="form-select form-control" aria-label="Default select example"
-                                            required>
+                                        <select class="form-select form-control" aria-label="Default select example" name="accountMonth">
                                             <option value="">...</option>
                                             <th:block th:each="month : ${months}">
                                                 <option th:value="${month}"

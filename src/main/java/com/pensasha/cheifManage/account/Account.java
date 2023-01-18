@@ -46,6 +46,8 @@ public class Account {
     @NotNull
     private int balance = 0;
 
+    private int minimumBalanace = 0;
+
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnore
     private Collection<Transaction> transactions;

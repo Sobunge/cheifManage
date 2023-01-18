@@ -98,6 +98,19 @@ public class TransactionController {
         return "transactions";
     }
 
+    @PostMapping("/transactions")
+    public RedirectView getAccountPdf(Model model, Principal principal, HttpServletRequest request) {
+
+        Account account = accountService.getAccountByName(request.getParameter("accountName"));
+
+        if (!account.getName().equals("Monthly Contribution")) {
+            return new RedirectView("/accounts/" + account.getId() + "/transactions/pdf", true);
+        } else {
+            return new RedirectView("/accounts/" + account.getId() + "/transactions/pdf", true);
+        }
+
+    }
+
     // Getting transactions pdf
     @GetMapping("/accounts/{id}/transactions/pdf")
     public ResponseEntity<?> getTransactionsPdf(@PathVariable String id, HttpServletRequest request,
@@ -127,7 +140,7 @@ public class TransactionController {
     // Adding a transaction
     @PostMapping("/accounts/{accountId}/transaction")
     public RedirectView addTransaction(@PathVariable String accountId, @ModelAttribute Transaction transaction,
-            HttpServletRequest request, Principal principal, RedirectAttributes redit,
+            Principal principal, RedirectAttributes redit,
             @RequestParam int idNumberInput) {
 
         if (transactionService.doesTransactionWithReferenceNumberExist(transaction.getReferenceNumber())) {

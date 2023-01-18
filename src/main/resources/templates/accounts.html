@@ -163,6 +163,15 @@
               </div>
             </div>
             <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="accountMinimumBalance" th:field="*{minimumBalanace}"
+                placeholder="Account Minimum Balance" min="0" required>
+              <label for="accountMinimumBalanceInput">Account Minimum Balance</label>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">
+                Please provide an Account Minimum Balance.
+              </div>
+            </div>
+            <div class="form-floating mb-3">
               <textarea class="form-control" th:field="*{description}" placeholder="Description"
                 id="accountDescriptionInput" style="height: 100px" minlength="15" maxlength="254" required></textarea>
               <label for="accountDescriptionInput">Description</label>
