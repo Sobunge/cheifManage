@@ -55,6 +55,9 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private Month month;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @NotNull
     private String referenceNumber;
 

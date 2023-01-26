@@ -128,6 +128,115 @@
             </li>
 
             <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#contributionPages"
+                    aria-expanded="true" aria-controls="contributionPages">
+                    <i class="fa fa-print" aria-hidden="true"></i>
+                    <span>Contributions</span>
+                </a>
+                <div id="contributionPages" class="collapse" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Contributions Screens:</h6>
+                        <a class="collapse-item" th:href="@{#}" data-bs-toggle="modal"
+                            data-bs-target="#contributionModal">
+                            <i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp; Contributions
+                        </a>
+                        <a class="collapse-item" th:href="@{/pendingTransaction}"><i class="fa fa-users fa-fw fa-sm"
+                                aria-hidden="true"></i>&nbsp; Pending Contributions </a>
+                        <a class="collapse-item" th:href="@{/rejectedTransaction}"><i class="fa fa-users fa-fw fa-sm"
+                                aria-hidden="true"></i>&nbsp; Rejected Contributions </a>
+                        <div class="collapse-divider"></div>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Contribution Modal -->
+            <div class="modal fade" id="contributionModal" tabindex="-1" aria-labelledby="contributionModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="contributionModalLabel">Contributions</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="g-3 needs-validation" th:object="${transaction}" action="#"
+                                th:action="@{/transactions}" method="post" novalidate>
+                                <!-- Account Name -->
+                                <div class="form-floating mb-3">
+                                    <select class="form-select form-control" aria-label="Default select example"
+                                        required onChange="contributionReport()" id="accountName" name="accountName">
+                                        <option value="">...</option>
+                                        <th:block th:each="account : ${accounts}">
+                                            <option th:value="${account.name}" th:text="${account.name}"></option>
+                                        </th:block>
+                                    </select>
+                                    <label for="accountNameInput">Account Name</label>
+                                    <div class="valid-feedback">Looks good!</div>
+                                    <div class="invalid-feedback">
+                                        Please provide an Account Name.
+                                    </div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <select name="idNumberInput" class="form-select form-select-sm"
+                                        aria-label="userIdNumber" autocomplete="on">
+                                        <th:block th:each="user : ${allUsers}">
+                                            <option
+                                                th:text="${user.idNumber + ' :- ' + user.firstName + ' '  + user.thirdName}"
+                                                th:value="${user.idNumber }">One
+                                            </option>
+                                        </th:block>
+                                    </select>
+                                    <label class="col-form-label col-form-label-sm" for="idNumberInput"><i
+                                            class="fa fa-id-card fa-sm fa-fw" aria-hidden="true"></i>&nbsp; Id
+                                        Number</label>
+                                    <div class="valid-feedback">Looks good!</div>
+                                    <div class="invalid-feedback">
+                                        Please provide an Id Number.
+                                    </div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" th:field="*{referenceNumber}"
+                                        class="form-control form-control-sm" id="referenceNumberInput"
+                                        placeholder="Reference Number" required>
+                                    <label for="referenceNumber" class="col-form-label col-form-label-sm"><i
+                                            class="fa fa-key fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                        Reference
+                                        Number </label>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Please enter reference number.
+                                    </div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="number" th:field="*{amount}" class="form-control form-control-sm"
+                                        id="amountInput" placeholder="Amount" min="1" required>
+                                    <label for="amount" class="col-form-label col-form-label-sm"><i
+                                            class="fa fa-money-bill-alt fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                        Amount </label>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Please enter amount.
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-sm btn-success shadow-sm"><i
+                                        class="fa fa-save fa-sm fa-fw" aria-hidden="true"></i>
+                                    Contribute</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#reportsPages"
                     aria-expanded="true" aria-controls="reportsPages">
                     <i class="fa fa-print" aria-hidden="true"></i>
@@ -183,7 +292,8 @@
                                 <div id="toggleContr" style="display: none;">
                                     <!-- Year -->
                                     <div class="form-floating mb-3">
-                                        <select class="form-select form-control" aria-label="Default select example" name="accountYear">
+                                        <select class="form-select form-control" aria-label="Default select example"
+                                            name="accountYear">
                                             <option value="">...</option>
                                             <th:block th:each="year : ${years}">
                                                 <option th:value="${year.year}" th:text="${year.year}"></option>
@@ -198,7 +308,8 @@
 
                                     <!-- Month -->
                                     <div class="form-floating mb-3">
-                                        <select class="form-select form-control" aria-label="Default select example" name="accountMonth">
+                                        <select class="form-select form-control" aria-label="Default select example"
+                                            name="accountMonth">
                                             <option value="">...</option>
                                             <th:block th:each="month : ${months}">
                                                 <option th:value="${month}"

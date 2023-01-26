@@ -44,19 +44,33 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
         if (!accountService.doesAccountExistByName("Monthly Contribution")) {
             Account account = new Account();
+            Account regAccount  = new Account();
 
             Date date = new Date();
+
             SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy-HHmmss");
-            account.setId("ACC-" + sdf.format(date));
+            account.setId("ACC-M-" + sdf.format(date));
+            account.setStatus(Status.ACTIVE);
+            regAccount.setId("ACC-R-" + sdf.format(date));
+            regAccount.setStatus(Status.ACTIVE);
+
             account.setName("Monthly Contribution");
+            account.setMinimumBalanace(300);
+
+            regAccount.setName("Registration");
+            regAccount.setMinimumBalanace(200);
+
             account.setDescription("An account for members monthly contributions");
+            regAccount.setDescription("An account for members registration contributions");
 
             List<User> users = (List<User>) userService.getAllUsers();
             if (!users.isEmpty()) {
                 account.setUsers(users);
+                regAccount.setUsers(users);
             }
 
             accountService.addAccount(account);
+            accountService.addAccount(regAccount);
         }
 
     }

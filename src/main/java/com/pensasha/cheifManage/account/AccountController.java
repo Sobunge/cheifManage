@@ -70,7 +70,9 @@ public class AccountController {
         model.addAttribute("years", yearService.getAllYears());
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("account", new Account());
-        model.addAttribute("accounts", accountService.allAccount());
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("accounts", accountService.allAccountsByStatus(com.pensasha.cheifManage.user.Status.ACTIVE));
+        model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
 
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
                 Status.UNREAD);
@@ -110,11 +112,13 @@ public class AccountController {
 
         model.addAttribute("months", Month.values());
         model.addAttribute("years", yearService.getAllYears());
-        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
-        model.addAttribute("transaction", new Transaction());
         model.addAttribute("account", accountService.getAccount(id));
         model.addAttribute("transactions", transactionService.getAllTransactionForAccount(id));
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("accounts", accountService.allAccountsByStatus(com.pensasha.cheifManage.user.Status.ACTIVE));
+        model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
+
 
         List<User> missingUsers = new ArrayList<>();
         List<User> users = userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE);
@@ -158,10 +162,11 @@ public class AccountController {
     public RedirectView addAnAccount(@ModelAttribute Account account, RedirectAttributes redit) {
 
         if (!account.getName().equals("Monthly Contribution")) {
-            if (!accountService.doesAccountExist(account.getId())) {
+            if (!accountService.doesAccountExistByName(account.getName())) {
                 Date date = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy-HHmmss");
                 account.setId("ACC-" + sdf.format(date));
+                account.setStatus(com.pensasha.cheifManage.user.Status.ACTIVE);
 
                 List<User> users = (List<User>) userService.getAllUsers();
                 if (!users.isEmpty()) {

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.pensasha.cheifManage.account.AccountService;
 import com.pensasha.cheifManage.month.Month;
+import com.pensasha.cheifManage.transaction.Transaction;
 import com.pensasha.cheifManage.user.Title;
 import com.pensasha.cheifManage.user.UserService;
 import com.pensasha.cheifManage.year.YearService;
@@ -30,10 +31,10 @@ public class MessageController {
 
     @Autowired
     private MessageService messageService;
-    
+
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private AccountService accountService;
 
@@ -61,9 +62,11 @@ public class MessageController {
 
         model.addAttribute("months", Month.values());
         model.addAttribute("years", yearService.getAllYears());
-        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("title", "Sent Messages");
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("accounts", accountService.allAccountsByStatus(com.pensasha.cheifManage.user.Status.ACTIVE));
+        model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
 
         List<Message> sentMessages = messageService.getMySentMessages(idNumber);
         model.addAttribute("sentMessages", sentMessages);
@@ -87,9 +90,11 @@ public class MessageController {
 
         model.addAttribute("months", Month.values());
         model.addAttribute("years", yearService.getAllYears());
-        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("title", "Inbox");
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("accounts", accountService.allAccountsByStatus(com.pensasha.cheifManage.user.Status.ACTIVE));
+        model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
                 Status.UNREAD);
         model.addAttribute("messages", messages);
@@ -109,8 +114,11 @@ public class MessageController {
 
         model.addAttribute("months", Month.values());
         model.addAttribute("years", yearService.getAllYears());
-        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("accounts", accountService.allAccountsByStatus(com.pensasha.cheifManage.user.Status.ACTIVE));
+        model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
+
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
                 Status.UNREAD);
         model.addAttribute("messages", messages);
@@ -129,10 +137,13 @@ public class MessageController {
 
         model.addAttribute("months", Month.values());
         model.addAttribute("years", yearService.getAllYears());
-        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("titles", titles);
         model.addAttribute("mail", new Message());
         model.addAttribute("user", userService.getUserByIdNumber(idNumber));
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("accounts", accountService.allAccountsByStatus(com.pensasha.cheifManage.user.Status.ACTIVE));
+        model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
+
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
                 Status.UNREAD);
         model.addAttribute("messages", messages);
@@ -175,7 +186,8 @@ public class MessageController {
                 Date date = new Date();
                 User sender = userService.getUserByIdNumber(idNumber);
 
-                mail.setSendersName(sender.getTitle().name() + ", " + sender.getFirstName() + ' ' + sender.getThirdName());
+                mail.setSendersName(
+                        sender.getTitle().name() + ", " + sender.getFirstName() + ' ' + sender.getThirdName());
                 mail.setStatus(Status.UNREAD);
                 mail.setSender(sender);
                 mail.setDate(date);

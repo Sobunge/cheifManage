@@ -19,6 +19,16 @@ public class TransactionService {
     //Getting all transaction for an account
     public List<Transaction> getAllTransactionForAccount(String accountId){
         return transactionRepository.findAllByAccountId(accountId);
+    } 
+
+    //Getting all transaction for account and status
+    public List<Transaction> getAllTransactionForAccountByStatus(String accountId, Status status){
+        return transactionRepository.findAllByAccountIdAndStatus(accountId, status);
+    }
+
+    //Getting all transaction by status
+    public List<Transaction> getAllTransactionByStatus(Status status){
+        return transactionRepository.findAllByStatus(status);
     }
 
     //Get a transaction

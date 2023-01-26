@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -17,6 +19,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.cheifManage.transaction.Transaction;
+import com.pensasha.cheifManage.user.Status;
 import com.pensasha.cheifManage.user.User;
 
 import lombok.AllArgsConstructor;
@@ -31,7 +34,7 @@ public class Account {
     
     @Id
     @NotNull
-    @Column(length = 19)
+    @Column(length = 21)
     private String id;
 
     @Column(length = 70)
@@ -47,6 +50,9 @@ public class Account {
     private int balance = 0;
 
     private int minimumBalanace = 0;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnore

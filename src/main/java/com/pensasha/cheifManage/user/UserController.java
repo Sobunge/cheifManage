@@ -133,9 +133,12 @@ public class UserController {
         model.addAttribute("title", "Users");
         model.addAttribute("months", Month.values());
         model.addAttribute("years", yearService.getAllYears());
-        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("accounts", accountService.allAccountsByStatus(com.pensasha.cheifManage.user.Status.ACTIVE));
+        model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
+
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
                 Status.UNREAD);
         model.addAttribute("messages", messages);
@@ -168,8 +171,10 @@ public class UserController {
         model.addAttribute("title", "Active Users");
         model.addAttribute("months", Month.values());
         model.addAttribute("years", yearService.getAllYears());
-        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("accounts", accountService.allAccountsByStatus(com.pensasha.cheifManage.user.Status.ACTIVE));
+        model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
 
         return "users";
     }
@@ -200,8 +205,10 @@ public class UserController {
         model.addAttribute("title", "Inactive Users");
         model.addAttribute("months", Month.values());
         model.addAttribute("years", yearService.getAllYears());
-        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("accounts", accountService.allAccountsByStatus(com.pensasha.cheifManage.user.Status.ACTIVE));
+        model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
 
         return "users";
     }
@@ -274,13 +281,16 @@ public class UserController {
 
         model.addAttribute("months", Month.values());
         model.addAttribute("years", yearService.getAllYears());
-        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("newUser", newUser);
         model.addAttribute("genders", gender);
         model.addAttribute("titles", titles);
         model.addAttribute("roles", roles);
         model.addAttribute("offices", offices);
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("accounts", accountService.allAccountsByStatus(com.pensasha.cheifManage.user.Status.ACTIVE));
+        model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
+
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
                 Status.UNREAD);
         model.addAttribute("messages", messages);
@@ -342,11 +352,15 @@ public class UserController {
 
                 userService.addUser(newUser);
 
-                Account account = accountService.getAccountByName("Monthly Contribution");
-                List<User> users = account.getUsers();
-                users.add(newUser);
-                account.setUsers(users);
-                accountService.addAccount(account);
+                List<Account> accounts = accountService
+                        .allAccountsByStatus(com.pensasha.cheifManage.user.Status.ACTIVE);
+
+                for (Account account : accounts) {
+                    List<User> accountUsers = account.getUsers();
+                    accountUsers.add(newUser);
+                    account.setUsers(accountUsers);
+                    accountService.addAccount(account);
+                }
 
                 redit.addFlashAttribute("success",
                         newUser.getFirstName() + " " + newUser.getThirdName() +
@@ -419,13 +433,15 @@ public class UserController {
 
         model.addAttribute("months", Month.values());
         model.addAttribute("years", yearService.getAllYears());
-        model.addAttribute("accounts", accountService.allAccount());
         model.addAttribute("user", userService.getUserByIdNumber(Integer.parseInt(principal.getName())));
         model.addAttribute("newUser", userService.getUserByIdNumber(idNumber));
         model.addAttribute("genders", gender);
         model.addAttribute("titles", titles);
         model.addAttribute("roles", roles);
         model.addAttribute("offices", offices);
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("accounts", accountService.allAccountsByStatus(com.pensasha.cheifManage.user.Status.ACTIVE));
+        model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
 
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
                 Status.UNREAD);

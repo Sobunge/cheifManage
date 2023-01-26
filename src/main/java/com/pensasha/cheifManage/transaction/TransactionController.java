@@ -77,6 +77,7 @@ public class TransactionController {
 
         Account account = accountService.getAccount(id);
 
+        model.addAttribute("title", "Contributions");
         model.addAttribute("months", Month.values());
         model.addAttribute("years", yearService.getAllYears());
         model.addAttribute("users", account.getUsers());
@@ -84,7 +85,9 @@ public class TransactionController {
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("account", account);
         model.addAttribute("accounts", accountService.allAccount());
-        model.addAttribute("transactions", transactionService.getAllTransactionForAccount(id));
+        model.addAttribute("transactions", transactionService.getAllTransactionForAccountByStatus(id,
+                com.pensasha.cheifManage.transaction.Status.ACCEPTED));
+
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
                 Status.UNREAD);
         model.addAttribute("messages", messages);
@@ -96,6 +99,64 @@ public class TransactionController {
         model.addAttribute("messageCount", count);
 
         return "transactions";
+    }
+
+    // Getting pending transactions
+    @GetMapping("/pendingTransaction")
+    public String getAllPendingTransaction(Principal principal, Model model) {
+
+        User user = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
+
+        model.addAttribute("title", "Pending Contributions");
+        model.addAttribute("months", Month.values());
+        model.addAttribute("years", yearService.getAllYears());
+        model.addAttribute("user", user);
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("accounts", accountService.allAccountsByStatus(com.pensasha.cheifManage.user.Status.ACTIVE));
+        model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
+        model.addAttribute("transactions",
+                transactionService.getAllTransactionByStatus(com.pensasha.cheifManage.transaction.Status.PENDING));
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+                Status.UNREAD);
+        model.addAttribute("messages", messages);
+
+        int count = 0;
+        for (int i = 0; i < messages.size(); i++) {
+            count++;
+        }
+        model.addAttribute("messageCount", count);
+
+        return "transactions";
+    }
+
+    // Getting rejected transactions
+    @GetMapping("/rejectedTransaction")
+    public String getAllRejectedTransactions(Principal principal, Model model) {
+
+        User user = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
+
+        model.addAttribute("title", "Rejected Contributions");
+        model.addAttribute("months", Month.values());
+        model.addAttribute("years", yearService.getAllYears());
+        model.addAttribute("user", user);
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("transactions",
+                transactionService.getAllTransactionByStatus(com.pensasha.cheifManage.transaction.Status.REJECTED));
+        model.addAttribute("accounts", accountService.allAccountsByStatus(com.pensasha.cheifManage.user.Status.ACTIVE));
+        model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
+
+        List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
+                Status.UNREAD);
+        model.addAttribute("messages", messages);
+
+        int count = 0;
+        for (int i = 0; i < messages.size(); i++) {
+            count++;
+        }
+        model.addAttribute("messageCount", count);
+
+        return "transactions";
+
     }
 
     @PostMapping("/transactions")
@@ -124,7 +185,8 @@ public class TransactionController {
         context.setVariable("users", account.getUsers());
         context.setVariable("user", user);
         context.setVariable("transaction", new Transaction());
-        context.setVariable("transactions", transactionService.getAllTransactionForAccount(id));
+        context.setVariable("transactions", transactionService.getAllTransactionForAccountByStatus(id,
+                com.pensasha.cheifManage.transaction.Status.ACCEPTED));
         context.setVariable("account", accountService.getAccount(id));
 
         String accountsHtml = this.templateEngine.process("reports/statementsPdf", context);
@@ -301,7 +363,8 @@ public class TransactionController {
             HttpServletRequest request, HttpServletResponse response) {
 
         WebContext context = new WebContext(request, response, this.servletContext);
-        context.setVariable("transactions", transactionService.getAllTransactionForAccount(id));
+        context.setVariable("transactions", transactionService.getAllTransactionForAccountByStatus(id,
+                com.pensasha.cheifManage.transaction.Status.ACCEPTED));
         context.setVariable("account", accountService.getAccount(id));
         context.setVariable("transaction", transactionService.getTransaction(trans_id));
 

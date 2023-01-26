@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pensasha.cheifManage.user.Status;
+
 @Service
 public class AccountService {
     
@@ -14,6 +16,11 @@ public class AccountService {
     //Get all account
     public List<Account> allAccount(){
         return accountRepository.findAll();
+    }
+
+    //Get all accounts by status
+    public List<Account> allAccountsByStatus(Status status){
+        return accountRepository.findAllByStatus(status);
     }
 
     //Get an account by id
