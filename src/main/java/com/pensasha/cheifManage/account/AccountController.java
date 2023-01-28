@@ -119,7 +119,6 @@ public class AccountController {
         model.addAttribute("accounts", accountService.allAccountsByStatus(com.pensasha.cheifManage.user.Status.ACTIVE));
         model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
 
-
         List<User> missingUsers = new ArrayList<>();
         List<User> users = userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE);
 
@@ -144,18 +143,11 @@ public class AccountController {
         return "account";
     }
 
-    /*
-     * @GetMapping("/usersHome")
-     * public String getHomePage(Principal principal) {
-     * 
-     * User user =
-     * userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
-     * Account account =
-     * accountService.getAccountByUserIdNumber(user.getIdNumber());
-     * 
-     * return "redirect:/accounts/" + account.getId();
-     * }
-     */
+    @GetMapping("/usersHome")
+    public String getHomePage() {
+
+        return "redirect:/accounts";
+    }
 
     // Save an account
     @PostMapping("/account")

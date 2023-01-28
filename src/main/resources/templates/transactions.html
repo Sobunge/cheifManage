@@ -29,7 +29,7 @@
                     <nav aria-label="breadcrumb" class="d-none d-md-block">
                         <ol class="breadcrumb small" style="margin-top: 15px;">
                             <th:block th:if="${user.role.name == 'USER'}">
-                                <li class="breadcrumb-item"><a th:href="@{/accounts/{id}(id = ${account.id})}">Home</a>
+                                <li class="breadcrumb-item"><a th:href="@{/accounts}">Home</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">Contributions</li>
                             </th:block>
