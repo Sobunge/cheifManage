@@ -84,6 +84,7 @@ public class TransactionController {
         model.addAttribute("months", Month.values());
         model.addAttribute("years", yearService.getAllYears());
         model.addAttribute("users", account.getUsers());
+        model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
         model.addAttribute("user", user);
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("account", account);
@@ -190,7 +191,6 @@ public class TransactionController {
             calender.setTime(date);
             daysInMonth = calender.getActualMaximum(Calendar.DAY_OF_MONTH);
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -202,6 +202,7 @@ public class TransactionController {
         model.addAttribute("months", Month.values());
         model.addAttribute("years", yearService.getAllYears());
         model.addAttribute("users", account.getUsers());
+        model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
         model.addAttribute("user", user);
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("account", account);
@@ -280,9 +281,13 @@ public class TransactionController {
 
             account.setBalance(account.getBalance() + transaction.getAmount());
 
-            Date date = new Date();
+            SimpleDateFormat dateFormater = new SimpleDateFormat("YYYY-MM-dd");
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Nairobi/Kenya"));
-            calendar.setTime(date);
+            try {
+                calendar.setTime(dateFormater.parse(transaction.getDate()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             Year year;
             Set<Month> months;
@@ -297,8 +302,6 @@ public class TransactionController {
             }
 
             SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
-            SimpleDateFormat tFormat = new SimpleDateFormat("hh:mm aa");
-            SimpleDateFormat dFormat = new SimpleDateFormat("dd-MM-yyyy");
 
             switch (sdf.format(calendar.get(Calendar.MONTH))) {
                 case "January":
@@ -356,8 +359,6 @@ public class TransactionController {
             transaction.setUser(userService.getUserByIdNumber(Integer.parseInt(request.getParameter("idNumberInput"))));
             transaction.setAccount(account);
             transaction.setYear(year);
-            transaction.setDate(dFormat.format(date));
-            transaction.setTime(tFormat.format(date));
 
             if (activeUser.getOffice().equals(Office.SECRETARY) || activeUser.getOffice().equals(Office.TREASURER)
                     || activeUser.getRole().equals(Role.SUPER_ADMIN)) {
@@ -380,6 +381,7 @@ public class TransactionController {
 
         return new RedirectView(redirectView, true);
 
+
     }
 
     // Adding a transaction
@@ -399,9 +401,13 @@ public class TransactionController {
             Account account = accountService.getAccount(accountId);
             account.setBalance(account.getBalance() + transaction.getAmount());
 
-            Date date = new Date();
+            SimpleDateFormat dateFormater = new SimpleDateFormat("YYYY-MM-dd");
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Nairobi/Kenya"));
-            calendar.setTime(date);
+            try {
+                calendar.setTime(dateFormater.parse(transaction.getDate()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             Year year;
             Set<Month> months;
@@ -416,8 +422,6 @@ public class TransactionController {
             }
 
             SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
-            SimpleDateFormat tFormat = new SimpleDateFormat("hh:mm aa");
-            SimpleDateFormat dFormat = new SimpleDateFormat("dd-MM-yyyy");
 
             switch (sdf.format(calendar.get(Calendar.MONTH))) {
                 case "January":
@@ -475,8 +479,6 @@ public class TransactionController {
             transaction.setUser(userService.getUserByIdNumber(idNumberInput));
             transaction.setAccount(account);
             transaction.setYear(year);
-            transaction.setDate(dFormat.format(date));
-            transaction.setTime(tFormat.format(date));
 
             if (activeUser.getOffice().equals(Office.SECRETARY) || activeUser.getOffice().equals(Office.TREASURER)
                     || activeUser.getRole().equals(Role.SUPER_ADMIN)) {

@@ -409,8 +409,9 @@ public class UserController {
                 for (Account account : accounts) {
 
                     account.getUsers().remove(user);
-                    List<Transaction> transactions = transactionService.getAllUserTransaction(idNumber);
+                    List<Transaction> transactions = (List<Transaction>) account.getTransactions();
                     for (Transaction transaction : transactions) {
+                        account.setBalance(account.getBalance() - transaction.getAmount());
                         transactionService.deleteTransaction(transaction.getId());
                     }
 

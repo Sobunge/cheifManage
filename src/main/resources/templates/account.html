@@ -127,11 +127,6 @@
                     <section class="d-flex align-items-center justify-content-between"
                         style="margin-top:20px; margin-bottom:20px;">
                         <h5> Account Users </h5>
-                        <button type="button" class="btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal"
-                            data-bs-target="#addAccountUserModal">
-                            <i class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i><span class="iconLabel">Add
-                                User</span>
-                        </button>
                     </section>
 
                     <div class="card">
@@ -146,12 +141,6 @@
                                             <th style="min-width: 80px;">Id Number</th>
                                             <th style="min-width: 120px;">Phone Number</th>
                                             <th style="min-width: 60px;">View</th>
-                                            <th:block th:if="${account.name != 'Monthly Contribution'}">
-                                                <th:block
-                                                    th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER'}">
-                                                    <th style="min-width: 60px;">Delete</th>
-                                                </th:block>
-                                            </th:block>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -169,24 +158,6 @@
                                                         class="iconLabel">View</span>
                                                 </a>
                                             </td>
-                                            <th:block th:if="${account.name != 'Monthly Contribution'}">
-                                                <th:block
-                                                    th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'COUNTY_ADMIN'}">
-                                                    <td>
-                                                        <a data-bs-toggle="modal" href="#"
-                                                            data-bs-target="#deleteUserModal"
-                                                            th:data-href="@{/user/{idNumber}(idNumber = ${u.idNumber})}"
-                                                            class="btn btn-sm btn-danger shadow-sm"
-                                                            th:unless="${u == user}"><i class="fa fa-trash-alt fa-sm"
-                                                                aria-hidden="true"></i> <span
-                                                                class="iconLabel">Delete</span></a>
-                                                    </td>
-                                                </th:block>
-                                            </th:block>
-                                            <th:block
-                                                th:unless="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && u.role.name == 'COUNTY_ADMIN'}">
-                                                <td>
-                                            </th:block>
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -197,12 +168,6 @@
                                             <th>Id Number</th>
                                             <th>Phone Number</th>
                                             <th></th>
-                                            <th:block th:if="${account.name != 'Monthly Contribution'}">
-                                                <th:block
-                                                    th:if="${user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER'}">
-                                                    <th></th>
-                                                </th:block>
-                                            </th:block>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -210,45 +175,6 @@
                         </div>
                     </div>
 
-                </div>
-
-                <!-- Add Account User Modal -->
-                <div class="modal fade" id="addAccountUserModal" tabindex="-1"
-                    aria-labelledby="addAccountUserModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addTransactionModalLabel">
-                                    <i class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i> Add User
-                                </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                    <th:block th:each="user : ${missingUsers}">
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault">
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                <span
-                                                    th:text="${'Name: ' + user.firstName + ' ' + user.thirdName + ', ID: ' + user.idNumber}">
-                                                    Name - Id Number </span>
-                                            </label>
-                                        </div>
-                                    </th:block>
-
-                                    <button type="submit" class="btn btn-sm btn-success shadow-sm"><i
-                                            class="fa fa-user-plus fs-sm fa-fw" aria-hidden="true"></i> Add
-                                        Users</button>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-sm btn-danger shadow-sm" data-bs-dismiss="modal"><i
-                                        class="fa fa-times fa-sm fa-fw" aria-hidden="true"></i> Close</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Add a saving transaction model -->
@@ -272,7 +198,9 @@
                                         <select name="idNumberInput" class="form-select form-select-sm"
                                             aria-label="userIdNumber" auidtocomplete="on">
                                             <th:block th:each="user : ${account.users}">
-                                                <option th:text="${user.idNumber + ' :- ' + user.firstName + ' '  + user.thirdName}" th:value="${user.idNumber }">One
+                                                <option
+                                                    th:text="${user.idNumber + ' :- ' + user.firstName + ' '  + user.thirdName}"
+                                                    th:value="${user.idNumber }">One
                                                 </option>
                                             </th:block>
                                         </select>
@@ -282,19 +210,6 @@
                                         <div class="valid-feedback">Looks good!</div>
                                         <div class="invalid-feedback">
                                             Please provide an Id Number.
-                                        </div>
-                                    </div>
-                                    <div class="form-floating mb-3">
-                                        <input type="number" th:field="*{amount}" class="form-control form-control-sm"
-                                            id="amountInput" placeholder="Amount" min="1" required>
-                                        <label for="amount" class="col-form-label col-form-label-sm"><i
-                                                class="fa fa-money-bill-alt fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
-                                            Amount </label>
-                                        <div class="valid-feedback">
-                                            Looks good!
-                                        </div>
-                                        <div class="invalid-feedback">
-                                            Please enter amount.
                                         </div>
                                     </div>
                                     <div class="form-floating mb-3">
@@ -312,6 +227,46 @@
                                             Please enter reference number.
                                         </div>
                                     </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="number" th:field="*{amount}" class="form-control form-control-sm"
+                                            id="amountInput" placeholder="Amount" min="1" required>
+                                        <label for="amount" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-money-bill-alt fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                            Amount </label>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter amount.
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="date" th:field="*{date}" class="form-control form-control-sm"
+                                            id="dateInput" placeholder="Date" required>
+                                        <label for="date" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-calendar fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                            Date </label>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter a valid date.
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="time" th:field="*{time}" class="form-control form-control-sm"
+                                            id="timeInput" placeholder="time" required>
+                                        <label for="time" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-clock fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                            Time </label>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter a valid time.
+                                        </div>
+                                    </div>
+
                                     <button type="submit" class="btn btn-sm btn-success shadow-sm"><i
                                             class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i>
                                         Contribute</button>

@@ -204,6 +204,21 @@
                                             </div>
                                         </div>
                                         <div class="form-floating mb-3">
+                                            <input type="text" th:field="*{referenceNumber}"
+                                                class="form-control form-control-sm" id="referenceNumberInput"
+                                                placeholder="Reference Number" required>
+                                            <label for="referenceNumber" class="col-form-label col-form-label-sm"><i
+                                                    class="fa fa-key fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                                Reference
+                                                Number </label>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter reference number.
+                                            </div>
+                                        </div>
+                                        <div class="form-floating mb-3">
                                             <input type="number" th:field="*{amount}"
                                                 class="form-control form-control-sm" id="amountInput"
                                                 placeholder="Amount" min="1" required>
@@ -219,20 +234,32 @@
                                             </div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" th:field="*{referenceNumber}"
-                                                class="form-control form-control-sm" id="referenceNumberInput"
-                                                placeholder="Reference Number" required>
-                                            <label for="referenceNumber" class="col-form-label col-form-label-sm"><i
-                                                    class="fa fa-key fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
-                                                Reference
-                                                Number </label>
+                                            <input type="date" th:field="*{date}" class="form-control form-control-sm"
+                                                id="dateInput" placeholder="Date" required>
+                                            <label for="date" class="col-form-label col-form-label-sm"><i
+                                                    class="fa fa-calendar fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                                Date </label>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
                                             <div class="invalid-feedback">
-                                                Please enter reference number.
+                                                Please enter a valid date.
                                             </div>
                                         </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="time" th:field="*{time}" class="form-control form-control-sm"
+                                                id="timeInput" placeholder="time" required>
+                                            <label for="time" class="col-form-label col-form-label-sm"><i
+                                                    class="fa fa-clock fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                                Time </label>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter a valid time.
+                                            </div>
+                                        </div>
+
                                         <button type="submit" class="btn btn-sm btn-success shadow-sm"><i
                                                 class="fa fa-save fa-sm fa-fw" aria-hidden="true"></i>
                                             Contribute</button>

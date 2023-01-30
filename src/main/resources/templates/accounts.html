@@ -87,8 +87,8 @@
                     <tr th:each="ac, iter : ${accounts}">
                       <td th:text="${iter.count}">Counter</td>
                       <td style="min-width: 150px; max-width: 250px;" th:text="${ac.name}"
-                        class="d-inline-block text-truncate">Account Name</td>
-                      <td th:text="${ac.balance}">Balance/td>
+                        class="text-truncate">Account Name</td>
+                      <td th:text="${ac.balance}">Balance</td>
                       <td> <a class="btn btn-sm btn-primary shadow-sm" th:href="@{/accounts/{id}(id = ${ac.id})}"> <i
                             class="fa fa-folder-open fa-sm" aria-hidden="true"></i> <span class="iconLabel"> View</span>
                         </a>
