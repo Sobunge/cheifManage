@@ -187,7 +187,7 @@ public class TransactionController {
         int daysInMonth = 0;
         String savedDate = "";
 
-        Date date = new SimpleDateFormat("dd/MMMM/yyyy").parse("01/January" + "/" + year);
+        Date date = new SimpleDateFormat("dd/MMMM/yyyy").parse("01/" + month + "/" + year);
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -255,7 +255,7 @@ public class TransactionController {
         int daysInMonth = 0;
         String savedDate = "";
 
-        Date date = new SimpleDateFormat("dd/MMMM/yyyy").parse("01/January" + "/" + year);
+        Date date = new SimpleDateFormat("dd/MMMM/yyyy").parse("01/" + month + "/" + year);
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
