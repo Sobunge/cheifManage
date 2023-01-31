@@ -3,6 +3,7 @@ package com.pensasha.cheifManage.transaction;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -176,26 +177,44 @@ public class TransactionController {
     }
 
     @PostMapping("/monthlyTransactionPage")
-    public String getMonthlyAccountPage(Model model, Principal principal, HttpServletRequest request) {
+    public String getMonthlyAccountPage(Model model, Principal principal, HttpServletRequest request)
+            throws ParseException {
 
         Account account = accountService.getAccountByName("Monthly Contribution");
         int year = Integer.parseInt(request.getParameter("accountYear"));
         String month = request.getParameter("accountMonth");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MMMM/yyyy");
         int daysInMonth = 0;
+        String savedDate = "";
 
-        try {
-            Date date = sdf.parse("01/" + month + "/" + year);
-            Calendar calender = Calendar.getInstance();
-            calender.setTime(date);
-            daysInMonth = calender.getActualMaximum(Calendar.DAY_OF_MONTH);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date date = new SimpleDateFormat("dd/MMMM/yyyy").parse("01/January" + "/" + year);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        savedDate = new SimpleDateFormat("yyyy-MM").format(cal.getTime());
+        daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         User user = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
 
+        List<Transaction> transactions = transactionService.getAllTransactionForAccountByStatus(account.getId(),
+                com.pensasha.cheifManage.transaction.Status.ACCEPTED);
+        List<Transaction> monthsTransactions = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            for (int i = 0; i < daysInMonth; i++) {
+                if (i < 10) {
+                    if (transaction.getDate().equals(savedDate + "-0" + i)) {
+                        monthsTransactions.add(transaction);
+                    }
+                } else {
+                    if (transaction.getDate().equals(savedDate + "-" + i)) {
+                        monthsTransactions.add(transaction);
+                    }
+                }
+
+            }
+        }
+
+        model.addAttribute("savedDate", savedDate);
         model.addAttribute("daysInMonth", daysInMonth);
         model.addAttribute("title", month);
         model.addAttribute("year", year);
@@ -207,8 +226,7 @@ public class TransactionController {
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("account", account);
         model.addAttribute("accounts", accountService.allAccount());
-        model.addAttribute("transactions", transactionService.getAllTransactionForAccountByStatus(account.getId(),
-                com.pensasha.cheifManage.transaction.Status.ACCEPTED));
+        model.addAttribute("transactions", monthsTransactions);
 
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
                 Status.UNREAD);
@@ -222,6 +240,70 @@ public class TransactionController {
 
         return "monthlyContributions";
 
+    }
+
+    @PostMapping("/monthlyTransactionPagePdf")
+    public ResponseEntity<?> getMonthlyAccountPagePdf(HttpServletRequest request,
+            HttpServletResponse response, Principal principal) throws ParseException {
+
+        WebContext context = new WebContext(request, response, this.servletContext);
+
+        Account account = accountService.getAccountByName("Monthly Contribution");
+        int year = Integer.parseInt(request.getParameter("accountYear"));
+        String month = request.getParameter("accountMonth");
+
+        int daysInMonth = 0;
+        String savedDate = "";
+
+        Date date = new SimpleDateFormat("dd/MMMM/yyyy").parse("01/January" + "/" + year);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        savedDate = new SimpleDateFormat("yyyy-MM").format(cal.getTime());
+        daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        User user = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
+
+        List<Transaction> transactions = transactionService.getAllTransactionForAccountByStatus(account.getId(),
+                com.pensasha.cheifManage.transaction.Status.ACCEPTED);
+        List<Transaction> monthsTransactions = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            for (int i = 0; i < daysInMonth; i++) {
+                if (i < 10) {
+                    if (transaction.getDate().equals(savedDate + "-0" + i)) {
+                        monthsTransactions.add(transaction);
+                    }
+                } else {
+                    if (transaction.getDate().equals(savedDate + "-" + i)) {
+                        monthsTransactions.add(transaction);
+                    }
+                }
+
+            }
+        }
+
+        context.setVariable("savedDate", savedDate);
+        context.setVariable("daysInMonth", daysInMonth);
+        context.setVariable("title", month);
+        context.setVariable("year", year);
+        context.setVariable("months", Month.values());
+        context.setVariable("years", yearService.getAllYears());
+        context.setVariable("users", account.getUsers());
+        context.setVariable("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
+        context.setVariable("user", user);
+        context.setVariable("transaction", new Transaction());
+        context.setVariable("account", account);
+        context.setVariable("accounts", accountService.allAccount());
+        context.setVariable("transactions", monthsTransactions);
+
+        String accountsHtml = this.templateEngine.process("reports/monthlyContributionPdf", context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri(baseUrl);
+        HtmlConverter.convertToPdf(accountsHtml, target, converterProperties);
+        byte[] bytes = target.toByteArray();
+
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes);
     }
 
     @PostMapping("/transactions")
@@ -380,7 +462,6 @@ public class TransactionController {
         }
 
         return new RedirectView(redirectView, true);
-
 
     }
 

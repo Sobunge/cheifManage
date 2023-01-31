@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.cheifManage.account.Account;
 import com.pensasha.cheifManage.month.Month;
 import com.pensasha.cheifManage.user.User;
@@ -45,23 +46,28 @@ public class Transaction {
 
     @ManyToOne
     @NotNull
+    @JsonIgnore
     @JoinColumn(name = "account_id", nullable = true)
     private Account account;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "year")
     private Year year;
 
     @Enumerated(EnumType.STRING)
+    @JsonIgnore
     private Month month;
 
     @Enumerated(EnumType.STRING)
+    @JsonIgnore
     private Status status;
 
     @NotNull
     private String referenceNumber;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 }

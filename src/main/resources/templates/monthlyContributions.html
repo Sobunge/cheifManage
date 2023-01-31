@@ -74,10 +74,11 @@
                             <i class="fa fa-plus fs-fw fa-sm text-white-70" aria-hidden="true"></i>&nbsp; <span
                                 class="iconLabel">Add Contribution</span>
                         </button>
-                        <a th:href="@{/accounts/{id}/transactions/pdf(id = ${account.id})}"
-                            class="btn btn-sm btn-primary shadow-sm"><i class="fa fa-print fa-fw fa-sm text-white-70"
-                                aria-hidden="true"></i>&nbsp; <span class="iconLabel">
-                                Contribution Report</span></a>
+                        <button type="button" class="btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal"
+                        data-bs-target="#monthlyReportContributionModal" id="monthlyReportContributionModal"><i
+                            class="fa fa-save fa-sm fa-fw" aria-hidden="true"></i>
+                        Contributions Report
+                    </button>
                     </div>
 
                     <br />
@@ -88,8 +89,6 @@
                         <div class="alert alert-success" th:if="${transactionSuccess}" th:text="${transactionSuccess}">
                             User saved</div>
 
-                        <div class="card-header" th:text="${'Bal: ' +  account.balance}">
-                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="transactionTable" class="table table-sm" style="width:100%;">
@@ -103,14 +102,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <th:block>
-                                            <tr th:each="transaction, itr : ${transactions}">
+                                        <th:block th:each="user, itr : ${users}">
+                                            <tr>
                                                 <td th:text="${itr.count}">1</td>
-                                                <td
-                                                    th:text="${transaction.user.firstName + ' ' + transaction.user.thirdName}">
+                                                <td th:text="${user.firstName + ' ' + user.thirdName}">
                                                 </td>
                                                 <th:block th:each="day :${#numbers.sequence(1, daysInMonth)}">
-                                                    <td> - </td>
+                                                    <td>
+                                                        <th:block th:each="transaction : ${transactions}">
+                                                            <th:block th:if="${day < 10}">
+                                                                <span th:text="${transaction.amount}" th:if="${transaction.date == savedDate + '-0' + day && user == transaction.user}"> - </span>
+                                                            </th:block>
+                                                            <th:block th:unless="${day < 10}">
+                                                                <span th:text="${transaction.amount}" th:if="${transaction.date == savedDate + '-' + day && user == transaction.user}"> - </span>
+                                                            </th:block>
+                                                        </th:block>
+                                                    </td>
                                                 </th:block>
                                             </tr>
                                         </th:block>
@@ -132,8 +139,6 @@
                 </div>
 
                 <!-- Add a saving transaction model -->
-                <th style="min-width: 30px; max-width: 80px;" scope="col">#</th>
-                <th style="min-width: 150px;" scope="col">Name</th>
                 <div class="modal fade" id="addTransactionModal" tabindex="-1"
                     aria-labelledby="addTransactionModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
