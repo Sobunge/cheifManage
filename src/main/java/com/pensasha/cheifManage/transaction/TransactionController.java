@@ -33,6 +33,11 @@ import org.thymeleaf.context.WebContext;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.io.source.ByteArrayOutputStream;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.styledxmlparser.css.media.MediaDeviceDescription;
+import com.itextpdf.styledxmlparser.css.media.MediaType;
 import com.pensasha.cheifManage.account.Account;
 import com.pensasha.cheifManage.account.AccountService;
 import com.pensasha.cheifManage.message.Status;
@@ -298,12 +303,20 @@ public class TransactionController {
 
         String accountsHtml = this.templateEngine.process("reports/monthlyContributionPdf", context);
         ByteArrayOutputStream target = new ByteArrayOutputStream();
+        PdfWriter writer = new PdfWriter(target);
+        PdfDocument pdfDocument = new PdfDocument(writer);
+        PageSize pageSize = PageSize.A4.rotate();
+        pdfDocument.setDefaultPageSize(pageSize);
         ConverterProperties converterProperties = new ConverterProperties();
         converterProperties.setBaseUri(baseUrl);
-        HtmlConverter.convertToPdf(accountsHtml, target, converterProperties);
+        MediaDeviceDescription mediaDeviceDescription = new MediaDeviceDescription(MediaType.SCREEN);
+        mediaDeviceDescription.setWidth(pageSize.getWidth());
+        converterProperties.setMediaDeviceDescription(mediaDeviceDescription);
+        HtmlConverter.convertToPdf(accountsHtml, pdfDocument, converterProperties);
         byte[] bytes = target.toByteArray();
 
         return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes);
+
     }
 
     @PostMapping("/transactions")
@@ -449,7 +462,13 @@ public class TransactionController {
                 transactionService.addTransaction(transaction);
 
                 redit.addFlashAttribute("transactionSuccess", "Transaction successfully recorded");
-                redirectView = "/accounts/" + account.getId() + "/transactions";
+
+                if(account.getName().equals("Monthly Contribution")){
+                    redirectView = "/accounts/" + account.getId();
+                }else{
+                    redirectView = "/accounts/" + account.getId() + "/transactions";
+                }   
+                
             } else {
 
                 transaction.setStatus(com.pensasha.cheifManage.transaction.Status.PENDING);
