@@ -28,7 +28,12 @@
 
                     <nav aria-label="breadcrumb" class="d-none d-md-block">
                         <ol class="breadcrumb small" style="margin-top: 15px;">
-                            <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
+                            <th:block th:if="${user.role.name == 'USER'}">
+                                <li class="breadcrumb-item"><a th:href="@{/accounts}">Home</a></li>
+                            </th:block>
+                            <th:block th:unless="${user.role.name == 'USER'}">
+                                <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
+                            </th:block>
                             <li class="breadcrumb-item active" aria-current="page" th:text="${title}">Inbox</li>
                         </ol>
                     </nav>

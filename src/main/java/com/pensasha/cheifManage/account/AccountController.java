@@ -186,19 +186,14 @@ public class AccountController {
     public RedirectView updateAnAccount(@ModelAttribute Account account, @PathVariable String id,
             RedirectAttributes redit) {
 
-        Account acc = accountService.getAccount(id);
-
         if (accountService.doesAccountExist(id)) {
-            if (!acc.getName().equals("Monthly Contribution")) {
-                redit.addFlashAttribute("accountSuccess", "Account successfully created");
 
-                Account existingAccount = accountService.getAccount(id);
-                existingAccount.setDescription(account.getDescription());
+            redit.addFlashAttribute("accountSuccess", "Account successfully created");
 
-                accountService.updateAccount(existingAccount);
-            } else {
-                redit.addFlashAttribute("accountFail", "Account Name already exists");
-            }
+            Account existingAccount = accountService.getAccount(id);
+            existingAccount.setDescription(account.getDescription());
+
+            accountService.updateAccount(existingAccount);
 
         } else {
             redit.addFlashAttribute("accountFail", "Account does not exist.");

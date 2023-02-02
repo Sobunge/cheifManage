@@ -29,7 +29,7 @@
                     <nav aria-label="breadcrumb" class="d-none d-md-block">
                         <ol class="breadcrumb small" style="margin-top: 15px;">
                             <th:block th:if="${user.role.name == 'USER'}">
-                                <li class="breadcrumb-item"><a th:href="@{/accounts/{id}(id = ${account.id})}">Home</a>
+                                <li class="breadcrumb-item"><a th:href="@{/accounts}">Home</a>
                                 </li>
                             </th:block>
                             <th:block th:if="${user.role.name != 'USER'}">
@@ -65,11 +65,25 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <th:block th:if="${account.name != 'Monthly Contribution'}">
-                            <button type="button" class="btn btn-sm btn-success shadow-sm" data-bs-toggle="modal"
-                                data-bs-target="#addTransactionModal">
-                                <i class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i> <span class="iconLabel">Add
-                                    Contribution</span>
-                            </button>
+                            <th:block
+                                th:if="${user.role.name == 'SUPER_ADMIN' || user.office.name == 'CHAIRMAN' || user.office.name == 'SECRETARY'}">
+                                <button type="button" class="btn btn-sm btn-success shadow-sm" data-bs-toggle="modal"
+                                    data-bs-target="#addTransactionModal">
+                                    <i class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i> <span
+                                        class="iconLabel">Add
+                                        Contribution</span>
+                                </button>
+                            </th:block>
+                            <th:block
+                                th:unless="${user.role.name == 'SUPER_ADMIN' || user.office.name == 'CHAIRMAN' || user.office.name == 'SECRETARY'}">
+                                <button type="button" class="btn btn-sm btn-success shadow-sm" data-bs-toggle="modal"
+                                    data-bs-target="#addMemberTransactionModal">
+                                    <i class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i> <span
+                                        class="iconLabel">Add
+                                        Contribution</span>
+                                </button>
+                            </th:block>
+
                             <a th:href="@{/accounts/{id}/transactions(id = ${account.id})}"
                                 class="btn btn-sm btn-primary shadow-sm"><i class="fa fa-folder-open"
                                     aria-hidden="true"></i> <span class="iconLabel">View Contributions</span></a>
@@ -138,8 +152,12 @@
                                     id="changeDetails"><i class="fa fa-save fa-sm fa-fw" aria-hidden="true"></i> Change
                                     Details</button>
                             </form>
-                            <button class="btn btn-sm btn-primary shadow-sm" id="editDetails"><i
-                                    class="fa fa-pen-fancy fa-sm fa-fw" aria-hidden="true"></i> Edit Details</button>
+                            <th:block
+                                th:if="${user.role.name == 'SUPER_ADMIN' || user.office.name == 'CHAIRMAN' || user.office.name == 'SECRETARY'}">
+                                <button class="btn btn-sm btn-primary shadow-sm" id="editDetails"><i
+                                        class="fa fa-pen-fancy fa-sm fa-fw" aria-hidden="true"></i> Edit
+                                    Details</button>
+                            </th:block>
                         </div>
                     </div>
 
@@ -197,7 +215,7 @@
                 </div>
 
                 <!-- Add a saving transaction model -->
-                <div class="modal fade" id="addTransactionModal" tabindex="-1"
+                <div class="modal fade" id="addMemberTransactionModal" tabindex="-1"
                     aria-labelledby="addTransactionModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -213,24 +231,6 @@
                                     th:action="@{/accounts/{accountId}/transaction(accountId = ${account.id})}"
                                     th:object="${transaction}" method="post" novalidate>
                                     <input type="text" id="typeInput" name="typeInput" value="Saving" hidden>
-                                    <div class="form-floating mb-3">
-                                        <select name="idNumberInput" class="form-select form-select-sm"
-                                            aria-label="userIdNumber" auidtocomplete="on">
-                                            <th:block th:each="user : ${account.users}">
-                                                <option
-                                                    th:text="${user.idNumber + ' :- ' + user.firstName + ' '  + user.thirdName}"
-                                                    th:value="${user.idNumber }">One
-                                                </option>
-                                            </th:block>
-                                        </select>
-                                        <label class="col-form-label col-form-label-sm" for="idNumberInput"><i
-                                                class="fa fa-id-card fa-sm fa-fw" aria-hidden="true"></i>&nbsp; Id
-                                            Number</label>
-                                        <div class="valid-feedback">Looks good!</div>
-                                        <div class="invalid-feedback">
-                                            Please provide an Id Number.
-                                        </div>
-                                    </div>
                                     <div class="form-floating mb-3">
                                         <input type="text" th:field="*{referenceNumber}"
                                             class="form-control form-control-sm" id="referenceNumberInput"

@@ -74,7 +74,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @JsonIgnore
+    @JsonIgnore         
     @ManyToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Account> accounts; 
 
@@ -82,6 +82,7 @@ public class User {
     @ManyToMany(mappedBy = "recievers", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Collection<Message> messages;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "sender", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Collection<Message> sms;
 }

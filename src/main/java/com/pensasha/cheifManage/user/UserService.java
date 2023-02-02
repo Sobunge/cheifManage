@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pensasha.cheifManage.role.Role;
+
 @Service
 public class UserService {
 
@@ -23,6 +25,15 @@ public class UserService {
         User existingUser = userRepository.findById(idNumber).get();
 
         user.setPassword(existingUser.getPassword());
+        user.setStatus(existingUser.getStatus());
+        user.setSms(existingUser.getSms());
+        user.setAccounts(existingUser.getAccounts());
+        user.setMessages(existingUser.getMessages());
+
+        if(existingUser.getRole() == Role.USER){
+            user.setRole(existingUser.getRole());
+        }
+
         userRepository.save(user);
 
         return user;

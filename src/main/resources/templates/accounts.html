@@ -28,7 +28,12 @@
 
           <nav aria-label="breadcrumb" class="d-none d-md-block">
             <ol class="breadcrumb small" style="margin-top: 15px;">
-              <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
+              <th:block th:if="${user.role.name == 'USER'}"> 
+                <li class="breadcrumb-item"><a th:href="@{/accounts}">Home</a></li>
+              </th:block>
+              <th:block th:if="${user.role.name != 'USER'}">
+                <li class="breadcrumb-item"><a th:href="@{/users}">Home</a></li>
+              </th:block>
               <li class="breadcrumb-item active" aria-current="page">Accounts</li>
             </ol>
           </nav>
@@ -53,11 +58,13 @@
 
           <!-- Page Heading -->
           <div class="d-flex align-items-center justify-content-between mb-4">
-            <button type="button" class="btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal"
-              data-bs-target="#addAccount">
-              <i class="fa fa-plus fs-fw fa-sm text-white-70" aria-hidden="true"></i>&nbsp; <span
-                class="iconLabel">Create Account</span>
-            </button>
+            <th:block th:if="${user.role.name == 'SUPER_ADMIN' || user.office.name == 'CHAIRMAN' || user.office.name == 'SECRETARY'}">
+              <button type="button" class="btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal"
+                data-bs-target="#addAccount">
+                <i class="fa fa-plus fs-fw fa-sm text-white-70" aria-hidden="true"></i>&nbsp; <span
+                  class="iconLabel">Create Account</span>
+              </button>
+            </th:block>
             <h1 class="h4 mb-0 text-gray-800"> Accounts </h1>
             <a th:href="@{/accounts/pdf}" class="btn btn-sm btn-primary shadow-sm">
               <i class="fa fa-print fa-fw fa-sm text-white-70" aria-hidden="true"></i>&nbsp; <span class="iconLabel">
@@ -78,7 +85,7 @@
                       <th style="min-width: 150px; max-width: 250px;">Name</th>
                       <th style="min-width: 80px; max-width: 120px;">Balance</th>
                       <th style="min-width: 60px;">View</th>
-                      <th:block th:if="${user.role.name == 'ACCOUNTS_MANAGER' || user.role.name == 'SUPER_ADMIN'}">
+                      <th:block th:if="${user.role.name == 'SUPER_ADMIN' || user.office.name == 'CHAIRMAN' || user.office.name == 'SECRETARY'}">
                         <th style="min-width: 60px;">Delete</th>
                       </th:block>
                     </tr>
@@ -86,21 +93,21 @@
                   <tbody>
                     <tr th:each="ac, iter : ${accounts}">
                       <td th:text="${iter.count}">Counter</td>
-                      <td style="min-width: 150px; max-width: 250px;" th:text="${ac.name}"
-                        class="text-truncate">Account Name</td>
+                      <td style="min-width: 150px; max-width: 250px;" th:text="${ac.name}" class="text-truncate">Account
+                        Name</td>
                       <td th:text="${ac.balance}">Balance</td>
                       <td> <a class="btn btn-sm btn-primary shadow-sm" th:href="@{/accounts/{id}(id = ${ac.id})}"> <i
                             class="fa fa-folder-open fa-sm" aria-hidden="true"></i> <span class="iconLabel"> View</span>
                         </a>
                       </td>
-                      <th:block th:if="${user.role.name == 'ACCOUNTS_MANAGER' || user.role.name == 'SUPER_ADMIN'}">
-                        <td th:unless="${ac.name == 'Monthly Contribution'}">
+                      <th:block th:if="${user.role.name == 'SUPER_ADMIN' || user.office.name == 'CHAIRMAN' || user.office.name == 'SECRETARY'}">
+                        <td th:unless="${ac.name == 'Monthly Contribution' || ac.name == 'Registration'}">
                           <a data-bs-toggle="modal" href="#" data-bs-target="#deleteAccountModal"
                             th:data-href="@{/account/{id}(id = ${ac.id})}" class="btn btn-sm btn-danger shadow-sm"
                             th:unless="${u == user}"><i class="fa fa-trash-alt fa-sm" aria-hidden="true"></i> <span
                               class="iconLabel">Delete</span></a>
                         </td>
-                        <td th:if="${ac.name == 'Monthly Contribution'}"></td>
+                        <td th:if="${ac.name == 'Monthly Contribution' || ac.name == 'Registration'}"></td>
                       </th:block>
                     </tr>
                   </tbody>
@@ -110,7 +117,7 @@
                       <th>Name</th>
                       <th>Balance</th>
                       <th></th>
-                      <th:block th:if="${user.role.name == 'ACCOUNTS_MANAGER' || user.role.name == 'SUPER_ADMIN'}">
+                      <th:block th:if="${user.role.name == 'SUPER_ADMIN' || user.office.name == 'CHAIRMAN' || user.office.name == 'SECRETARY'}">
                         <th></th>
                       </th:block>
                     </tr>
@@ -119,6 +126,7 @@
               </div>
             </div>
           </div>
+          
         </div>
         <!-- /.container-fluid -->
 

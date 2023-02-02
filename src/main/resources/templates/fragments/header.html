@@ -135,7 +135,7 @@
                         Choose Role...
                     </option>
                     <th:block th:each="r : ${roles}" th:if="${user.role.name == 'COUNTY_ADMIN'}">
-                        <option th:if="${r['value'] == 'User'}" th:value="${r['key']}" th:text="${r['value']}">
+                        <option th:if="${r['value'] == 'User' || r['value'] == 'County Admin'}" th:value="${r['key']}" th:text="${r['value']}">
                             Account Manager</option>
                     </th:block>
                     <th:block th:each="r : ${roles}" th:if="${user.role.name == 'ACCOUNTS_MANAGER'}">

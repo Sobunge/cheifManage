@@ -25,7 +25,7 @@
             <ol class="breadcrumb small" style="margin-top: 15px">
               <th:block th:if="${user.role.name == 'USER'}">
                 <li class="breadcrumb-item">
-                  <a th:href="@{/accounts/{id}(id = ${account.id})}">Home</a>
+                  <a th:href="@{/accounts}">Home</a>
                 </li>
               </th:block>
               <th:block th:if="${user.role.name != 'USER'}">
@@ -107,10 +107,10 @@
                   </div>
                 </div>
                 <th:block
-                  th:if="${user == newUser || user.role.name == 'SUPER_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'COUNTY_ADMIN' || user.role.name == 'COUNTY_ADMIN' && newUser.role.name == 'USER'}">
+                  th:if="${user == newUser || user.role.name == 'SUPER_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'ACCOUNTS_MANAGER'  || user.role.name == 'COUNTY_ADMIN' && newUser.role.name == 'USER'}">
                   <div class="mb-3">
                     <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
-                      data-bs-target="#exampleModal">
+                      data-bs-target="#changePasswordModal">
                       <i class="fa fa-window-restore fa-fw fa-sm" aria-hidden="true"></i>&nbsp; Change password
                     </button>
                   </div>
@@ -178,28 +178,31 @@
                       Please choose your title.
                     </div>
                   </div>
-                  <div class="mb-3 col-md">
-                    <label for="role" class="form-label">Roles</label>
-                    <select class="form-select form-select-sm" id="roleInput" th:field="*{role}" th:name="role" disabled
-                      required>
-                      <option selected disabled th:value="${null}">
-                        Choose Role...
-                      </option>
-                      <th:block th:each="r : ${roles}" th:if="${user.role.name == 'COUNTY_ADMIN'}">
-                        <option th:if="${r['value'] == 'User'}" th:value="${r['key']}" th:text="${r['value']}">Account
-                          Manager</option>
-                      </th:block>
-                      <th:block th:each="r : ${roles}" th:if="${user.role.name == 'ACCOUNTS_MANAGER'}">
-                        <option th:if="${r['value'] != 'Super Admin'}" th:value="${r['key']}" th:text="${r['value']}">
-                          Account Manager</option>
-                      </th:block>
-                      <th:block th:each="r : ${roles}" th:if="${user.role.name == 'SUPER_ADMIN'}">
-                        <option th:value="${r['key']}" th:text="${r['value']}">Account Manager</option>
-                      </th:block>
-                    </select>
-                    <div class="valid-feedback">Looks good!</div>
-                    <div class="invalid-feedback">Please choose a role.</div>
-                  </div>
+                  <th:block th:if="${user.role.name != 'USER'}">
+                    <div class="mb-3 col-md">
+                      <label for="role" class="form-label">Roles</label>
+                      <select class="form-select form-select-sm" id="roleInput" th:field="*{role}" th:name="role"
+                        disabled required>
+                        <option selected disabled th:value="${null}">
+                          Choose Role...
+                        </option>
+                        <th:block th:each="r : ${roles}" th:if="${user.role.name == 'COUNTY_ADMIN'}">
+                          <option th:if="${r['value'] == 'User' || r['value'] == 'County Admin'}" th:value="${r['key']}"
+                            th:text="${r['value']}">Account
+                            Manager</option>
+                        </th:block>
+                        <th:block th:each="r : ${roles}" th:if="${user.role.name == 'ACCOUNTS_MANAGER'}">
+                          <option th:if="${r['value'] != 'Super Admin'}" th:value="${r['key']}" th:text="${r['value']}">
+                            Account Manager</option>
+                        </th:block>
+                        <th:block th:each="r : ${roles}" th:if="${user.role.name == 'SUPER_ADMIN'}">
+                          <option th:value="${r['key']}" th:text="${r['value']}">Account Manager</option>
+                        </th:block>
+                      </select>
+                      <div class="valid-feedback">Looks good!</div>
+                      <div class="invalid-feedback">Please choose a role.</div>
+                    </div>
+                  </th:block>
                   <div class="mb-3 col-md">
                     <label for="office" class="col-form-label col-form-label-sm">Office</label>
                     <select class="form-select form-select-sm" id="officeInput" th:field="*{office}" th:name="office"
@@ -321,7 +324,7 @@
               </form>
 
               <th:block
-                th:if="${user.idNumber == newUser.idNumber || user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && newUser.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'COUNTY_ADMIN'}">
+                th:if="${user.idNumber == newUser.idNumber || user.role.name == 'SUPER_ADMIN' || user.role.name == 'COUNTY_ADMIN' && newUser.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'USER' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'COUNTY_ADMIN' || user.role.name == 'ACCOUNTS_MANAGER' && newUser.role.name == 'ACCOUNTS_MANAGER' }">
                 <button class="btn btn-sm btn-primary shadow-sm" onClick="toggleEdit()" id="editDetails">
                   <i class="fa fa-pen-fancy fa-sm fa-fw" aria-hidden="true"></i> Edit Profile
                 </button>
@@ -338,12 +341,12 @@
       <!-- End of Footer -->
 
       <!-- Modal -->
-      <div class="modal fade" intelliCode id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+      <div class="modal fade" intelliCode id="changePasswordModal" tabindex="-1"
+        aria-labelledby="changePasswordModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">
+              <h1 class="modal-title fs-5" id="changePasswordModalLabel">
                 <i class="fa fa-window-restore fa-fw fa-sm" aria-hidden="true"></i>&nbsp; Password Reset
               </h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -356,7 +359,7 @@
                   <label for="currentPassword" class="col-form-label col-form-label-sm"><i class="fa fa-key fs-sm"
                       aria-hidden="true"></i> Current Password </label>
                   <input type="password" class="form-control form-control-sm" id="currentPasswordInput"
-                    name="currentPass" placeholder="Current Password" minlength="8" required>
+                    name="currentPass" placeholder="Current Password" minlength="6" required>
                   <div class="valid-feedback">
                     Looks good!
                   </div>
