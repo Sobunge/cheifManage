@@ -51,12 +51,10 @@ public class Transaction {
     private Account account;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "year")
     private Year year;
 
     @Enumerated(EnumType.STRING)
-    @JsonIgnore
     private Month month;
 
     @Enumerated(EnumType.STRING)

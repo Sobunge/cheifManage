@@ -78,6 +78,111 @@ public class TransactionController {
         this.templateEngine = templateEngine;
     }
 
+    private String addingContribution(Transaction transaction, Account account, User user, RedirectAttributes redit)
+            throws ParseException {
+
+        String redirectView;
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(transaction.getDate()));
+
+        transaction.setAccount(account);
+        transaction.setUser(user);
+
+        Year year;
+        Set<Month> months;
+        Short y = (short) calendar.get(Calendar.YEAR);
+        if (yearService.doesYearExist(y)) {
+            year = yearService.getYear(y);
+            months = year.getMonths();
+        } else {
+            year = new Year();
+            year.setYear(y);
+            months = new HashSet<>();
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
+
+        switch (sdf.format(calendar.getTime())) {
+            case "January":
+                months.add(Month.JANUARY);
+                transaction.setMonth(Month.JANUARY);
+                break;
+            case "February":
+                months.add(Month.FEBRUARY);
+                transaction.setMonth(Month.FEBRUARY);
+                break;
+            case "March":
+                months.add(Month.MARCH);
+                transaction.setMonth(Month.MARCH);
+                break;
+            case "April":
+                months.add(Month.APRIL);
+                transaction.setMonth(Month.APRIL);
+                break;
+            case "May":
+                months.add(Month.MAY);
+                transaction.setMonth(Month.MAY);
+                break;
+            case "June":
+                months.add(Month.JUNE);
+                transaction.setMonth(Month.JUNE);
+                break;
+            case "July":
+                months.add(Month.JULY);
+                transaction.setMonth(Month.JULY);
+                break;
+            case "August":
+                months.add(Month.AUGUST);
+                transaction.setMonth(Month.AUGUST);
+                break;
+            case "September":
+                months.add(Month.SEPTEMBER);
+                transaction.setMonth(Month.SEPTEMBER);
+                break;
+            case "October":
+                months.add(Month.OCTOBER);
+                transaction.setMonth(Month.OCTOBER);
+                break;
+            case "November":
+                months.add(Month.NOVEMBER);
+                transaction.setMonth(Month.NOVEMBER);
+                break;
+            default:
+                months.add(Month.DECEMBER);
+                transaction.setMonth(Month.DECEMBER);
+        }
+
+        year.setMonths(months);
+        yearService.saveYear(year);
+        transaction.setYear(year);
+
+        if (user.getRole() == Role.SUPER_ADMIN || user.getOffice() == Office.SECRETARY
+                || user.getOffice() == Office.TREASURER) {
+            transaction.setStatus(com.pensasha.cheifManage.transaction.Status.ACCEPTED);
+
+            redit.addFlashAttribute("transactionSuccess", "Transaction successfully recorded");
+
+            if (account.getName().equals("Monthly Contribution")) {
+                redirectView = "/accounts/" + account.getId();
+            } else {
+                redirectView = "/accounts/" + account.getId() + "/transactions";
+            }
+
+            account.setBalance(account.getBalance() + transaction.getAmount());
+            accountService.addAccount(account);
+        } else {
+            transaction.setStatus(com.pensasha.cheifManage.transaction.Status.PENDING);
+
+            redit.addFlashAttribute("transactionSuccess", "Transaction successfully recorded, pending approval");
+            redirectView = "/pendingTransaction";
+        }
+
+        transactionService.addTransaction(transaction);
+
+        return redirectView;
+    }
+
     // Getting account transactions
     @GetMapping("/accounts/{id}/transactions")
     public String getAccountTransactions(@PathVariable String id, Principal principal, Model model) {
@@ -126,6 +231,7 @@ public class TransactionController {
         model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
         model.addAttribute("transactions",
                 transactionService.getAllTransactionByStatus(com.pensasha.cheifManage.transaction.Status.PENDING));
+                
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
                 Status.UNREAD);
         model.addAttribute("messages", messages);
@@ -362,125 +468,49 @@ public class TransactionController {
     // Add contribution by choosing account
     @PostMapping("/addTransaction")
     public RedirectView addTransactionByChoosingAccount(HttpServletRequest request,
-            @ModelAttribute Transaction transaction, RedirectAttributes redit, Principal principal) {
-
-        String redirectView;
+            @ModelAttribute Transaction transaction, RedirectAttributes redit, Principal principal)
+            throws ParseException {
 
         Account account = accountService.getAccount(request.getParameter("accountId"));
-        User activeUser = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
+        User user = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
 
-        if (transactionService.doesTransactionWithReferenceNumberExist(transaction.getReferenceNumber())) {
-            redit.addFlashAttribute("transactionFail", "Transaction with a similer reference number already exists");
-            redirectView = "/accounts/" + account.getId() + "/transactions";
-        } else {
+        /*
+         * if (transactionService.doesTransactionWithReferenceNumberExist(transaction.
+         * getReferenceNumber())) {
+         * redit.addFlashAttribute("transactionFail",
+         * "Transaction with a similer reference number already exists");
+         * redirectView = "/accounts/" + account.getId() + "/transactions";
+         * } else {}
+         */
 
-            account.setBalance(account.getBalance() + transaction.getAmount());
+        return new RedirectView(addingContribution(transaction, account, user, redit), true);
 
-            SimpleDateFormat dateFormater = new SimpleDateFormat("YYYY-MM-dd");
-            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Nairobi/Kenya"));
-            try {
-                calendar.setTime(dateFormater.parse(transaction.getDate()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+    }
 
-            Year year;
-            Set<Month> months;
-            Short y = (short) calendar.get(Calendar.YEAR);
-            if (yearService.doesYearExist(y)) {
-                year = yearService.getYear(y);
-                months = year.getMonths();
-            } else {
-                year = new Year();
-                year.setYear(y);
-                months = new HashSet<>();
-            }
+    // Adding a transaction for a user outside account page
+    @PostMapping("/users/{idNumber}/transaction")
+    public RedirectView addTransactionOutsideAccountPage(@PathVariable int idNumber,
+            @ModelAttribute Transaction transaction, Principal principal, HttpServletRequest request,
+            RedirectAttributes redit) throws ParseException {
 
-            SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
+        Account account = accountService.getAccount(request.getParameter("accountId"));
 
-            switch (sdf.format(calendar.get(Calendar.MONTH))) {
-                case "January":
-                    months.add(Month.JANUARY);
-                    transaction.setMonth(Month.JANUARY);
-                    break;
-                case "February":
-                    months.add(Month.FEBRUARY);
-                    transaction.setMonth(Month.FEBRUARY);
-                    break;
-                case "March":
-                    months.add(Month.MARCH);
-                    transaction.setMonth(Month.MARCH);
-                    break;
-                case "April":
-                    months.add(Month.APRIL);
-                    transaction.setMonth(Month.APRIL);
-                    break;
-                case "May":
-                    months.add(Month.MAY);
-                    transaction.setMonth(Month.MAY);
-                    break;
-                case "June":
-                    months.add(Month.JUNE);
-                    transaction.setMonth(Month.JUNE);
-                    break;
-                case "July":
-                    months.add(Month.JULY);
-                    transaction.setMonth(Month.JULY);
-                    break;
-                case "August":
-                    months.add(Month.AUGUST);
-                    transaction.setMonth(Month.AUGUST);
-                    break;
-                case "September":
-                    months.add(Month.SEPTEMBER);
-                    transaction.setMonth(Month.SEPTEMBER);
-                    break;
-                case "October":
-                    months.add(Month.OCTOBER);
-                    transaction.setMonth(Month.OCTOBER);
-                    break;
-                case "November":
-                    months.add(Month.NOVEMBER);
-                    transaction.setMonth(Month.NOVEMBER);
-                    break;
-                default:
-                    months.add(Month.DECEMBER);
-                    transaction.setMonth(Month.DECEMBER);
-            }
+        User user = userService.getUserByIdNumber(idNumber);
 
-            year.setMonths(months);
-            yearService.saveYear(year);
+        return new RedirectView(addingContribution(transaction, account, user, redit), true);
 
-            transaction.setUser(userService.getUserByIdNumber(Integer.parseInt(request.getParameter("idNumberInput"))));
-            transaction.setAccount(account);
-            transaction.setYear(year);
+    }
 
-            if (activeUser.getOffice().equals(Office.SECRETARY) || activeUser.getOffice().equals(Office.TREASURER)
-                    || activeUser.getRole().equals(Role.SUPER_ADMIN)) {
+    // Adding a transaction for user
+    @PostMapping("/accounts/{accountId}/users/{idNumber}/transaction")
+    public RedirectView addUserTransaction(@PathVariable String accountId, @PathVariable int idNumber,
+            @ModelAttribute Transaction transaction, Principal principal, RedirectAttributes redit)
+            throws ParseException {
 
-                transaction.setStatus(com.pensasha.cheifManage.transaction.Status.ACCEPTED);
-                transactionService.addTransaction(transaction);
+        Account account = accountService.getAccount(accountId);
+        User user = userService.getUserByIdNumber(idNumber);
 
-                redit.addFlashAttribute("transactionSuccess", "Transaction successfully recorded");
-
-                if(account.getName().equals("Monthly Contribution")){
-                    redirectView = "/accounts/" + account.getId();
-                }else{
-                    redirectView = "/accounts/" + account.getId() + "/transactions";
-                }   
-                
-            } else {
-
-                transaction.setStatus(com.pensasha.cheifManage.transaction.Status.PENDING);
-                transactionService.addTransaction(transaction);
-
-                redit.addFlashAttribute("transactionSuccess", "Transaction successfully recorded, pending approval");
-                redirectView = "/pendingTransaction";
-            }
-
-        }
-
-        return new RedirectView(redirectView, true);
+        return new RedirectView(addingContribution(transaction, account, user, redit), true);
 
     }
 

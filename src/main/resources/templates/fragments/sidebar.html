@@ -146,10 +146,18 @@
                     data-bs-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Contributions Screens:</h6>
-                        <a class="collapse-item" th:href="@{#}" data-bs-toggle="modal"
-                            data-bs-target="#addContributionModal">
-                            <i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp; Add Contributions
-                        </a>
+                        <th:block th:if="${account}">
+                            <a class="collapse-item" th:href="@{#}" data-bs-toggle="modal"
+                                data-bs-target="#addMembersContributionAccountModal">
+                                <i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp; Add Contribution
+                            </a>
+                        </th:block>
+                        <th:block th:unless="${account}">
+                            <a class="collapse-item" th:href="@{#}" data-bs-toggle="modal"
+                                data-bs-target="#addContributionModal">
+                                <i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp; Add Contribution
+                            </a>
+                        </th:block>
                         <a class="collapse-item" th:href="@{#}" data-bs-toggle="modal"
                             data-bs-target="#contributionModal">
                             <i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp; Contributions
@@ -278,6 +286,191 @@
                 </div>
             </div>
 
+            <!-- Adding a members contribution without account modal -->
+            <div class="modal fade" id="addMembersContributionAccountModal" tabindex="-1"
+                aria-labelledby="addContributionModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addTransactionModalLabel">
+                                <i class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i> Add Contribution
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="g-3 needs-validation" th:object="${transaction}" action="#"
+                                th:action="@{/users/{idNumber}/transaction(idNumber= ${user.idNumber})}" method="post"
+                                novalidate>
+                                <!-- Account Name -->
+                                <div class="form-floating mb-3">
+                                    <select class="form-select form-control" aria-label="Default select example"
+                                        required onChange="contributionReport()" id="accountId" name="accountId">
+                                        <option value="">...</option>
+                                        <th:block th:each="account : ${accounts}">
+                                            <option th:value="${account.id}" th:text="${account.name}"></option>
+                                        </th:block>
+                                    </select>
+                                    <label for="accountNameInput">Account Name</label>
+                                    <div class="valid-feedback">Looks good!</div>
+                                    <div class="invalid-feedback">
+                                        Please provide an Account Name.
+                                    </div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" th:field="*{referenceNumber}"
+                                        class="form-control form-control-sm" id="referenceNumberInput"
+                                        placeholder="Reference Number" required>
+                                    <label for="referenceNumber" class="col-form-label col-form-label-sm"><i
+                                            class="fa fa-key fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                        Reference
+                                        Number </label>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Please enter reference number.
+                                    </div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="number" th:field="*{amount}" class="form-control form-control-sm"
+                                        id="amountInput" placeholder="Amount" min="1" required>
+                                    <label for="amount" class="col-form-label col-form-label-sm"><i
+                                            class="fa fa-money-bill-alt fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                        Amount </label>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Please enter amount.
+                                    </div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="date" th:field="*{date}" class="form-control form-control-sm"
+                                        id="dateInput" placeholder="Date" required>
+                                    <label for="date" class="col-form-label col-form-label-sm"><i
+                                            class="fa fa-calendar fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                        Date </label>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Please enter a valid date.
+                                    </div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="time" th:field="*{time}" class="form-control form-control-sm"
+                                        id="timeInput" placeholder="time" required>
+                                    <label for="time" class="col-form-label col-form-label-sm"><i
+                                            class="fa fa-clock fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                        Time </label>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Please enter a valid time.
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-sm btn-success shadow-sm"><i
+                                        class="fa fa-save fa-sm fa-fw" aria-hidden="true"></i>
+                                    Contribute</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-danger shadow-sm" data-bs-dismiss="modal"><i
+                                    class="fa fa-times fa-sm fa-fw" aria-hidden="true"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add a members contribution transaction model -->
+            <th:block th:if="${account}">
+                <div class="modal fade" id="addMemberTransactionModal" tabindex="-1"
+                    aria-labelledby="addMemberTransactionModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addMemberTransactionModalLabel">
+                                    <i class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i> Add Contribution
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="g-3 needs-validation" action="#"
+                                    th:action="@{/accounts/{accountId}/user/{idNumber}/transaction(accountId = ${account.id}, idNumber = ${user.idNumber})}"
+                                    th:object="${transaction}" method="post" novalidate>
+                                    <input type="text" id="typeInput" name="typeInput" value="Saving" hidden>
+                                    <div class="form-floating mb-3">
+                                        <input type="text" th:field="*{referenceNumber}"
+                                            class="form-control form-control-sm" id="referenceNumberInput"
+                                            placeholder="Reference Number" required>
+                                        <label for="referenceNumber" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-key fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                            Reference
+                                            Number </label>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter reference number.
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="number" th:field="*{amount}" class="form-control form-control-sm"
+                                            id="amountInput" placeholder="Amount" min="1" required>
+                                        <label for="amount" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-money-bill-alt fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                            Amount </label>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter amount.
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="date" th:field="*{date}" class="form-control form-control-sm"
+                                            id="dateInput" placeholder="Date" required>
+                                        <label for="date" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-calendar fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                            Date </label>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter a valid date.
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="time" th:field="*{time}" class="form-control form-control-sm"
+                                            id="timeInput" placeholder="time" required>
+                                        <label for="time" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-clock fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                            Time </label>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter a valid time.
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-sm btn-success shadow-sm"><i
+                                            class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i>
+                                        Contribute</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-danger shadow-sm" data-bs-dismiss="modal"><i
+                                        class="fa fa-times fa-sm fa-fw" aria-hidden="true"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+
             <!-- Contribution Modal -->
             <div class="modal fade" id="contributionModal" tabindex="-1" aria-labelledby="contributionModalLabel"
                 aria-hidden="true">
@@ -390,7 +583,8 @@
                     <i class="fa fa-print" aria-hidden="true"></i>
                     <span>Reports</span>
                 </a>
-                <div id="reportsPages" class="collapse" aria-labelledby="headingPages" data-bs-parent="#accordionSidebar">
+                <div id="reportsPages" class="collapse" aria-labelledby="headingPages"
+                    data-bs-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Report Screens:</h6>
                         <a class="collapse-item" th:href="@{/users/pdf}"> <i class="fa fa-users fa-fw fa-sm"
@@ -456,6 +650,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- Monthly Report Contribution Modal -->
             <div class="modal fade" id="monthlyReportContributionModal" tabindex="-1"
                 aria-labelledby="monthlyReportContributionModalLabel" aria-hidden="true">

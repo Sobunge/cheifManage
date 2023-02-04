@@ -134,6 +134,17 @@
                                                         class="fa fa-folder-open fs-sm" aria-hidden="true"></i> <span
                                                         class="iconLabel">View</span></a>
                                             </th:block>
+                                            <th:block th:unless="${title == 'Contributions'}">
+                                                <button type="button" class="btn btn-sm btn-primary shadow-sm"
+                                                    data-bs-toggle="modal" data-bs-target="#viewContributionModal"
+                                                    th:data-bs-time="${transaction.date}"
+                                                    th:data-bs-subject="${transaction.user.firstName}"
+                                                    th:data-bs-message="${transaction.amount}"
+                                                    th:data-bs-sender="${transaction.account.name}"><i
+                                                        class="fa fa-folder-open fs-sm fa-fw"
+                                                        aria-hidden="true"></i><span class="iconLabel">
+                                                        View</span></button>
+                                            </th:block>
                                         </td>
                                         <th:block th:if="${user.role.name == 'SUPER_ADMIN'}">
                                             <td>
@@ -167,8 +178,8 @@
                     </div>
                 </div>
 
+                <!-- Add a saving transaction model -->
                 <th:block th:if="${title == 'Contributions'}">
-                    <!-- Add a saving transaction model -->
                     <div class="modal fade" id="addTransactionModal" tabindex="-1"
                         aria-labelledby="addTransactionModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -304,6 +315,47 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Viewing Contribution model-->
+                <div class="modal fade" id="viewContributionModal" tabindex="-1"
+                    aria-labelledby="viewContributionModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="viewContributionModalLabel">Contribution Statement</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="recipient-name" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-comment fs-sm" aria-hidden="true"></i> Name:</label>
+                                        <input type="text" class="form-control form-control-sm" id="recipient-name"
+                                            disabled readonly>
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="message-text" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-comments fs-sm" aria-hidden="true"></i> Amount:</label>
+                                        <input type="number" class="form-control form-control-sm" id="message-text"
+                                            disabled readonly>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <label for="message-send-time" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-clock fs-sm" aria-hidden="true"></i> <span
+                                                id="sent-time">time</span></label>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-secondary shadow-sm"
+                                    data-bs-dismiss="modal"><i class="fa fa-times fs-sm" aria-hidden="true"></i>
+                                    Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- /.container-fluid -->
 
             </div>
@@ -376,6 +428,25 @@
         $(document).ready(function () {
             $('#transactionTable').DataTable();
         });
+
+        const exampleModal = document.getElementById('viewContributionModal')
+        exampleModal.addEventListener('show.bs.modal', event => {
+            // Button that triggered the modal
+            const button = event.relatedTarget
+            // Extract info from data-bs-* attributes
+            const subject = button.getAttribute('data-bs-subject')
+            const message = button.getAttribute('data-bs-message')
+            const time = button.getAttribute('data-bs-time')
+
+            // Update the modal's content.
+            const modalBodyInput = exampleModal.querySelector('.modal-body input')
+            const modalBodyTextarea = exampleModal.querySelector('#message-text')
+            const modalTime = exampleModal.querySelector('#sent-time')
+
+            modalBodyInput.value = subject
+            modalBodyTextarea.value = message
+            modalTime.textContent = time
+        })
 
     </script>
 
