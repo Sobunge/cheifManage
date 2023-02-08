@@ -22,7 +22,6 @@
 
             <!-- Sidebar - Brand -->
             <th:block th:if="${user.role.name == 'USER'}">
-
                 <nav class="navbar">
                     <div class="container-fluid">
                         <a class="navbar-brand" th:href="@{/accounts}" id="title" style="margin:auto;">
@@ -31,10 +30,9 @@
                         </a>
                     </div>
                 </nav>
-
             </th:block>
-            <th:block th:if="${user.role.name != 'USER'}">
 
+            <th:block th:if="${user.role.name != 'USER'}">
                 <nav class="navbar">
                     <div class="container-fluid">
                         <a class="navbar-brand" th:href="@{/users}" id="title" style="margin:auto;">
@@ -43,7 +41,6 @@
                         </a>
                     </div>
                 </nav>
-
             </th:block>
 
             <!-- Divider -->
@@ -147,16 +144,44 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Contributions Screens:</h6>
                         <th:block th:if="${account}">
-                            <a class="collapse-item" th:href="@{#}" data-bs-toggle="modal"
-                                data-bs-target="#addMembersContributionAccountModal">
-                                <i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp; Add Contribution
-                            </a>
+                            <th:block
+                                th:if="${user.role.name == 'SUPER_ADMIN' || user.office.name == 'CHAIRMAN' || user.office.name == 'SECRETARY'}">
+                                <a class="collapse-item" th:href="@{#}" data-bs-toggle="modal"
+                                    data-bs-target="#addContributionModal">
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp; Add Contribution
+                                </a>
+                            </th:block>
+                            <th:block
+                                th:unless="${user.role.name == 'SUPER_ADMIN' || user.office.name == 'CHAIRMAN' || user.office.name == 'SECRETARY'}">
+                                <th:block th:if="${account.name == null}">
+                                    <a class="collapse-item" th:href="@{#}" data-bs-toggle="modal"
+                                        data-bs-target="#addMembersContributionAccountModal">
+                                        <i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp; Add Contribution
+                                    </a>
+                                </th:block>
+                                <th:block th:unless="${account.name == null}">
+                                    <a class="collapse-item" th:href="@{#}" data-bs-toggle="modal"
+                                        data-bs-target="#addMemberTransactionModal">
+                                        <i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp; Add Contribution
+                                    </a>
+                                </th:block>
+                            </th:block>
                         </th:block>
                         <th:block th:unless="${account}">
-                            <a class="collapse-item" th:href="@{#}" data-bs-toggle="modal"
-                                data-bs-target="#addContributionModal">
-                                <i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp; Add Contribution
-                            </a>
+                            <th:block
+                                th:if="${user.role.name == 'SUPER_ADMIN' || user.office.name == 'CHAIRMAN' || user.office.name == 'SECRETARY'}">
+                                <a class="collapse-item" th:href="@{#}" data-bs-toggle="modal"
+                                    data-bs-target="#addContributionModal">
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp; Add Contribution
+                                </a>
+                            </th:block>
+                            <th:block
+                                th:unless="${user.role.name == 'SUPER_ADMIN' || user.office.name == 'CHAIRMAN' || user.office.name == 'SECRETARY'}">
+                                <a class="collapse-item" th:href="@{#}" data-bs-toggle="modal"
+                                    data-bs-target="#addMembersContributionAccountModal">
+                                    <i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp; Add Contribution
+                                </a>
+                            </th:block>
                         </th:block>
                         <a class="collapse-item" th:href="@{#}" data-bs-toggle="modal"
                             data-bs-target="#contributionModal">
@@ -286,6 +311,110 @@
                 </div>
             </div>
 
+            <!-- Add Contribution in account model -->
+            <th:block th:if="${account}">
+                <div class="modal fade" id="addContributionInAccountModal" tabindex="-1"
+                    aria-labelledby="addContributionModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addTransactionModalLabel">
+                                    <i class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i> Add Contribution
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="g-3 needs-validation" th:object="${transaction}" action="#"
+                                    th:action="@{/accounts/{accountId}/addAccountTransaction(accountId = ${account.id})}"
+                                    method="post" novalidate>
+                                    <div class="form-floating mb-3">
+                                        <select name="idNumberInput" class="form-select form-select-sm"
+                                            aria-label="userIdNumber" autocomplete="on">
+                                            <th:block th:each="user : ${allUsers}">
+                                                <option
+                                                    th:text="${user.idNumber + ' :- ' + user.firstName + ' '  + user.thirdName}"
+                                                    th:value="${user.idNumber }">One
+                                                </option>
+                                            </th:block>
+                                        </select>
+                                        <label class="col-form-label col-form-label-sm" for="idNumberInput"><i
+                                                class="fa fa-id-card fa-sm fa-fw" aria-hidden="true"></i>&nbsp; Id
+                                            Number</label>
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">
+                                            Please provide an Id Number.
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="text" th:field="*{referenceNumber}"
+                                            class="form-control form-control-sm" id="referenceNumberInput"
+                                            placeholder="Reference Number" required>
+                                        <label for="referenceNumber" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-key fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                            Reference
+                                            Number </label>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter reference number.
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="number" th:field="*{amount}" class="form-control form-control-sm"
+                                            id="amountInput" placeholder="Amount" min="1" required>
+                                        <label for="amount" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-money-bill-alt fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                            Amount </label>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter amount.
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="date" th:field="*{date}" class="form-control form-control-sm"
+                                            id="dateInput" placeholder="Date" required>
+                                        <label for="date" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-calendar fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                            Date </label>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter a valid date.
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="time" th:field="*{time}" class="form-control form-control-sm"
+                                            id="timeInput" placeholder="time" required>
+                                        <label for="time" class="col-form-label col-form-label-sm"><i
+                                                class="fa fa-clock fa-sm fs-fw" aria-hidden="true"></i>&nbsp;
+                                            Time </label>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Please enter a valid time.
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-sm btn-success shadow-sm"><i
+                                            class="fa fa-save fa-sm fa-fw" aria-hidden="true"></i>
+                                        Contribute</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-danger shadow-sm" data-bs-dismiss="modal"><i
+                                        class="fa fa-times fa-sm fa-fw" aria-hidden="true"></i> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+
             <!-- Adding a members contribution without account modal -->
             <div class="modal fade" id="addMembersContributionAccountModal" tabindex="-1"
                 aria-labelledby="addContributionModalLabel" aria-hidden="true">
@@ -399,7 +528,7 @@
                             </div>
                             <div class="modal-body">
                                 <form class="g-3 needs-validation" action="#"
-                                    th:action="@{/accounts/{accountId}/user/{idNumber}/transaction(accountId = ${account.id}, idNumber = ${user.idNumber})}"
+                                    th:action="@{/accounts/{accountId}/users/{idNumber}/transaction(accountId = ${account.id}, idNumber = ${user.idNumber})}"
                                     th:object="${transaction}" method="post" novalidate>
                                     <input type="text" id="typeInput" name="typeInput" value="Saving" hidden>
                                     <div class="form-floating mb-3">
@@ -518,6 +647,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- Monthly Contribution Modal -->
             <div class="modal fade" id="monthlyContributionModal" tabindex="-1"
                 aria-labelledby="monthlyContributionModalLabel" aria-hidden="true">

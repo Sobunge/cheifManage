@@ -85,6 +85,7 @@ public class AccountController {
         model.addAttribute("messageCount", count);
 
         return "accounts";
+        
     }
 
     @GetMapping("/accounts/pdf")
