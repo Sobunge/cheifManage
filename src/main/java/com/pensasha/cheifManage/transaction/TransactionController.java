@@ -231,7 +231,7 @@ public class TransactionController {
         model.addAttribute("allUsers", userService.getAllActiveUsers(com.pensasha.cheifManage.user.Status.ACTIVE));
         model.addAttribute("transactions",
                 transactionService.getAllTransactionByStatus(com.pensasha.cheifManage.transaction.Status.PENDING));
-                
+
         List<Message> messages = messageService.getMyUnreadMessages(Integer.parseInt(principal.getName()),
                 Status.UNREAD);
         model.addAttribute("messages", messages);
@@ -482,6 +482,18 @@ public class TransactionController {
          * redirectView = "/accounts/" + account.getId() + "/transactions";
          * } else {}
          */
+
+        return new RedirectView(addingContribution(transaction, account, user, redit), true);
+
+    }
+
+    @PostMapping("/accounts/{accountId}/addAccountTransaction")
+    public RedirectView addTransactionInAccount(@PathVariable String accountId, HttpServletRequest request,
+            @ModelAttribute Transaction transaction, RedirectAttributes redit, Principal principal)
+            throws ParseException {
+
+        Account account = accountService.getAccount(accountId);
+        User user = userService.getUserByIdNumber(Integer.parseInt(principal.getName()));
 
         return new RedirectView(addingContribution(transaction, account, user, redit), true);
 

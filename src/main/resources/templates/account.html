@@ -68,7 +68,7 @@
                             <th:block
                                 th:if="${user.role.name == 'SUPER_ADMIN' || user.office.name == 'CHAIRMAN' || user.office.name == 'SECRETARY'}">
                                 <button type="button" class="btn btn-sm btn-success shadow-sm" data-bs-toggle="modal"
-                                    data-bs-target="#addContributionModal">
+                                    data-bs-target="#addContributionInAccountModal">
                                     <i class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i> <span
                                         class="iconLabel">Add
                                         Contribution</span>
@@ -89,10 +89,24 @@
                                     aria-hidden="true"></i> <span class="iconLabel">View Contributions</span></a>
                         </th:block>
                         <th:block th:if="${account.name == 'Monthly Contribution'}">
-                            <a class="btn btn-sm btn-success shadow-sm" th:href="@{#}" data-bs-toggle="modal"
-                                data-bs-target="#addContributionModal">
-                                <i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp; Add Contributions
-                            </a>
+                            <th:block
+                                th:if="${user.role.name == 'SUPER_ADMIN' || user.office.name == 'CHAIRMAN' || user.office.name == 'SECRETARY'}">
+                                <button type="button" class="btn btn-sm btn-success shadow-sm" data-bs-toggle="modal"
+                                    data-bs-target="#addContributionInAccountModal">
+                                    <i class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i> <span
+                                        class="iconLabel">Add
+                                        Contribution</span>
+                                </button>
+                            </th:block>
+                            <th:block
+                                th:unless="${user.role.name == 'SUPER_ADMIN' || user.office.name == 'CHAIRMAN' || user.office.name == 'SECRETARY'}">
+                                <button type="button" class="btn btn-sm btn-success shadow-sm" data-bs-toggle="modal"
+                                    data-bs-target="#addMemberTransactionModal">
+                                    <i class="fa fa-plus fa-sm fa-fw" aria-hidden="true"></i> <span
+                                        class="iconLabel">Add
+                                        Contribution</span>
+                                </button>
+                            </th:block>
                             <button type="button" class="btn btn-sm btn-primary shadow-sm" data-bs-toggle="modal"
                                 data-bs-target="#monthlyContributionModal" id="monthlyContributionModal"><i
                                     class="fa fa-folder-open fa-sm fa-fw" aria-hidden="true"></i>
