@@ -32,16 +32,17 @@ public class WebSecurityConfig{
 
         @Bean
         protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-                http.authorizeRequests()
-                                .antMatchers("/", "/error", "/changePassword", "/img/**", "/fontawesome-free/**", "/js/**",  "/css/**", "/webjars/**")
-                                .permitAll()
-                                .anyRequest().authenticated().and().formLogin().loginPage("/")
-                                .usernameParameter("username")
-                                .passwordParameter("password").permitAll().successHandler(customSuccessHandler).and()
-                                .logout()
-                                .logoutUrl("/logout").logoutSuccessUrl("/?logout").and()
-                                .exceptionHandling()
-                                .accessDeniedPage("/403").and().csrf().disable();
+            http.authorizeHttpRequests()
+                    .antMatchers("/", "/error", "/changePassword", "/img/**", "/fontawesome-free/**", "/js/**", "/css/**", "/webjars/**")
+                    .permitAll()
+                    .anyRequest().authenticated().and().formLogin(login -> login.loginPage("/")
+                    .usernameParameter("username")
+                    .passwordParameter("password").permitAll().successHandler(customSuccessHandler))
+                    .logout(logout -> logout
+                            .logoutUrl("/logout").logoutSuccessUrl("/?logout"))
+                    .exceptionHandling(handling -> handling
+                            .accessDeniedPage("/403"))
+                            .csrf().disable();
 
                 return http.build();
         }
