@@ -14,7 +14,7 @@ import com.pensasha.cheifManage.user.UserDetailsServiceImp;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig{
+public class WebSecurityConfig {
 
         AuthenticationManager authenticationManager;
 
@@ -32,19 +32,27 @@ public class WebSecurityConfig{
 
         @Bean
         protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-            http.authorizeHttpRequests()
-                    .antMatchers("/", "/error", "/changePassword", "/img/**", "/fontawesome-free/**", "/js/**", "/css/**", "/webjars/**")
-                    .permitAll()
-                    .anyRequest().authenticated().and().formLogin(login -> login.loginPage("/")
-                    .usernameParameter("username")
-                    .passwordParameter("password").permitAll().successHandler(customSuccessHandler))
-                    .logout(logout -> logout
-                            .logoutUrl("/logout").logoutSuccessUrl("/?logout"))
-                    .exceptionHandling(handling -> handling
-                            .accessDeniedPage("/403"))
-                            .csrf().disable();
+
+                http
+                                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                                                .antMatchers("/", "/error", "/changePassword", "/img/**",
+                                                                "/fontawesome-free/**", "/js/**", "/css/**",
+                                                                "/webjars/**")
+                                                .permitAll().anyRequest().authenticated())
+                                .formLogin(formLogin -> formLogin
+                                                .loginPage("/")
+                                                .usernameParameter("username")
+                                                .passwordParameter("password").permitAll()
+                                                .successHandler(customSuccessHandler))
+                                .logout(logout -> logout
+                                                .logoutUrl("/logout")
+                                                .logoutSuccessUrl("/?logout"))
+                                .exceptionHandling(handling -> handling
+                                                .accessDeniedPage("/403"))
+                                .csrf(csrf -> csrf.disable());
 
                 return http.build();
+
         }
 
         @Bean(name = "passordEncoder")
